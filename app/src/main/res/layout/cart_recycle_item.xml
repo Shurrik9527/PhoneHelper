@@ -1,0 +1,96 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_good_item"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_margin="@dimen/element_half_space">
+
+
+    <CheckBox
+        android:id="@+id/cb_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"/>
+
+    <ImageView
+        android:id="@+id/iv_goods_pic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_toEndOf="@+id/cb_selected"
+        android:layout_toRightOf="@+id/cb_selected"
+        android:scaleType="centerCrop"
+        android:layout_marginLeft="@dimen/element_half_space"
+        android:layout_marginRight="@dimen/element_half_space"
+        app:srcCompat="@mipmap/ic_goods_item" />
+
+    <TextView
+        android:id="@+id/tv_good_name"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/iv_goods_pic"
+        android:layout_toRightOf="@+id/iv_goods_pic"
+        android:text="商品名称"
+        android:textSize="@dimen/text_default_size" />
+
+    <TextView
+        android:id="@+id/tv_goods_spac"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@+id/tv_good_name"
+        android:layout_toEndOf="@+id/iv_goods_pic"
+        android:layout_toRightOf="@+id/iv_goods_pic"
+        android:text="规格："
+        android:textSize="@dimen/text_default_size" />
+
+    <TextView
+        android:id="@+id/tv_goods_storage"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@+id/tv_goods_spac"
+        android:layout_toEndOf="@+id/iv_goods_pic"
+        android:layout_toRightOf="@+id/iv_goods_pic"
+        android:text="仓库："
+        android:textSize="@dimen/text_default_size" />
+
+    <com.jerrywang.phonehelper.widget.AmountView
+        android:id="@+id/av_goods_num"
+        android:layout_width="75dp"
+        android:layout_height="24dp"
+        android:layout_below="@+id/tv_goods_storage"
+        android:layout_toEndOf="@+id/iv_goods_pic"
+        android:layout_toRightOf="@+id/iv_goods_pic" />
+
+    <ImageView
+        android:id="@+id/iv_goods_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_delete" />
+
+    <TextView
+        android:id="@+id/tv_goods_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_goods_discount"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/text_default_size"
+        android:text="¥100.00" />
+
+    <TextView
+        android:id="@+id/tv_goods_discount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/text_small_size"
+        android:text="会员折扣：¥0.00" />
+
+
+</RelativeLayout>

@@ -1,0 +1,98 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.jerrywang.phonehelper.com.jerrywang.businesshelper.main.cart.CartFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="◆ 订单数量不能超过10个" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="◆ 满500包邮" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/text_default_color" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_cart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/text_default_color" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/element_half_space">
+
+        <CheckBox
+            android:id="@+id/cb_all_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:checked="true"
+            android:text="全选" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignBaseline="@+id/tv_total_price"
+            android:layout_alignBottom="@+id/tv_total_price"
+            android:layout_toLeftOf="@+id/tv_total_price"
+            android:layout_toStartOf="@+id/tv_total_price"
+            android:textSize="@dimen/text_small_size"
+            android:text="总计（含运费）：" />
+
+        <TextView
+            android:id="@+id/tv_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignTop="@+id/b_submit"
+            android:layout_toLeftOf="@+id/b_submit"
+            android:layout_toStartOf="@+id/b_submit"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_small_size"
+            android:text="¥700.00" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_below="@+id/tv_total_price"
+            android:layout_toLeftOf="@+id/b_submit"
+            android:layout_toStartOf="@+id/b_submit"
+            android:textSize="@dimen/text_small_size"
+            android:text="已优惠：¥0.00" />
+
+        <Button
+            android:id="@+id/b_submit"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/element_half_space"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/b_default"
+            android:text="立即下单"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+</LinearLayout>
