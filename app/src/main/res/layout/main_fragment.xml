@@ -6,11 +6,11 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/tv_login"
+        android:id="@+id/tv_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/element_default_space"
-        android:text="Login" />
+        android:text="Main" />
 
 </RelativeLayout>

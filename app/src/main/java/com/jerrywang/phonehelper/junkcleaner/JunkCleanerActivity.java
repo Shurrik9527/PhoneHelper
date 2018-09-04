@@ -1,4 +1,4 @@
-package com.jerrywang.phonehelper.main;
+package com.jerrywang.phonehelper.junkcleaner;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class JunkCleanerActivity extends AppCompatActivity {
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @BindColor(R.color.colorPrimary)
@@ -50,18 +50,18 @@ public class MainActivity extends AppCompatActivity {
         // Set up the navigation drawer.
         setupDrawerContent(navigationView);
 
-        MainFragment loginFragment = (MainFragment) getSupportFragmentManager()
+        JunkCleanerFragment loginFragment = (JunkCleanerFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fl_main);
 
         if (loginFragment == null) {
-            loginFragment = MainFragment.newInstance();
+            loginFragment = JunkCleanerFragment.newInstance();
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.fl_main, loginFragment);
             transaction.commit();
         }
 
-        new MainPresenter(loginFragment);
+        new JunkCleanerPresenter(loginFragment);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
