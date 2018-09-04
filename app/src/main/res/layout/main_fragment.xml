@@ -2,15 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jerrywang.phonehelper.com.jerrywang.businesshelper.goods.detail.GoodsDetailFragment">
+    tools:context="com.jerrywang.phonehelper.login.LoginFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/tv_hello"
+        android:id="@+id/tv_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/element_default_space"
-        android:text="Goods Detail" />
+        android:text="Main" />
 
 </RelativeLayout>

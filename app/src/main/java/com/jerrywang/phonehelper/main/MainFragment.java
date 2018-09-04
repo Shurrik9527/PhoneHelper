@@ -1,4 +1,4 @@
-package com.jerrywang.phonehelper.goods.list;
+package com.jerrywang.phonehelper.main;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,17 +8,18 @@ import android.view.ViewGroup;
 
 import com.jerrywang.phonehelper.R;
 
-public class GoodsListFragment extends Fragment implements GoodsListContract.View {
 
-    private GoodsListContract.Presenter presenter;
+public class MainFragment extends Fragment implements MainContract.View {
 
-    public GoodsListFragment() {
+    private MainContract.Presenter presenter;
+
+    public MainFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static GoodsListFragment newInstance() {
-        GoodsListFragment fragment = new GoodsListFragment();
+    public static MainFragment newInstance() {
+        MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -33,27 +34,15 @@ public class GoodsListFragment extends Fragment implements GoodsListContract.Vie
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        presenter.subscribe();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        presenter.unsubscribe();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.goods_list_fragment, container, false);
+        View root = inflater.inflate(R.layout.main_fragment, container, false);
         return root;
     }
 
     @Override
-    public void setPresenter(GoodsListContract.Presenter presenter) {
+    public void setPresenter(MainContract.Presenter presenter) {
         this.presenter = presenter;
     }
 }

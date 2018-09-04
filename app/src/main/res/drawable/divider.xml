@@ -3,7 +3,7 @@
     android:shape="rectangle" >
 
     <!-- 填充的颜色 -->
-    <solid android:color ="@color/text_default_color"/>
+    <solid android:color ="@color/divider"/>
 
     <!--  线条大小 -->
     <size android:width ="0.5dp" android:height="0.5dp"/>

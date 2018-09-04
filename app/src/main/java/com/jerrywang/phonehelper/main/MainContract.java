@@ -1,4 +1,4 @@
-package com.jerrywang.phonehelper.main.cart;
+package com.jerrywang.phonehelper.main;
 
 import com.jerrywang.phonehelper.BasePresenter;
 import com.jerrywang.phonehelper.BaseView;
@@ -7,7 +7,7 @@ import com.jerrywang.phonehelper.BaseView;
  * Created by Shurrik on 2017/11/30.
  */
 
-public class CartContract {
+public class MainContract {
 
     public interface View extends BaseView<Presenter> {
 

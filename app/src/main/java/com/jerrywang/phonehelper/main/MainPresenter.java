@@ -1,4 +1,4 @@
-package com.jerrywang.phonehelper.main.classify;
+package com.jerrywang.phonehelper.main;
 
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -6,11 +6,11 @@ import io.reactivex.disposables.CompositeDisposable;
  * Created by Shurrik on 2017/11/22.
  */
 
-public class ClassifyPresenter implements ClassifyContract.Presenter {
-    private ClassifyContract.View view;
+public class MainPresenter implements MainContract.Presenter {
+    private MainContract.View view;
     private CompositeDisposable mCompositeDisposable;
 
-    public ClassifyPresenter(ClassifyContract.View view) {
+    public MainPresenter(MainContract.View view) {
         this.view = view;
         this.view.setPresenter(this);
         mCompositeDisposable = new CompositeDisposable();
@@ -26,9 +26,4 @@ public class ClassifyPresenter implements ClassifyContract.Presenter {
         mCompositeDisposable.clear();
     }
 
-
-    @Override
-    public void getClassfy() {
-
-    }
 }
