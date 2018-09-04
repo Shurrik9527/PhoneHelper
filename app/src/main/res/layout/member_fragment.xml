@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.jerrywang.phonehelper.com.jerrywang.businesshelper.main.member.MemberFragment">
+    tools:context="com.jerrywang.phonehelper.main.member.MemberFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="80dp"
             android:layout_margin="@dimen/element_half_space"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher_round" />
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/tv_user_name"
