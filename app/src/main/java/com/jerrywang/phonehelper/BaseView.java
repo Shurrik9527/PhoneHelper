@@ -16,7 +16,7 @@
 
 package com.jerrywang.phonehelper;
 
-public interface BaseView<T> {
+public interface BaseView<T> extends BaseContract{
 
     void setPresenter(T presenter);
 

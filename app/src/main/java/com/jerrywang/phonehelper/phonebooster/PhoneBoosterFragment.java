@@ -45,4 +45,14 @@ public class PhoneBoosterFragment extends Fragment implements PhoneBoosterContra
     public void setPresenter(PhoneBoosterContract.Presenter presenter) {
         this.presenter = presenter;
     }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void showMessageTips(String msg) {
+
+    }
 }

@@ -1,4 +1,4 @@
-package com.ghb.gptools.utils;
+package com.jerrywang.phonehelper.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,10 +12,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 描述:activity管理工具
- * 作者: heguogui
- * 版本: V 1.0.0
- * 时间: 2018/7/27 0027
+ * @author heguogui
+ * @describe 文件操作工具
+ * @date 2018/9/5
+ * @email 252774645@qq.com
  */
 public class ActivityUtil {
 

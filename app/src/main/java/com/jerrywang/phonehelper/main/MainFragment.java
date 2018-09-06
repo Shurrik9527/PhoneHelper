@@ -45,4 +45,14 @@ public class MainFragment extends Fragment implements MainContract.View {
     public void setPresenter(MainContract.Presenter presenter) {
         this.presenter = presenter;
     }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void showMessageTips(String msg) {
+
+    }
 }

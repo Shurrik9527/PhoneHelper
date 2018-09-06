@@ -10,6 +10,9 @@ import com.jerrywang.phonehelper.BaseView;
 public class JunkCleanerContract {
 
     public interface View extends BaseView<Presenter> {
+        //初始化View
+        void initView();
+
 
     }
 
