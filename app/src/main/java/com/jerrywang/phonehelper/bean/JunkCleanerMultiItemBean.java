@@ -3,9 +3,10 @@ package com.jerrywang.phonehelper.bean;
 /**
  * @author heguogui
  * @version v 1.0.0
- * @describe
+ * @describe 清理垃圾 适配器 混合基类
  * @date 2018/9/6
  * @email 252774645@qq.com
  */
-public class JunkCleanerMultiItemBean {
+public interface JunkCleanerMultiItemBean {
+    int getItemType();
 }

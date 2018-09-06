@@ -8,4 +8,5 @@ package com.jerrywang.phonehelper.base;
  * @email 252774645@qq.com
  */
 public class Constant {
+    public static final int TYPE_TITLE = 0;
 }

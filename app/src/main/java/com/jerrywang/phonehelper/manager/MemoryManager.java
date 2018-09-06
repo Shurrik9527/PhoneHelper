@@ -45,11 +45,16 @@ public class MemoryManager {
      * 初始化内存管理器
      * @param context
      */
-    public static void init(Context context){
-        if(mInstance==null){
-            mInstance = new MemoryManager(context);
+    public static void init(Context context) {
+        if (mInstance == null) {
+            synchronized (MemoryManager.class) {
+                if (mInstance == null) {
+                    mInstance = new MemoryManager(context);
+                }
+            }
         }
     }
+
 
     /**
      * 获取当前设备所有内存

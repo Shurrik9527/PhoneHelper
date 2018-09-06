@@ -1,11 +1,12 @@
 package com.jerrywang.phonehelper.junkcleaner;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
+import android.widget.ImageView;
 
 import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.widget.RadarScanView;
@@ -17,8 +18,13 @@ import butterknife.Unbinder;
 
 public class JunkCleanerFragment extends Fragment implements JunkCleanerContract.View {
 
+
     @BindView(R.id.junkclearner_rsv)
     RadarScanView junkclearnerRsv;
+    @BindView(R.id.junkclearner_elv)
+    ExpandableListView junkclearnerElv;
+    @BindView(R.id.junkclearner_start_iv)
+    ImageView junkclearnerStartIv;
     Unbinder unbinder;
     private JunkCleanerContract.Presenter presenter;
 
@@ -48,10 +54,7 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.junkclearner_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
-
         initView();
-
-
 
         return root;
     }
@@ -61,11 +64,6 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
         this.presenter = presenter;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     @Override
     public void initView() {
@@ -75,7 +73,18 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     }
 
     @Override
+    public void initData() {
+
+    }
+
+    @Override
     public void showMessageTips(String msg) {
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

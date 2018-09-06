@@ -2,4 +2,7 @@
     <string name="app_name">Phone Helper</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="junkcleaner_title">junkcleaner</string>
+    <string name="system_cache">System Cache</string>
 </resources>

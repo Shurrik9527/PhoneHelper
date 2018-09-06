@@ -55,4 +55,7 @@ dependencies {
     //ButterKnife是一个专注于Android系统的View注入框架
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //5.0以上获取后台进程
+    implementation 'com.jaredrummler:android-processes:1.0.9'
+
 }

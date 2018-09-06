@@ -1,4 +1,4 @@
-package com.jiepier.filemanager.util;
+package com.jerrywang.phonehelper.util;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -6,23 +6,24 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 
-import com.jiepier.filemanager.bean.AppInfo;
-
+import com.jerrywang.phonehelper.bean.AppInformBean;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
- * Created by panruijie on 2017/3/28.
- * Email : zquprj@gmail.com
+ * @author heguogui
+ * @describe app管理工具
+ * @date 2018/9/5
+ * @email 252774645@qq.com
  */
-
 public class AppUtil {
 
     //获取已经安装的应用
@@ -39,55 +40,62 @@ public class AppUtil {
         return pakList;
     }
 
-    public static Observable<List<AppInfo>> getInstalledAppInfoUsingObservable(Context context, boolean filterSystem) {
-        return Observable.create(new Observable.OnSubscribe<List<AppInfo>>() {
 
-            @Override
-            public void call(Subscriber<? super List<AppInfo>> subscriber) {
-                subscriber.onNext(getInstalledApplicationInfo(context, filterSystem));
-                subscriber.onCompleted();
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    /**
+     * 异步订阅
+     * @param context
+     * @param filterSystem
+     * @return
+     */
+    public static Observable<List<AppInformBean>> getInstalledAppInformBeanUsingObservable(final Context context, final boolean filterSystem) {
+
+       return Observable.create(new ObservableOnSubscribe<List<AppInformBean>>() {
+           @Override
+           public void subscribe(ObservableEmitter<List<AppInformBean>> e) throws Exception {
+               e.onNext(getInstalledApplicationInfo(context,filterSystem));
+               e.onComplete();
+           }
+       }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
+
+
+
 
     /**
      * 获取已经安装的应用
-     *
      * @param context
      * @param filterSystem 是否过滤是系统应用
      * @return
      */
-    public static List<AppInfo> getInstalledApplicationInfo(Context context, boolean filterSystem) {
+    public static List<AppInformBean> getInstalledApplicationInfo(Context context, boolean filterSystem) {
         List<PackageInfo> tempList = getInstalledPackages(context);
-        List<AppInfo> pakList = new ArrayList<>();
-
+        List<AppInformBean> pakList = new ArrayList<>();
         for (PackageInfo info : tempList) {
-            AppInfo appInfo = new AppInfo();
+            AppInformBean appInformBean = new AppInformBean();
             ApplicationInfo applicationInfo = info.applicationInfo;
-
             if (filterSystem) {
+
                 if (!isSystemApp(applicationInfo)) {
                     if (!isAppDisable(context, info.packageName)) {
-                        appInfo.setPackageInfo(info)
-                                .setPackageName(info.packageName)
-                                .setName(getApplicationName(context, applicationInfo))
-                                .setDrawable(getIconByPkgname(context, info.packageName))
-                                .isSystem(false)
-                                .setSize(getAppSize(applicationInfo))
-                                .setInstallTime(getInstallTime(applicationInfo));
-                        pakList.add(appInfo);
-                        //Loger.w("ruijie", appInfo.getName() + ":" + appInfo.getPackageName());
+                        appInformBean.setmPackageInfo(info);
+                        appInformBean.setmPackageName(info.packageName);
+                        appInformBean.setmName(getApplicationName(context, applicationInfo));
+                        appInformBean.setmDrawable(getIconByPkgname(context,info.packageName));
+                        appInformBean.setmSize(getAppSize(applicationInfo));
+                        appInformBean.setmIsSystem(false);
+                        appInformBean.setmInstallTime(getInstallTime(applicationInfo));
+                        pakList.add(appInformBean);
                     }
                 }
             } else {
-                appInfo.setPackageInfo(info)
-                        .setPackageName(info.packageName)
-                        .setName(getApplicationName(context, applicationInfo))
-                        .setDrawable(getIconByPkgname(context, info.packageName))
-                        .isSystem(isSystemApp(applicationInfo))
-                        .setSize(getAppSize(applicationInfo))
-                        .setInstallTime(getInstallTime(applicationInfo));
-                pakList.add(appInfo);
+                appInformBean.setmPackageInfo(info);
+                appInformBean.setmPackageName(info.packageName);
+                appInformBean.setmPackageName(info.packageName);
+                appInformBean.setmName(getApplicationName(context, applicationInfo));
+                appInformBean.setmDrawable(getIconByPkgname(context,info.packageName));
+                appInformBean.setmSize(getAppSize(applicationInfo));
+                appInformBean.setmInstallTime(getInstallTime(applicationInfo));
+                pakList.add(appInformBean);
             }
         }
 
@@ -98,7 +106,6 @@ public class AppUtil {
 
     /**
      * 获取应用名字
-     *
      * @param context
      * @param info
      * @return
@@ -110,6 +117,9 @@ public class AppUtil {
 
     /**
      * 获取应用ICON图标
+     * @param context
+     * @param pkgName
+     * @return
      */
     public static Drawable getIconByPkgname(Context context, String pkgName) {
         if (pkgName != null) {
@@ -126,6 +136,8 @@ public class AppUtil {
 
     /**
      * 判断应用是否是系统应用
+     * @param info
+     * @return
      */
     public static boolean isSystemApp(ApplicationInfo info) {
         boolean isSystemApp = false;
@@ -138,6 +150,8 @@ public class AppUtil {
 
     /**
      * 获取安装时间
+     * @param info
+     * @return
      */
     public static long getInstallTime(ApplicationInfo info) {
         String sourceDir;
@@ -152,7 +166,9 @@ public class AppUtil {
     }
 
     /**
-     * 获取应用大小
+     * app 大小
+     * @param info
+     * @return
      */
     public static long getAppSize(ApplicationInfo info) {
         String publicSourceDir;
@@ -166,6 +182,12 @@ public class AppUtil {
         return 0;
     }
 
+    /**
+     * App 是否禁用
+     * @param context
+     * @param packageName
+     * @return
+     */
     public static boolean isAppDisable(Context context, String packageName) {
         boolean isDisable = false;
         try {
@@ -176,7 +198,6 @@ public class AppUtil {
             isDisable = true;
             e.printStackTrace();
         }
-        Loger.w("ruijie", packageName + "isDisable :" + isDisable);
         return isDisable;
     }
 }
