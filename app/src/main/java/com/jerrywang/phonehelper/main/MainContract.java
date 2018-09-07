@@ -10,7 +10,11 @@ import com.jerrywang.phonehelper.BaseView;
 public class MainContract {
 
     public interface View extends BaseView<Presenter> {
-
+        void showJunkCleaner();
+        void showAppManager();
+        void showCpuCooler();
+        void showPhoneBooster();
+        void showChargeBooster();
     }
 
     public interface Presenter extends BasePresenter {

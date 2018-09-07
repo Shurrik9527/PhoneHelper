@@ -50,18 +50,18 @@ public class MainActivity extends AppCompatActivity {
         // Set up the navigation drawer.
         setupDrawerContent(navigationView);
 
-        MainFragment loginFragment = (MainFragment) getSupportFragmentManager()
+        MainFragment mainFragment = (MainFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fl_main);
 
-        if (loginFragment == null) {
-            loginFragment = MainFragment.newInstance();
+        if (mainFragment == null) {
+            mainFragment = MainFragment.newInstance();
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.fl_main, loginFragment);
+            transaction.add(R.id.fl_main, mainFragment);
             transaction.commit();
         }
 
-        new MainPresenter(loginFragment);
+        new MainPresenter(mainFragment);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
