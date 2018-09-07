@@ -74,5 +74,41 @@ public class FileUtil {
         return null;
     }
 
+    /**
+     *根据路径删除目标文件
+     * @param path
+     */
+    public static void deleteTarget(String path) {
+
+        if(TextUtils.isEmpty(path))
+            return;
+
+        File target = new File(path);
+        if (target.isFile() && target.canWrite()) {
+            target.delete();
+        } else if (target.isDirectory() && target.canRead() && target.canWrite()) {
+            String[] fileList = target.list();
+            if (fileList != null && fileList.length == 0) {
+                target.delete();
+                return;
+            } else if (fileList != null && fileList.length > 0) {
+                for (String aFile_list : fileList) {
+                    File tempF = new File(target.getAbsolutePath() + "/"
+                            + aFile_list);
+                    if (tempF.isDirectory())
+                        deleteTarget(tempF.getAbsolutePath());
+                    else if (tempF.isFile()) {
+                        tempF.delete();
+                    }
+                }
+            }
+
+            if (target.exists())
+                target.delete();
+        }
+
+    }
+
+
 
 }

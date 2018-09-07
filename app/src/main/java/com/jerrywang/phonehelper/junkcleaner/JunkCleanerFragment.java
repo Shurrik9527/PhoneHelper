@@ -15,7 +15,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-
+/**
+ * @author heguogui
+ * @version v 1.0.0
+ * @describe 垃圾清理 Fragment
+ * @date 2018/9/6
+ * @email 252774645@qq.com
+ */
 public class JunkCleanerFragment extends Fragment implements JunkCleanerContract.View {
 
 
@@ -86,5 +92,8 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        if(presenter!=null){
+            presenter.unsubscribe();
+        }
     }
 }

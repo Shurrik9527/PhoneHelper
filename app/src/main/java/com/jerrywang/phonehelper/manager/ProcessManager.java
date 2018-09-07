@@ -6,13 +6,9 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.ActivityCompat;
-
 import com.jaredrummler.android.processes.AndroidProcesses;
 import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.bean.AppProcessInfornBean;
-
-import org.reactivestreams.Subscriber;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
