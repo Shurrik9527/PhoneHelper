@@ -45,4 +45,14 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     public void setPresenter(LoginContract.Presenter presenter) {
         this.presenter = presenter;
     }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void showMessageTips(String msg) {
+
+    }
 }

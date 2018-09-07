@@ -94,4 +94,14 @@ public class MainFragment extends Fragment implements MainContract.View {
         //停止动画
         //lavPhoneBooster.cancelAnimation();
     }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void showMessageTips(String msg) {
+
+    }
 }

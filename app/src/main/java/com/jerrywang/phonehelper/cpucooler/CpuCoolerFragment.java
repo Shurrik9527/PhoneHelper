@@ -45,4 +45,14 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
     public void setPresenter(CpuCoolerContract.Presenter presenter) {
         this.presenter = presenter;
     }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void showMessageTips(String msg) {
+
+    }
 }

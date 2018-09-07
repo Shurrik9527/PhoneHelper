@@ -45,4 +45,14 @@ public class AppManagerFragment extends Fragment implements AppManagerContract.V
     public void setPresenter(AppManagerContract.Presenter presenter) {
         this.presenter = presenter;
     }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void showMessageTips(String msg) {
+
+    }
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:id="@+id/junkclearner_ll"
+        >
+
+        <com.jerrywang.phonehelper.widget.RadarScanView
+            android:id="@+id/junkclearner_rsv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            app:labelText="Memory Used"
+            ></com.jerrywang.phonehelper.widget.RadarScanView>
+
+    </LinearLayout>
+
+    <ExpandableListView
+        android:overScrollMode="never"
+        android:id="@+id/junkclearner_elv"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/junkclearner_ll"
+        />
+
+    <ImageView
+        android:id="@+id/junkclearner_start_iv"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        />
+
+
+</RelativeLayout>

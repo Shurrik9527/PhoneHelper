@@ -45,4 +45,14 @@ public class SettingsFragment extends Fragment implements SettingsContract.View 
     public void setPresenter(SettingsContract.Presenter presenter) {
         this.presenter = presenter;
     }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void showMessageTips(String msg) {
+
+    }
 }
