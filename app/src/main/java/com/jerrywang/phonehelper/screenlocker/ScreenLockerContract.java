@@ -1,13 +1,9 @@
-package com.jerrywang.phonehelper.login;
+package com.jerrywang.phonehelper.screenlocker;
 
 import com.jerrywang.phonehelper.BasePresenter;
 import com.jerrywang.phonehelper.BaseView;
 
-/**
- * Created by Shurrik on 2017/11/30.
- */
-
-public class LoginContract {
+public class ScreenLockerContract {
 
     public interface View extends BaseView<Presenter> {
 

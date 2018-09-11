@@ -180,8 +180,8 @@ public class ActivityUtil {
     }
 
     /*
-    * 是否存在指定的Activity
-    * */
+     * 是否存在指定的Activity
+     * */
     public boolean isExistActivity(final Class<? extends Activity> targetclazz) {
         Activity activity;
 
@@ -303,15 +303,12 @@ public class ActivityUtil {
 
     /**
      * 将fragment添加到容器中,由fragmentManager执行
+     *
      * @param fragmentManager
      * @param fragment
      * @param frameId
      */
-    public static void addFragmentToActivity(
-            @NonNull FragmentManager fragmentManager,
-            @NonNull Fragment fragment,
-            int frameId
-    ) {
+    public static void addFragmentToActivity( @NonNull FragmentManager fragmentManager, @NonNull Fragment fragment, int frameId  ) {
         if (fragmentManager == null || fragment == null) {
             return;
         }

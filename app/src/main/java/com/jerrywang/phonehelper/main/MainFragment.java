@@ -1,5 +1,6 @@
 package com.jerrywang.phonehelper.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,9 @@ import android.view.ViewGroup;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.jerrywang.phonehelper.R;
+import com.jerrywang.phonehelper.appmanager.AppManagerActivity;
+import com.jerrywang.phonehelper.chargebooster.ChargeBoosterActivity;
+import com.jerrywang.phonehelper.cpucooler.CpuCoolerActivity;
 import com.jerrywang.phonehelper.util.ToastUtil;
 
 import butterknife.BindView;
@@ -48,6 +52,7 @@ public class MainFragment extends Fragment implements MainContract.View {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.main_fragment, container, false);
         ButterKnife.bind(this, root);
+        initView();
         return root;
     }
 
@@ -67,21 +72,24 @@ public class MainFragment extends Fragment implements MainContract.View {
     @Override
     public void showAppManager() {
         //应用管理
-        ToastUtil.showToast(getContext(), "应用管理");
+        Intent intent = new Intent(getContext(), AppManagerActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.cv_cpucooler)
     @Override
     public void showCpuCooler() {
         //手机降温
-        ToastUtil.showToast(getContext(), "手机降温");
+        Intent intent = new Intent(getContext(), CpuCoolerActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.cv_chargebooster)
     @Override
     public void showChargeBooster() {
         //智能充电
-        ToastUtil.showToast(getContext(), "智能充电");
+        Intent intent = new Intent(getActivity(), ChargeBoosterActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.lav_phonebooster)
