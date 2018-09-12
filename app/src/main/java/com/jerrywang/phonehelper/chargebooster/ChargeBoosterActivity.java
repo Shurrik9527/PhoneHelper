@@ -1,4 +1,4 @@
-package com.jerrywang.phonehelper.phonebooster;
+package com.jerrywang.phonehelper.chargebooster;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -10,33 +10,31 @@ import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.util.ActivityUtil;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class PhoneBoosterActivity extends AppCompatActivity {
+public class ChargeBoosterActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.phonebooster_activity);
-        ButterKnife.bind(this);
+        setContentView(R.layout.chargebooster_activity);
 
         // Set up the toolbar.
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
 
-        PhoneBoosterFragment phoneBoosterFragment = (PhoneBoosterFragment) getSupportFragmentManager()
+        ChargeBoosterFragment chargeBoosterFragment = (ChargeBoosterFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fl_content);
 
-        if (phoneBoosterFragment == null) {
-            phoneBoosterFragment = PhoneBoosterFragment.newInstance();
-            ActivityUtil.addFragmentToActivity(getSupportFragmentManager(), phoneBoosterFragment, R.id.fl_content);
+        if (chargeBoosterFragment == null) {
+            chargeBoosterFragment = ChargeBoosterFragment.newInstance();
+            ActivityUtil.addFragmentToActivity(getSupportFragmentManager(), chargeBoosterFragment, R.id.fl_content);
         }
 
-        new PhoneBoosterPresenter(phoneBoosterFragment);
+        new ChargeBoosterPresenter(chargeBoosterFragment);
     }
 
     @Override

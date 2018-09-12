@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import com.jerrywang.phonehelper.R;
 
+import butterknife.ButterKnife;
+
 
 public class SettingsFragment extends Fragment implements SettingsContract.View {
 
@@ -34,10 +36,24 @@ public class SettingsFragment extends Fragment implements SettingsContract.View 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        presenter.subscribe();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.unsubscribe();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.main_fragment, container, false);
+        View root = inflater.inflate(R.layout.settings_fragment, container, false);
+        ButterKnife.bind(this, root);
+        initView();
         return root;
     }
 

@@ -16,12 +16,21 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <item
-        android:id="@+id/list_navigation_menu_item"
-        android:icon="@drawable/ic_list"
-        android:title="关于我们" />
-    <item
-        android:id="@+id/statistics_navigation_menu_item"
+        android:id="@+id/main_update_menu_item"
         android:icon="@drawable/ic_statistics"
-        android:title="检查更新" />
+        android:title="Update" />
+    <item
+        android:id="@+id/main_feedback_menu_item"
+        android:icon="@drawable/ic_feedback"
+        android:title="Feedback" />
+    <item
+        android:id="@+id/main_comment_menu_item"
+        android:icon="@drawable/ic_im"
+        android:title="Comment" />
+    <item
+        android:id="@+id/main_aboutus_menu_item"
+        android:icon="@drawable/ic_list"
+        android:title="About Us" />
 </menu>

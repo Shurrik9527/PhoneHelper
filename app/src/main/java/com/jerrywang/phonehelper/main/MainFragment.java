@@ -1,6 +1,8 @@
 package com.jerrywang.phonehelper.main;
 
 import android.Manifest;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,6 +13,9 @@ import android.view.ViewGroup;
 import com.airbnb.lottie.LottieAnimationView;
 import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.junkcleaner.JunkCleanerActivity;
+import com.jerrywang.phonehelper.appmanager.AppManagerActivity;
+import com.jerrywang.phonehelper.chargebooster.ChargeBoosterActivity;
+import com.jerrywang.phonehelper.cpucooler.CpuCoolerActivity;
 import com.jerrywang.phonehelper.util.ToastUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -80,21 +85,24 @@ public class MainFragment extends Fragment implements MainContract.View {
     @Override
     public void showAppManager() {
         //应用管理
-        ToastUtil.showToast(getContext(), "应用管理");
+        Intent intent = new Intent(getContext(), AppManagerActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.cv_cpucooler)
     @Override
     public void showCpuCooler() {
         //手机降温
-        ToastUtil.showToast(getContext(), "手机降温");
+        Intent intent = new Intent(getContext(), CpuCoolerActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.cv_chargebooster)
     @Override
     public void showChargeBooster() {
         //智能充电
-        ToastUtil.showToast(getContext(), "智能充电");
+        Intent intent = new Intent(getActivity(), ChargeBoosterActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.lav_phonebooster)

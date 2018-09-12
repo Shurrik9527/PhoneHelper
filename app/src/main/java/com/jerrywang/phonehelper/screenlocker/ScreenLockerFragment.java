@@ -1,4 +1,4 @@
-package com.jerrywang.phonehelper.phonebooster;
+package com.jerrywang.phonehelper.screenlocker;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,21 +7,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jerrywang.phonehelper.R;
+import com.jerrywang.phonehelper.util.ToastUtil;
 
 import butterknife.ButterKnife;
 
 
-public class PhoneBoosterFragment extends Fragment implements PhoneBoosterContract.View {
+public class ScreenLockerFragment extends Fragment implements ScreenLockerContract.View {
 
-    private PhoneBoosterContract.Presenter presenter;
+    private ScreenLockerContract.Presenter presenter;
 
-    public PhoneBoosterFragment() {
+    public ScreenLockerFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static PhoneBoosterFragment newInstance() {
-        PhoneBoosterFragment fragment = new PhoneBoosterFragment();
+    public static ScreenLockerFragment newInstance() {
+        ScreenLockerFragment fragment = new ScreenLockerFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -51,24 +52,24 @@ public class PhoneBoosterFragment extends Fragment implements PhoneBoosterContra
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.phonebooster_fragment, container, false);
+        View root = inflater.inflate(R.layout.screenlocker_fragment, container, false);
         ButterKnife.bind(this, root);
         initView();
         return root;
     }
 
     @Override
-    public void setPresenter(PhoneBoosterContract.Presenter presenter) {
+    public void setPresenter(ScreenLockerContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
     @Override
     public void initView() {
-
     }
 
     @Override
     public void showMessageTips(String msg) {
-
+        ToastUtil.showToast(getContext(), msg);
     }
+
 }

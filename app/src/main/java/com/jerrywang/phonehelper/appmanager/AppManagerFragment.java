@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import com.jerrywang.phonehelper.R;
 
+import butterknife.ButterKnife;
+
 
 public class AppManagerFragment extends Fragment implements AppManagerContract.View {
 
@@ -34,10 +36,24 @@ public class AppManagerFragment extends Fragment implements AppManagerContract.V
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        presenter.subscribe();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.unsubscribe();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.main_fragment, container, false);
+        View root = inflater.inflate(R.layout.appmanager_fragment, container, false);
+        ButterKnife.bind(this, root);
+        initView();
         return root;
     }
 

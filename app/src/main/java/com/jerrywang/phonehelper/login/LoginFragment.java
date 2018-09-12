@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jerrywang.phonehelper.R;
+import com.jerrywang.phonehelper.util.ToastUtil;
+
+import butterknife.ButterKnife;
 
 
 public class LoginFragment extends Fragment implements LoginContract.View {
@@ -34,10 +37,24 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        presenter.subscribe();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.unsubscribe();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.login_fragment, container, false);
+        ButterKnife.bind(this, root);
+        initView();
         return root;
     }
 
@@ -53,6 +70,6 @@ public class LoginFragment extends Fragment implements LoginContract.View {
 
     @Override
     public void showMessageTips(String msg) {
-
+        ToastUtil.showToast(getContext(), msg);
     }
 }

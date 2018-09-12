@@ -28,17 +28,23 @@
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="false"
         >
-        <activity android:name="com.jerrywang.phonehelper.main.MainActivity">
+        <activity android:name="com.jerrywang.phonehelper.main.MainActivity"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.jerrywang.phonehelper.login.LoginActivity" />
+
         <activity android:name=".junkcleaner.JunkCleanerActivity"></activity>
-
-
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".chargebooster.ChargeBoosterActivity" />
+        <activity android:name=".appmanager.AppManagerActivity" />
+        <activity android:name=".cpucooler.CpuCoolerActivity" />
+        <activity android:name=".phonebooster.PhoneBoosterActivity"/>
+        <activity android:name=".screenlocker.ScreenLockerActivity"/>
+        <activity android:name=".settings.SettingsActivity"/>
     </application>
 
 </manifest>

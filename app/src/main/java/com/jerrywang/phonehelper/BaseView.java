@@ -16,8 +16,11 @@
 
 package com.jerrywang.phonehelper;
 
-public interface BaseView<T> extends BaseContract{
-
+public interface BaseView<T> {
+    //绑定Presenter
     void setPresenter(T presenter);
-
+    //初始化
+    void initView();
+    //吐司信息
+    void showMessageTips(String msg);
 }
