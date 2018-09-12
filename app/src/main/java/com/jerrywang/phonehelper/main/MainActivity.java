@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.jaeger.library.StatusBarUtil;
 import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.util.ActivityUtil;
+import com.jerrywang.phonehelper.util.SharedPreferencesHelper;
 import com.jerrywang.phonehelper.util.ToastUtil;
 
 import butterknife.BindColor;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
 //            TasksFilterType currentFiltering = (TasksFilterType) savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
 //            mTasksPresenter.setFiltering(currentFiltering);
         }
+
+        sharedPreferencesHelper = new SharedPreferencesHelper(MainActivity.this);
+        boolean isProtect = Boolean.parseBoolean(sharedPreferencesHelper.getSharedPreference("isProtect", false).toString().trim());
     }
 
     @Override
