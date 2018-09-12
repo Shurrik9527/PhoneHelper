@@ -23,14 +23,23 @@
                 android:id="@+id/junkclearner_rsv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="100"
+                android:text="100M"
                 app:labelText="Memory Used"
                 ></com.jerrywang.phonehelper.widget.RadarScanView>
 
         </LinearLayout>
     </LinearLayout>
 
-
+    <TextView
+        android:id="@+id/junkclearner_current_scan_tv"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/junkclearner_ll"
+        android:textSize="12sp"
+        android:textColor="@color/junkcleaner_title"
+       android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        />
 
     <ExpandableListView
         android:overScrollMode="never"
@@ -38,14 +47,14 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/junkclearner_ll"
+        android:layout_below="@+id/junkclearner_current_scan_tv"
         />
 
     <ImageView
         android:id="@+id/junkclearner_start_iv"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:src="@mipmap/ic_launcher"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@mipmap/clean"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"

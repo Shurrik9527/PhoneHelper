@@ -37,4 +37,14 @@
     <style name="TabLayout.TabText02" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">20dp</item> <!--tabLayout字体大小-->
     </style>
+
+    <!--垃圾清理结束透明dialog-->
+    <style name="junk_finish_dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

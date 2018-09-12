@@ -5,8 +5,11 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.IPackageStatsObserver;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageStats;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.RemoteException;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.jerrywang.phonehelper.App;
 import com.jerrywang.phonehelper.R;
@@ -34,11 +37,13 @@ import io.reactivex.disposables.Disposable;
  */
 public class SysCacheScanTask extends AsyncTask<Void, Void, Void>{
 
+    private static final  String TAG =SysCacheScanTask.class.getName();
     private ISysScanCallBack mCallBack;
     private int mScanCount;
     private int mTotalCount;
     private ArrayList<JunkCleanerInformBean> mSysCaches;
     private HashMap<String, String> mAppNames;
+    private HashMap<String,Drawable> mAppIcons;
     private long mTotalSize = 0L;
     private boolean mIsOverTime = true;
 
@@ -89,10 +94,11 @@ public class SysCacheScanTask extends AsyncTask<Void, Void, Void>{
         mTotalCount = installedPackages.size();
         mSysCaches = new ArrayList<>();
         mAppNames = new HashMap<>();
-
+        mAppIcons = new HashMap<>();
         for (int i = 0; i < mTotalCount; i++) {
             ApplicationInfo info = installedPackages.get(i);
             mAppNames.put(info.packageName, pm.getApplicationLabel(info).toString());
+            mAppIcons.put(info.packageName, info.loadIcon(pm));
             getPackageInfo(info.packageName, observer);
         }
 
@@ -126,10 +132,25 @@ public class SysCacheScanTask extends AsyncTask<Void, Void, Void>{
         @Override
         public void onGetStatsCompleted(PackageStats pStats, boolean succeeded) throws RemoteException {
             mScanCount++;
+            //正在扫描
             if (succeeded && pStats != null) {
                 JunkCleanerInformBean info = new JunkCleanerInformBean();
+                    String mName =pStats.packageName;
+                    Drawable mDrawable =null;
+                    if(mAppNames!=null&&mAppNames.size()>0){
+                        if(!TextUtils.isEmpty(mAppNames.get(pStats.packageName))){
+                            mName =mAppNames.get(pStats.packageName);
+                        }
+                    }
+
+                    if(mAppIcons!=null&&mAppIcons.size()>0){
+                        if(mAppIcons.get(pStats.packageName)!=null){
+                            mDrawable =mAppIcons.get(pStats.packageName);
+                        }
+                    }
                     info.setmPackageName(pStats.packageName);
-                    info.setmName(pStats.packageName);
+                    info.setmName(mName);
+                    info.setmDrawable(mDrawable);
                     info.setmSize(pStats.cacheSize + pStats.externalCacheSize);
                     if (info.getmSize() > 0) {
                         mSysCaches.add(info);
@@ -140,13 +161,13 @@ public class SysCacheScanTask extends AsyncTask<Void, Void, Void>{
 
             if (mScanCount == mTotalCount) {
                 JunkCleanerInformBean junkCleanerInformBean = new JunkCleanerInformBean();
-                    junkCleanerInformBean.setmPackageName(pStats.packageName);
-                    junkCleanerInformBean.setmName(App.getmContext().getString(R.string.system_cache));
-                    junkCleanerInformBean.setmSize(mTotalSize);
-                    junkCleanerInformBean.setmIsCheck(false);
-                    junkCleanerInformBean.setmIsVisible(true);
-                    junkCleanerInformBean.setmIsChild(false);
-                    junkCleanerInformBean.setmChildren(mSysCaches);
+                junkCleanerInformBean.setmPackageName(pStats.packageName);
+                junkCleanerInformBean.setmName(App.getmContext().getString(R.string.system_cache));
+                junkCleanerInformBean.setmSize(mTotalSize);
+                junkCleanerInformBean.setmIsCheck(false);
+                junkCleanerInformBean.setmIsVisible(true);
+                junkCleanerInformBean.setmIsChild(false);
+                junkCleanerInformBean.setmChildren(mSysCaches);
                 Collections.sort(mSysCaches);
                 Collections.reverse(mSysCaches);
                 ArrayList<JunkCleanerInformBean> list = new ArrayList<>();

@@ -17,19 +17,18 @@ public class JunkCleanerGroupBean {
     private ArrayList<JunkCleanerProcessInformBean> mSysCacheList;
     private ArrayList<JunkCleanerProcessInformBean> mTempList;
     private ArrayList<JunkCleanerProcessInformBean> mLogList;
-    private ArrayList<JunkCleanerProcessInformBean> mBigFileList;
+
 
     public JunkCleanerGroupBean() {
 
     }
 
-    public JunkCleanerGroupBean(ArrayList<JunkCleanerProcessInformBean> mApkList, ArrayList<JunkCleanerProcessInformBean> mProcessList, ArrayList<JunkCleanerProcessInformBean> mSysCacheList, ArrayList<JunkCleanerProcessInformBean> mTempList, ArrayList<JunkCleanerProcessInformBean> mLogList, ArrayList<JunkCleanerProcessInformBean> mBigFileList) {
+    public JunkCleanerGroupBean(ArrayList<JunkCleanerProcessInformBean> mApkList, ArrayList<JunkCleanerProcessInformBean> mProcessList, ArrayList<JunkCleanerProcessInformBean> mSysCacheList, ArrayList<JunkCleanerProcessInformBean> mTempList, ArrayList<JunkCleanerProcessInformBean> mLogList) {
         this.mApkList = mApkList;
         this.mProcessList = mProcessList;
         this.mSysCacheList = mSysCacheList;
         this.mTempList = mTempList;
         this.mLogList = mLogList;
-        this.mBigFileList = mBigFileList;
     }
 
     public ArrayList<JunkCleanerProcessInformBean> getApkList() {
@@ -77,14 +76,6 @@ public class JunkCleanerGroupBean {
         return this;
     }
 
-    public ArrayList<JunkCleanerProcessInformBean> getBigFileList() {
-        return mBigFileList;
-    }
-
-    public JunkCleanerGroupBean setBigFileList(ArrayList<JunkCleanerProcessInformBean> mBigFileList) {
-        this.mBigFileList = mBigFileList;
-        return this;
-    }
 
     public long getTotalSize() {
         return totalSize;
@@ -106,8 +97,6 @@ public class JunkCleanerGroupBean {
                 return mLogList;
             case JunkCleanerTypeBean.TEMP:
                 return mTempList;
-            case JunkCleanerTypeBean.BIG_FILE:
-                return mBigFileList;
         }
         return null;
     }

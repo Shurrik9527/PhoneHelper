@@ -1,11 +1,23 @@
 package com.jerrywang.phonehelper.manager;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.IPackageDataObserver;
 import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Environment;
+import android.os.IBinder;
 import android.os.RemoteException;
+import android.os.StatFs;
+import android.support.annotation.RequiresApi;
+import android.support.annotation.RequiresPermission;
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.jerrywang.phonehelper.bean.JunkCleanerMultiItemBean;
 import com.jerrywang.phonehelper.util.FileUtil;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -30,6 +42,7 @@ public class CleanManager {
     private static final  String TAG  =CleanManager.class.getName();
     public static CleanManager mInstance;
     private Context mContext;
+    private  ClearUserDataObserver mClearUserDataObserver=null;
     //私有构造方法
     private CleanManager(Context context){
         this.mContext =context;
@@ -77,6 +90,8 @@ public class CleanManager {
     }
 
 
+
+
     /**
      * 垃圾清理
      * @param junkCleanerList
@@ -89,6 +104,7 @@ public class CleanManager {
 
         for (int i = 0; i < junkCleanerList.size(); i++) {
             try {
+
                 FileUtil.deleteTarget(junkCleanerList.get(i));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -123,8 +139,8 @@ public class CleanManager {
      * @return
      */
     public boolean cleanAppsCache(List<String> packageNameLists) {
-
-        if(packageNameLists==null)
+        Log.i(TAG,"packageNameLists="+packageNameLists.toString());
+        if(packageNameLists==null||packageNameLists.size()==0||mContext==null)
             return false;
 
         File externalDir = mContext.getExternalCacheDir();
@@ -132,42 +148,132 @@ public class CleanManager {
             return true;
         }
 
+        ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        if(am==null){
+            return false;
+        }
         PackageManager pm = mContext.getPackageManager();
-        @SuppressLint("WrongConstant") List<ApplicationInfo> installedPackages = pm.getInstalledApplications(PackageManager.GET_GIDS);
-        for (ApplicationInfo info : installedPackages) {
-            if (packageNameLists.contains(info.packageName)) {
+        if(pm==null){
+            return false;
+        }
+
+        try {
+            for(String pgm : packageNameLists){
                 String externalCacheDir = externalDir.getAbsolutePath()
-                        .replace(mContext.getPackageName(), info.packageName);
+                        .replace(mContext.getPackageName(),pgm);
                 File externalCache = new File(externalCacheDir);
-                if (externalCache.exists() && externalCache.isDirectory()) {
+                Log.i(TAG,"delete fifle is ="+externalCache);
+                if (externalCache.exists()) {
+                    Log.i(TAG,"delete fifle is exists");
                     FileUtil.deleteTarget(externalCacheDir);
+                }else{
+                    Log.i(TAG,"delete fifle is no exists");
                 }
+            }
+        }catch (Exception e){
+
+        }
+
+
+        //利用反射机制 删除三方缓存
+        //由于系统版本 6.0 以上 权限受到限制 这里区别处理
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+
+            if (mClearUserDataObserver == null) {
+                mClearUserDataObserver = new ClearUserDataObserver();
+            }
+            for(int j =0; j<packageNameLists.size();j++){
+                deleteCacheFile(pm,packageNameLists.get(j));
+            }
+
+        }else{
+            final boolean[] isSuccess = {false};
+            Class[] arrayOfClass = new Class[2];
+            Class localClass2 = Long.TYPE;
+            arrayOfClass[0] = localClass2;
+            arrayOfClass[1] = IPackageDataObserver.class;
+            Method localMethod = null;
+            try {
+                localMethod = pm.getClass().getMethod("freeStorageAndNotify", arrayOfClass);
+                Long localLong = Long.MAX_VALUE;
+                Object[] arrayOfObject = new Object[2];
+                arrayOfObject[0] = localLong;
+                try {
+                    localMethod.invoke(pm,localLong,new IPackageDataObserver.Stub(){
+                        public void onRemoveCompleted(String packageName,boolean succeeded) throws RemoteException {
+                            // TODO Auto-generated method stub
+                            Log.d(TAG, "delete Completed:====="+packageName);
+                            isSuccess[0] = succeeded;
+                        }});
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
             }
         }
 
-        final boolean[] isSuccess = {false};
+       return true;
+    }
+
+
+    public class PackageDataObserver extends IPackageDataObserver.Stub {
+        @Override
+        public void onRemoveCompleted(String packageName, boolean succeeded) throws RemoteException {
+            Log.d(TAG, "delete Completed: "+succeeded);
+        }
+
+        @Override
+        public IBinder asBinder() {
+            return null;
+        }
+    }
+
+
+    private void deleteCacheFile(PackageManager pm,String packageName) {
+        if(pm==null|| TextUtils.isEmpty(packageName)){
+            Log.d(TAG, "deleteCacheFile is fail");
+            return;
+        }
+        Log.d(TAG, "deleteCacheFile Start....");
         try {
-            Method freeStorageAndNotify = pm.getClass()
-                    .getMethod("freeStorageAndNotify", long.class, IPackageDataObserver.class);
-            long freeStorageSize = Long.MAX_VALUE;
-            freeStorageAndNotify.invoke(pm, freeStorageSize, new IPackageDataObserver.Stub() {
-
-                @Override
-                public void onRemoveCompleted(String packageName, boolean succeeded) throws RemoteException {
-                    isSuccess[0] = succeeded;
-                }
-            });
-
+            Method deleteApplicationCacheFiles = PackageManager.class.getDeclaredMethod("deleteApplicationCacheFiles", String.class, IPackageDataObserver.class);
+            deleteApplicationCacheFiles.invoke(pm, packageName, new PackageDataObserver());
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
-
-        return isSuccess[0];
     }
 
+
+
+    private static long getEnvironmentSize()
+    {
+        File localFile = Environment.getDataDirectory();
+        long l1;
+        if (localFile == null)
+            l1 = 0L;
+        while (true)
+        {
+
+            String str = localFile.getPath();
+            StatFs localStatFs = new StatFs(str);
+            long l2 = localStatFs.getBlockSize();
+            l1 = localStatFs.getBlockCount() * l2;
+            return l1;
+        }
+    }
+
+
+    class ClearUserDataObserver extends IPackageDataObserver.Stub {
+        public void onRemoveCompleted(final String packageName, final boolean succeeded) {
+            Log.d(TAG, "delete Completed: "+succeeded);
+        }
+    }
 
 }

@@ -1,18 +1,27 @@
 package com.jerrywang.phonehelper.main;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.jerrywang.phonehelper.R;
+import com.jerrywang.phonehelper.junkcleaner.JunkCleanerActivity;
 import com.jerrywang.phonehelper.util.ToastUtil;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class MainFragment extends Fragment implements MainContract.View {
@@ -48,6 +57,7 @@ public class MainFragment extends Fragment implements MainContract.View {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.main_fragment, container, false);
         ButterKnife.bind(this, root);
+        initView();
         return root;
     }
 
@@ -60,7 +70,10 @@ public class MainFragment extends Fragment implements MainContract.View {
     @Override
     public void showJunkCleaner() {
         //垃圾清理
-        ToastUtil.showToast(getContext(), "垃圾清理");
+        if(presenter!=null){
+            presenter.startActivity(getActivity(), JunkCleanerActivity.class,null);
+        }
+
     }
 
     @OnClick(R.id.cv_appmanager)
@@ -97,6 +110,18 @@ public class MainFragment extends Fragment implements MainContract.View {
 
     @Override
     public void initView() {
+        //手动授予权限  目前未授予权限则退出APP
+        RxPermissions rxPermission =new RxPermissions(getActivity());
+        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CLEAR_APP_CACHE,Manifest.permission.DELETE_CACHE_FILES)
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if(permission.granted){
+                            Log.i("MainFragment","MainFragment 授权成功");
+                        }
+                    }
+                });
+
 
     }
 

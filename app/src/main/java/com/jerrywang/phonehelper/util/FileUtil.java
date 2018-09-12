@@ -4,6 +4,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.jerrywang.phonehelper.App;
 import com.jerrywang.phonehelper.bean.ApkInformBean;
@@ -17,6 +18,8 @@ import java.io.File;
  * @email 252774645@qq.com
  */
 public class FileUtil {
+
+    private static final  String TAG =FileUtil.class.getName();
 
     /**
      * 获取全路径中的文件名
@@ -82,7 +85,7 @@ public class FileUtil {
 
         if(TextUtils.isEmpty(path))
             return;
-
+        Log.i(TAG,"delete path="+path);
         File target = new File(path);
         if (target.isFile() && target.canWrite()) {
             target.delete();

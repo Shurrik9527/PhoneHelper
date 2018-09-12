@@ -1,5 +1,8 @@
 package com.jerrywang.phonehelper.main;
 
+import android.content.Context;
+import android.os.Bundle;
+
 import com.jerrywang.phonehelper.BasePresenter;
 import com.jerrywang.phonehelper.BaseView;
 
@@ -18,6 +21,8 @@ public class MainContract {
     }
 
     public interface Presenter extends BasePresenter {
+
+        void startActivity(Context mContext,Class<?> mclass, Bundle mBundle);
 
     }
 }

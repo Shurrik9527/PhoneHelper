@@ -11,6 +11,7 @@
     <color name="radarscan_green">#29b95c</color>
     <color name="radarscan_blue">#ff008eff</color>
     <color name="radarscan_white">#ffffff</color>
+    <color name="junkcleaner_title">#64686a</color>
 
 
 </resources>

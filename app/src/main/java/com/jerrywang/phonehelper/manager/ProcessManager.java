@@ -6,9 +6,14 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+
 import com.jaredrummler.android.processes.AndroidProcesses;
+import com.jerrywang.phonehelper.App;
 import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.bean.AppProcessInfornBean;
+
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -30,6 +35,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class ProcessManager {
 
+    private  static  final  String TAG =ProcessManager.class.getName();
     private static ProcessManager mInstance;
     private Context mContext;
     private List<AppProcessInfornBean> mTempList;  //暂时保存进程列表
@@ -207,6 +213,7 @@ public class ProcessManager {
         beforeMemory = mMemoryInform.availMem;
 
         try {
+
             killBackgroundProcesses(processName);
         } catch (Exception e) {
             e.printStackTrace();
@@ -231,8 +238,23 @@ public class ProcessManager {
             } else {
                 packageName = processName.split(":")[0];
             }
+            Log.i(TAG,"delete process success  "+packageName);
             mActivityManager.killBackgroundProcesses(packageName);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 反射机制 杀死进程
+     * @param processName
+     */
+    public void killBackgroundProcessesMonth(String processName){
+        try {
+            ActivityManager am =(ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
+            Method method = Class.forName("android.app.ActivityManager").getMethod("forceStopPackage",String.class);
+            method.invoke(am,processName);
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
@@ -258,13 +280,14 @@ public class ProcessManager {
      * @param packageNameSets
      * @return
      */
-    public Observable<Long> killListsRunningAppObservale(final Set<String> packageNameSets){
+    public Observable<Long> killListsRunningAppObservale(final List<String> packageNameSets){
 
         return Observable.create(new ObservableOnSubscribe<Long>() {
             @Override
             public void subscribe(ObservableEmitter<Long> e) throws Exception {
                 long memory = 0L;
                 for (String string : packageNameSets) {
+                    Log.i(TAG,"kill process "+string);
                     memory += killRunningApp(string);
                 }
                 e.onNext(memory);

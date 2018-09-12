@@ -18,7 +18,7 @@ public interface IScanCallBack {
 
     void onCancel();
 
-    void onFinish(ArrayList<JunkCleanerInformBean> apkList, ArrayList<JunkCleanerInformBean> logList, ArrayList<JunkCleanerInformBean> tempList, ArrayList<JunkCleanerInformBean> bigFileList);
+    void onFinish(ArrayList<JunkCleanerInformBean> apkList, ArrayList<JunkCleanerInformBean> logList, ArrayList<JunkCleanerInformBean> tempList);
 
     void onOverTime();
 

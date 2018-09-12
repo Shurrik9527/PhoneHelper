@@ -42,7 +42,7 @@ public class OverScanTask extends AsyncTask<Void, Void, Void> {
     private ArrayList<JunkCleanerInformBean> mApkList;//apk垃圾
     private ArrayList<JunkCleanerInformBean> mLogList;//log文件
     private ArrayList<JunkCleanerInformBean> mTempList;
-    private ArrayList<JunkCleanerInformBean> mBigFileList;
+
 
     public OverScanTask(IScanCallBack scanCallBack) {
         mCallBack = scanCallBack;
@@ -54,7 +54,6 @@ public class OverScanTask extends AsyncTask<Void, Void, Void> {
         mApkList = new ArrayList<>();
         mLogList = new ArrayList<>();
         mTempList = new ArrayList<>();
-        mBigFileList = new ArrayList<>();
     }
 
     
@@ -89,11 +88,6 @@ public class OverScanTask extends AsyncTask<Void, Void, Void> {
                         info = getJunkCleanerInformBean(file);
                         mTempInfo.getmChildren().add(info);
                         mTempInfo.setmSize(mTempInfo.getmSize() + info.getmSize());
-                    } else if (MimeTypes.isBigFile(file)) {//大文件
-                        info = getJunkCleanerInformBean(file);
-                        info.setmIsCheck(false);
-                        mBigFileInfo.getmChildren().add(info);
-                        mBigFileInfo.setmSize(mBigFileInfo.getmSize() + info.getmSize());
                     }
 
                     if (info != null) {
@@ -130,7 +124,9 @@ public class OverScanTask extends AsyncTask<Void, Void, Void> {
             }
             @Override
             public void onNext(Long aLong) {
-
+                if(mIsOverTime){
+                    mCallBack.onOverTime();
+                }
             }
 
             @Override
@@ -140,9 +136,7 @@ public class OverScanTask extends AsyncTask<Void, Void, Void> {
 
             @Override
             public void onComplete() {
-                if(mIsOverTime){
-                    mCallBack.onOverTime();
-                }
+
             }
         });
 
@@ -184,19 +178,14 @@ public class OverScanTask extends AsyncTask<Void, Void, Void> {
             mTempList.add(mTempInfo);
         }
 
-        if (mBigFileInfo.getmSize() > 0L) {
-            Collections.sort(mBigFileInfo.getmChildren());
-            Collections.reverse(mBigFileInfo.getmChildren());
-            mList.add(mBigFileInfo);
-            mBigFileList.add(mBigFileInfo);
-        }
+
 
         return null;
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        mCallBack.onFinish(mApkList, mLogList, mTempList, mBigFileList);
+        mCallBack.onFinish(mApkList, mLogList, mTempList);
         mIsOverTime = false;
         super.onPostExecute(aVoid);
     }

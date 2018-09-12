@@ -2,6 +2,11 @@
 
     <string name="junkcleaner_title">垃圾清理</string>
     <string name="system_cache">系统缓存</string>
+    <string name="junkcleaner_process_title">运行进程</string>
+    <string name="junkcleaner_system_cache_tiele">应用缓存</string>
+    <string name="junkcleaner_unused_apk_tiele">无用安装包</string>
+    <string name="junkcleaner_temporary_file_tiele">临时文件</string>
+    <string name="junkcleaner_log_file_tiele">日志文件</string>
 </resources>
 
 

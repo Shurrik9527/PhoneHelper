@@ -1,5 +1,6 @@
 package com.jerrywang.phonehelper.bean;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
 import com.jerrywang.phonehelper.App;
@@ -20,10 +21,19 @@ public class JunkCleanerInformBean implements Comparable<JunkCleanerInformBean> 
     private long mSize;
     private String mPackageName;
     private String mPath;
+    private Drawable mDrawable;
     private ArrayList<JunkCleanerInformBean> mChildren = new ArrayList<>();
     private boolean mIsVisible = false;
     private boolean mIsChild = true;
     private boolean mIsCheck = false;
+
+    public Drawable getmDrawable() {
+        return mDrawable;
+    }
+
+    public void setmDrawable(Drawable mDrawable) {
+        this.mDrawable = mDrawable;
+    }
 
     public String getmName() {
         return mName;
@@ -96,6 +106,7 @@ public class JunkCleanerInformBean implements Comparable<JunkCleanerInformBean> 
                 ", mSize=" + mSize +
                 ", mPackageName='" + mPackageName + '\'' +
                 ", mPath='" + mPath + '\'' +
+                ", mDrawable=" + mDrawable +
                 ", mChildren=" + mChildren +
                 ", mIsVisible=" + mIsVisible +
                 ", mIsChild=" + mIsChild +

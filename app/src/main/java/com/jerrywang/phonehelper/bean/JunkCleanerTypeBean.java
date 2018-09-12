@@ -16,7 +16,7 @@ public class JunkCleanerTypeBean extends AbstractExpandableListViewItem<JunkClea
     public static final int APK = 2;
     public static final int TEMP = 3;
     public static final int LOG = 4;
-    public static final int BIG_FILE = 5;
+
 
     private String title;
     private String totalSize;

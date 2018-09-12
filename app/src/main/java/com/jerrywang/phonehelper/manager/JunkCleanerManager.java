@@ -38,7 +38,6 @@ public class JunkCleanerManager {
     private ArrayList<JunkCleanerInformBean> mApkList;
     private ArrayList<JunkCleanerInformBean> mLogList;
     private ArrayList<JunkCleanerInformBean> mTempList;
-    private ArrayList<JunkCleanerInformBean> mBigFileList;
     private ArrayList<JunkCleanerInformBean> mSysCacheList;
     private ArrayList<AppProcessInfornBean> mProcessList;
     private JunkCleanerGroupBean mJunkGroup;
@@ -54,7 +53,6 @@ public class JunkCleanerManager {
         mApkList = new ArrayList<>();
         mLogList = new ArrayList<>();
         mTempList = new ArrayList<>();
-        mBigFileList = new ArrayList<>();
         mSysCacheList = new ArrayList<>();
         mProcessList = new ArrayList<>();
         mJunkGroup = new JunkCleanerGroupBean();
@@ -102,15 +100,13 @@ public class JunkCleanerManager {
             }
 
             @Override
-            public void onFinish(ArrayList<JunkCleanerInformBean> apkList, ArrayList<JunkCleanerInformBean> logList, ArrayList<JunkCleanerInformBean> tempList, ArrayList<JunkCleanerInformBean> bigFileList) {
+            public void onFinish(ArrayList<JunkCleanerInformBean> apkList, ArrayList<JunkCleanerInformBean> logList, ArrayList<JunkCleanerInformBean> tempList) {
                 mIsOverScanFinish = true;
                 mApkList = apkList;
                 mLogList = logList;
                 mTempList = tempList;
-                mBigFileList = bigFileList;
-
                 if (mScanListener != null) {
-                    mScanListener.isOverScanFinish(mApkList, mLogList, mTempList, mBigFileList);
+                    mScanListener.isOverScanFinish(mApkList, mLogList, mTempList);
                     checkAllScanFinish();
                 }
             }
@@ -213,8 +209,7 @@ public class JunkCleanerManager {
             mJunkGroup.setSysCacheList(getJunkProcessList(mSysCacheList, JunkCleanerTypeBean.CACHE))
                     .setApkList(getJunkProcessList(mApkList, JunkCleanerTypeBean.APK))
                     .setLogList(getJunkProcessList(mLogList, JunkCleanerTypeBean.LOG))
-                    .setTempList(getJunkProcessList(mTempList, JunkCleanerTypeBean.TEMP))
-                    .setBigFileList(getJunkProcessList(mBigFileList, JunkCleanerTypeBean.BIG_FILE));
+                    .setTempList(getJunkProcessList(mTempList, JunkCleanerTypeBean.TEMP));
             mScanListener.isAllScanFinish(mJunkGroup);
 
         }
@@ -256,7 +251,7 @@ public class JunkCleanerManager {
 
         void startScan();
 
-        void isOverScanFinish(ArrayList<JunkCleanerInformBean> apkList, ArrayList<JunkCleanerInformBean> logList, ArrayList<JunkCleanerInformBean> tempList, ArrayList<JunkCleanerInformBean> bigFileList);
+        void isOverScanFinish(ArrayList<JunkCleanerInformBean> apkList, ArrayList<JunkCleanerInformBean> logList, ArrayList<JunkCleanerInformBean> tempList);
 
         void isSysCacheScanFinish(ArrayList<JunkCleanerInformBean> sysCacheList);
 

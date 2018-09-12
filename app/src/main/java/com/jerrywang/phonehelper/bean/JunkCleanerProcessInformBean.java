@@ -14,7 +14,6 @@ public class JunkCleanerProcessInformBean implements JunkCleanerMultiItemBean{
     public static final int APK = 2;
     public static final int TEMP = 3;
     public static final int LOG = 4;
-    public static final int BIG_FILE = 5;
     private int type;
     private JunkCleanerInformBean junkCleanerInformBean;
     private AppProcessInfornBean appProcessInform;

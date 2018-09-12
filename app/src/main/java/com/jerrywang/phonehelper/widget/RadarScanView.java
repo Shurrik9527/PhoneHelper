@@ -17,6 +17,7 @@ import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -29,8 +30,8 @@ import com.jerrywang.phonehelper.R;
  * @email 252774645@qq.com
  */
 public class RadarScanView extends View {
-
-    public static final String DEFAULT_FORMAT = "%1$.0f";
+    private static final  String  TAG = RadarScanView.class.getName();
+    public static final String DEFAULT_FORMAT = "%1$.1f";
 
     /**
      * 是否是扫描状态
