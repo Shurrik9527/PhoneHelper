@@ -48,6 +48,13 @@
 
         <!--锁屏服务-->
         <service android:name=".screenlocker.ScreenLockerService" />
+
+        <receiver android:name=".appmanager.PackageReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

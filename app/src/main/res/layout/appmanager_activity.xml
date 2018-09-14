@@ -31,15 +31,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_edit_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/element_default_space"
-            android:src="@drawable/ic_list"
-            app:fabSize="normal"
-            app:layout_anchor="@id/fl_content"
-            app:layout_anchorGravity="bottom|right|end" />
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:id="@+id/fab_edit_task"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="@dimen/element_default_space"-->
+            <!--android:src="@drawable/ic_list"-->
+            <!--app:fabSize="normal"-->
+            <!--app:layout_anchor="@id/fl_content"-->
+            <!--app:layout_anchorGravity="bottom|right|end" />-->
 
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>
