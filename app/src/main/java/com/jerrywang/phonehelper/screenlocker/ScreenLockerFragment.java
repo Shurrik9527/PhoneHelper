@@ -1,7 +1,10 @@
 package com.jerrywang.phonehelper.screenlocker;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,8 @@ import com.romainpiel.shimmer.ShimmerTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 
 public class ScreenLockerFragment extends Fragment implements ScreenLockerContract.View {
@@ -102,7 +107,7 @@ public class ScreenLockerFragment extends Fragment implements ScreenLockerContra
 
     @Override
     public void showChargeStatus(boolean isCharging) {
-        if(isCharging) {
+        if (isCharging) {
             tvChargestatus.setText("Charging");
         } else {
             tvChargestatus.setText("No Charging");
@@ -113,6 +118,20 @@ public class ScreenLockerFragment extends Fragment implements ScreenLockerContra
     @Override
     public void showBatteryInfo(int percent) {
         tvBatterInfo.setText(percent + "%");
+        if(percent == 100) {
+            presenter.checkChargingCompleted();
+        }
     }
 
+    @Override
+    public void showNotification(String message) {
+        NotificationManager manager = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
+        Notification notification = new NotificationCompat.Builder(getActivity(), "default")
+                .setContentTitle("Tips:")
+                .setContentText(message)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .build();
+        manager.notify(1, notification);
+    }
 }

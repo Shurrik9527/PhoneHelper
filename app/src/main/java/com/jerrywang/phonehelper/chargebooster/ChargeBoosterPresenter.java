@@ -47,16 +47,20 @@ public class ChargeBoosterPresenter implements ChargeBoosterContract.Presenter {
 
     @Override
     public void startChargeAlert() {
-        view.showMessageTips("开启充电提醒");
+        setAlertStatus(true);
     }
 
     @Override
     public void closeChargeAlert() {
-        view.showMessageTips("关闭充电提醒");
+        setAlertStatus(false);
     }
-
 
     public void setProtectStatus(boolean isProtect) {
         sharedPreferencesHelper.put("isProtect", isProtect);
     }
+
+    public void setAlertStatus(boolean isAlert){
+        sharedPreferencesHelper.put("isAlert", isAlert);
+    }
+
 }

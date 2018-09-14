@@ -61,4 +61,9 @@ public class ScreenLockerPresenter implements ScreenLockerContract.Presenter {
         }
     }
 
+    @Override
+    public void checkChargingCompleted() {
+        view.showNotification("Charging Completed");
+    }
+
 }

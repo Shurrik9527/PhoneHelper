@@ -37,14 +37,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".junkcleaner.JunkCleanerActivity"></activity>
+        <activity android:name=".junkcleaner.JunkCleanerActivity"/>
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".chargebooster.ChargeBoosterActivity" />
         <activity android:name=".appmanager.AppManagerActivity" />
         <activity android:name=".cpucooler.CpuCoolerActivity" />
         <activity android:name=".phonebooster.PhoneBoosterActivity"/>
-        <activity android:name=".screenlocker.ScreenLockerActivity"/>
+        <activity android:name=".screenlocker.ScreenLockerActivity" android:launchMode="singleInstance"/>
         <activity android:name=".settings.SettingsActivity"/>
+
+        <!--锁屏服务-->
+        <service android:name=".screenlocker.ScreenLockerService" />
     </application>
 
 </manifest>
