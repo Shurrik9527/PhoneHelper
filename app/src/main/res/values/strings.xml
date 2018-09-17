@@ -3,11 +3,14 @@
 
     <!-- TODO: Remove or change this placeholder text -->
 
-    <string name="junkcleaner_title">junkcleaner</string>
+    <string name="junkcleaner_title">Junk Files</string>
     <string name="system_cache">System Cache</string>
     <string name="junkcleaner_process_title">Running Process</string>
     <string name="junkcleaner_system_cache_tiele">App Cache</string>
     <string name="junkcleaner_unused_apk_tiele">Unused Apk</string>
     <string name="junkcleaner_temporary_file_tiele">Temporary File</string>
     <string name="junkcleaner_log_file_tiele">Log File</string>
+
+    <string name="cpucooler_title">CpuCooler</string>
+
 </resources>

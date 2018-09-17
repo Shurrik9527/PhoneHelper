@@ -74,4 +74,7 @@ dependencies {
 
     implementation 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
 
+    // BaseRecyclerViewAdapterHelper
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.8.3'
+
 }

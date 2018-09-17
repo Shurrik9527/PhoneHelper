@@ -200,6 +200,8 @@ public class JunkCleanerPresenter implements JunkCleanerContract.Presenter {
                 //通知临时文件数据更新
                 RxBus.getDefault().post(new JunkCleanerItemTotalSizeEvent(JunkCleanerTypeBean.TEMP, getFilterJunkSize(tempList)));
 
+                mOverScanFinish = true;
+
             }
 
             //系统缓存 扫描结束

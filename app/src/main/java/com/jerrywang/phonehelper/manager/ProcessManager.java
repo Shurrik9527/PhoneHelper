@@ -70,7 +70,7 @@ public class ProcessManager {
         return mInstance;
     }
 
-    public List<AppProcessInfornBean> getRunningProcessList() {
+    public List<AppProcessInfornBean> getRunningProcessList(boolean isSelect) {
 
         if(mContext==null)
             return new ArrayList<AppProcessInfornBean>();
@@ -96,7 +96,6 @@ public class ProcessManager {
                     String name = appInfo.loadLabel(mPackageManager).toString();
                     abAppProcessInfornBean.setIcon(icon);
                     abAppProcessInfornBean.setAppName(name);
-
                 } catch (PackageManager.NameNotFoundException e) {
                     /*名字没找到，可能是应用的服务*/
                     if (info.processName.contains(":")) {
@@ -115,9 +114,14 @@ public class ProcessManager {
                 long memsize = mActivityManager.getProcessMemoryInfo(new int[]{info.pid})[0].getTotalPrivateDirty() * 1024;
                 abAppProcessInfornBean.setMemory(memsize);
 
-                if (!abAppProcessInfornBean.isSystem()) {
+                if(isSelect){
+                    if (!abAppProcessInfornBean.isSystem()) {
+                        mTempList.add(abAppProcessInfornBean);
+                    }
+                }else{
                     mTempList.add(abAppProcessInfornBean);
                 }
+
             }
 
         }
@@ -139,7 +143,7 @@ public class ProcessManager {
                 lastUid = info.getU_id();
             }
         }
-        return mRunningProcessList;
+        return mTempList;
     }
 
     public ApplicationInfo getApplicationInfo(String processName) {
@@ -161,11 +165,11 @@ public class ProcessManager {
      * 订阅 除了本身当前运行的进程
      * @return
      */
-    public Observable<List<AppProcessInfornBean>> getRunningAppListObservable(){
+    public Observable<List<AppProcessInfornBean>> getRunningAppListObservable(final boolean isSelect){
         return  Observable.create(new ObservableOnSubscribe<List<AppProcessInfornBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<AppProcessInfornBean>> e) throws Exception {
-                e.onNext(getRunningProcessList());
+                e.onNext(getRunningProcessList(isSelect));
                 e.onComplete();
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
@@ -183,13 +187,13 @@ public class ProcessManager {
      * 杀死所有列表 获取当前可用内存
      * @return
      */
-    public long killAllRunningApp() {
+    public long killAllRunningApp(boolean select) {
         long beforeMemory = 0;
         long endMemory = 0;
         mActivityManager.getMemoryInfo(mMemoryInform);
         beforeMemory = mMemoryInform.availMem;
 
-        for (AppProcessInfornBean info : getRunningProcessList()) {
+        for (AppProcessInfornBean info : getRunningProcessList(select)) {
             killBackgroundProcesses(info.getProcessName());
         }
 
@@ -264,11 +268,11 @@ public class ProcessManager {
      * 订阅 杀死所有运行的App进程
      * @return
      */
-    public Observable<Long> killAllRunningAppObserable(){
+    public Observable<Long> killAllRunningAppObserable(final boolean select){
         return Observable.create(new ObservableOnSubscribe<Long>() {
             @Override
             public void subscribe(ObservableEmitter<Long> e) throws Exception {
-                e.onNext(killAllRunningApp());
+                e.onNext(killAllRunningApp(select));
                 e.onComplete();
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
@@ -287,7 +291,6 @@ public class ProcessManager {
             public void subscribe(ObservableEmitter<Long> e) throws Exception {
                 long memory = 0L;
                 for (String string : packageNameSets) {
-                    Log.i(TAG,"kill process "+string);
                     memory += killRunningApp(string);
                 }
                 e.onNext(memory);

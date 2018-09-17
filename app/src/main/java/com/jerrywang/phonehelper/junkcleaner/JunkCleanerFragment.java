@@ -1,8 +1,7 @@
 package com.jerrywang.phonehelper.junkcleaner;
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -22,6 +21,7 @@ import android.widget.TextView;
 import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.bean.JunkCleanerGroupBean;
 import com.jerrywang.phonehelper.bean.JunkCleanerMultiItemBean;
+import com.jerrywang.phonehelper.junkcleaner.junkcleanersuccess.JunkCleanerSuccessActivity;
 import com.jerrywang.phonehelper.util.ToastUtil;
 import com.jerrywang.phonehelper.widget.RadarScanView;
 import com.jerrywang.phonehelper.widget.dialog.JunkCleanerDialog;
@@ -55,6 +55,7 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     private JunkCleanerContract.Presenter presenter;
     private JunkCleanerDialog mJunkCleanerDialog;
     private boolean isStart =true;
+    private String mNum;
     public JunkCleanerFragment() {
         // Required empty public constructor
     }
@@ -147,6 +148,7 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
                 if(TextUtils.isEmpty(sizes[0])){
                     junkclearnerRsv.showScore(0.0f);
                 }else{
+                    mNum =sizes[0];
                     junkclearnerRsv.showScore(Float.valueOf(sizes[0]));
                 }
             }
@@ -214,7 +216,23 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
 
     @Override
     public void cleanFinish() {
-        mJunkCleanerDialog = new JunkCleanerDialog(getContext());
+        mJunkCleanerDialog = new JunkCleanerDialog(getContext(), new JunkCleanerDialog.DismissListener() {
+            @Override
+            public void callBack() {
+                if(mJunkCleanerDialog!=null&&mJunkCleanerDialog.isShowing()){
+                    mJunkCleanerDialog.dismiss();
+                    mJunkCleanerDialog = null;
+                }
+                Intent mIntent = new Intent(getActivity(), JunkCleanerSuccessActivity.class);
+                if(!TextUtils.isEmpty(mNum)){
+                    if(mIntent!=null){
+                        mIntent.putExtra("BUNDLE",mNum+"");
+                    }
+                }
+                startActivity(mIntent);
+                getActivity().finish();
+            }
+        });
         mJunkCleanerDialog.show();
         mJunkCleanerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

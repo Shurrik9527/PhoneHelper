@@ -2,14 +2,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jerrywang.phonehelper.login.LoginFragment">
+    tools:context="com.jerrywang.phonehelper.login.LoginFragment"
+    android:orientation="vertical"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/cpucooler_thermometer_top_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/shape_yellow_red"
+        >
+        <TextView
+            android:id="@+id/cpucooler_thermometer_tv"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:gravity="center"
+            android:textSize="50sp"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"
+            android:text="0.0°C"
+            android:textStyle="normal"
+            />
+        <TextView
+            android:id="@+id/cpucooler_notication_tv"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="the following apps are heating up your phone" />
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cpucooler_thermometer_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/cpucooler_thermometer_top_ll"
+        android:layout_marginTop="10dp"
+        >
+    </android.support.v7.widget.RecyclerView>
+
+
+    <ImageView
+        android:id="@+id/cpucooler_start_iv"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@mipmap/cpucooler_start_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <ImageView
+        android:id="@+id/cpucooler_cloud_iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@mipmap/cloud_anim_icon"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/cpucooler_speed_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/element_default_space"
-        android:text="CpuCooler" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/speed_anim_icon"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/cpucooler_rocket_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="8dp"
+        android:src="@mipmap/rocket_anim_icon"
+        android:visibility="invisible" />
+
+
+
 
 </RelativeLayout>

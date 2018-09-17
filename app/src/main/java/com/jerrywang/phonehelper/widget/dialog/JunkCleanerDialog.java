@@ -23,9 +23,10 @@ public class JunkCleanerDialog extends Dialog {
 
     private JunkCleanerView mJunkCleanerView;
     private View mContentView;
-
-    public JunkCleanerDialog(@NonNull Context context) {
+    private DismissListener mDismissListener;
+    public JunkCleanerDialog(@NonNull Context context ,DismissListener dismissListener) {
         this(context, R.style.junk_finish_dialog);
+        this.mDismissListener =dismissListener;
     }
 
     public JunkCleanerDialog(@NonNull Context context, @StyleRes int themeResId) {
@@ -71,8 +72,16 @@ public class JunkCleanerDialog extends Dialog {
             public void onAnimationFinish() {
                 if (isShowing()) {
                     dismiss();
+                    if(mDismissListener!=null){
+                        mDismissListener.callBack();
+                    }
                 }
             }
         });
+    }
+
+
+    public interface  DismissListener {
+        void callBack();
     }
 }

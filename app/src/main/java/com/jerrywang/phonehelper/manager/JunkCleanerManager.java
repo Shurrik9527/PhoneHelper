@@ -160,7 +160,7 @@ public class JunkCleanerManager {
         mIsProcessScanFinsh = false;
         mProcessManager = ProcessManager.getInstance();
 
-        mProcessManager.getRunningAppListObservable()
+        mProcessManager.getRunningAppListObservable(true)
                 .observeOn(Schedulers.io())
                 .subscribe(new Observer<List<AppProcessInfornBean>>() {
                     @Override

@@ -45,6 +45,8 @@
         <activity android:name=".phonebooster.PhoneBoosterActivity"/>
         <activity android:name=".screenlocker.ScreenLockerActivity"/>
         <activity android:name=".settings.SettingsActivity"/>
+        <activity android:name=".cpucooler.cpucoolersuccess.CpuCoolerSuccessActivity"/>
+        <activity android:name=".junkcleaner.junkcleanersuccess.JunkCleanerSuccessActivity"/>
     </application>
 
 </manifest>
