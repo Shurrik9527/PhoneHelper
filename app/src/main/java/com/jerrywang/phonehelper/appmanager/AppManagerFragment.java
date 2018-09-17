@@ -5,15 +5,26 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.jerrywang.phonehelper.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class AppManagerFragment extends Fragment implements AppManagerContract.View {
 
     private AppManagerContract.Presenter presenter;
+
+    @BindView(R.id.lv_apps)
+    ListView lvApps;
+    private List<String> data;
+
+    private AppManagerAdapter adapter;
 
     public AppManagerFragment() {
         // Required empty public constructor
@@ -64,11 +75,22 @@ public class AppManagerFragment extends Fragment implements AppManagerContract.V
 
     @Override
     public void initView() {
-
+        data = new ArrayList<String>();
+        data.addAll(presenter.loadData(getActivity()));
+        adapter = new AppManagerAdapter(getActivity(), data);
+        lvApps.setAdapter(adapter);
     }
 
     @Override
     public void showMessageTips(String msg) {
 
     }
+
+    @Override
+    public void refresh() {
+        data.clear();
+        data.addAll(presenter.loadData(getActivity()));
+        adapter.notifyDataSetChanged();
+    }
+
 }

@@ -37,16 +37,25 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".junkcleaner.JunkCleanerActivity"></activity>
+        <activity android:name=".junkcleaner.JunkCleanerActivity"/>
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".chargebooster.ChargeBoosterActivity" />
         <activity android:name=".appmanager.AppManagerActivity" />
         <activity android:name=".cpucooler.CpuCoolerActivity" />
         <activity android:name=".phonebooster.PhoneBoosterActivity"/>
-        <activity android:name=".screenlocker.ScreenLockerActivity"/>
+        <activity android:name=".screenlocker.ScreenLockerActivity" android:launchMode="singleInstance"/>
         <activity android:name=".settings.SettingsActivity"/>
         <activity android:name=".cpucooler.cpucoolersuccess.CpuCoolerSuccessActivity"/>
         <activity android:name=".junkcleaner.junkcleanersuccess.JunkCleanerSuccessActivity"/>
+        <!--锁屏服务-->
+        <service android:name=".screenlocker.ScreenLockerService" />
+        <receiver android:name=".appmanager.PackageReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+>>>>>>> dev
     </application>
 
 </manifest>

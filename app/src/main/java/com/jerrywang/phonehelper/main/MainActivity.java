@@ -1,5 +1,6 @@
 package com.jerrywang.phonehelper.main;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 
 import com.jaeger.library.StatusBarUtil;
 import com.jerrywang.phonehelper.R;
+import com.jerrywang.phonehelper.screenlocker.ScreenLockerService;
 import com.jerrywang.phonehelper.util.ActivityUtil;
 import com.jerrywang.phonehelper.util.ToastUtil;
 
@@ -66,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
 //            TasksFilterType currentFiltering = (TasksFilterType) savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
 //            mTasksPresenter.setFiltering(currentFiltering);
         }
+
+
+        //开启服务，开启锁屏界面
+        startService(new Intent(MainActivity.this, ScreenLockerService.class));
     }
 
     @Override

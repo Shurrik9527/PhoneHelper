@@ -1,19 +1,19 @@
 package com.jerrywang.phonehelper.chargebooster;
 
+import com.jerrywang.phonehelper.util.SharedPreferencesHelper;
+
 /**
  * Created by Shurrik on 2017/11/22.
  */
 
 public class ChargeBoosterPresenter implements ChargeBoosterContract.Presenter {
     private ChargeBoosterContract.View view;
-    /**
-     * 充电状态 0 未充电 1 快速充电中 2 正常充电 3 涓流充电 4 充电完成
-     */
-    private int chargeStatus;
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
-    public ChargeBoosterPresenter(ChargeBoosterContract.View view) {
+    public ChargeBoosterPresenter(ChargeBoosterContract.View view, SharedPreferencesHelper sharedPreferencesHelper) {
         this.view = view;
         this.view.setPresenter(this);
+        this.sharedPreferencesHelper = sharedPreferencesHelper;
     }
 
     @Override
@@ -27,35 +27,40 @@ public class ChargeBoosterPresenter implements ChargeBoosterContract.Presenter {
 
 
     @Override
+    public void loadData() {
+        boolean isProtect = Boolean.parseBoolean(sharedPreferencesHelper.getSharedPreference("isProtect", false).toString().trim());
+        view.switchProtectCharging(isProtect);
+    }
+
+    @Override
     public void startProtectCharging() {
-        if(isCharging()) {
-            view.showScreenLocker();
-        }
+        view.showScreenLocker();
+        view.chargeAlert(true);
+        setProtectStatus(true);
     }
 
     @Override
     public void closeProtectCharging() {
-        setChargeStatus(0);
+        view.chargeAlert(false);
+        setProtectStatus(false);
     }
 
     @Override
     public void startChargeAlert() {
-        view.showMessageTips("开启充电提醒");
+        setAlertStatus(true);
     }
 
     @Override
     public void closeChargeAlert() {
-        view.showMessageTips("关闭充电提醒");
+        setAlertStatus(false);
     }
 
-    /**
-     * 是否正在充电
-     */
-    public boolean isCharging() {
-        return true;
+    public void setProtectStatus(boolean isProtect) {
+        sharedPreferencesHelper.put("isProtect", isProtect);
     }
 
-    public void setChargeStatus(int chargeStatus) {
-        this.chargeStatus = chargeStatus;
+    public void setAlertStatus(boolean isAlert){
+        sharedPreferencesHelper.put("isAlert", isAlert);
     }
+
 }

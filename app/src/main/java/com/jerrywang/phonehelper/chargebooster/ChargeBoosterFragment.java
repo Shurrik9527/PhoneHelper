@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.screenlocker.ScreenLockerActivity;
 import com.jerrywang.phonehelper.util.ToastUtil;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 
@@ -19,6 +21,11 @@ import butterknife.OnCheckedChanged;
 public class ChargeBoosterFragment extends Fragment implements ChargeBoosterContract.View {
 
     private ChargeBoosterContract.Presenter presenter;
+    @BindView(R.id.s_protectcharging)
+    Switch sProtectCharging;
+
+    @BindView(R.id.s_chargealert)
+    Switch sChargeAlert;
 
     public ChargeBoosterFragment() {
         // Required empty public constructor
@@ -69,6 +76,7 @@ public class ChargeBoosterFragment extends Fragment implements ChargeBoosterCont
 
     @Override
     public void initView() {
+        presenter.loadData();
     }
 
     @Override
@@ -82,10 +90,21 @@ public class ChargeBoosterFragment extends Fragment implements ChargeBoosterCont
         startActivity(intent);
     }
 
-    @OnCheckedChanged({R.id.s_chargecover, R.id.s_chargealert})
+    @Override
+    public void switchProtectCharging(boolean checked) {
+        sProtectCharging.setChecked(checked);
+    }
+
+    @Override
+    public void chargeAlert(boolean enable) {
+        sChargeAlert.setEnabled(enable);
+        sChargeAlert.setChecked(enable);
+    }
+
+    @OnCheckedChanged({R.id.s_protectcharging, R.id.s_chargealert})
     public void OnSwitchChecked(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()){
-            case R.id.s_chargecover:
+            case R.id.s_protectcharging:
                 if(isChecked) {
                     //开启充电保护
                     presenter.startProtectCharging();

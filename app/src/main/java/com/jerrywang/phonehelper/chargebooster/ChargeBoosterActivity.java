@@ -8,17 +8,19 @@ import android.view.MenuItem;
 
 import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.util.ActivityUtil;
+import com.jerrywang.phonehelper.util.SharedPreferencesHelper;
 
 import butterknife.BindView;
 
 public class ChargeBoosterActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    private SharedPreferencesHelper sharedPreferencesHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chargebooster_activity);
-
+        sharedPreferencesHelper = new SharedPreferencesHelper(ChargeBoosterActivity.this);
         // Set up the toolbar.
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -26,15 +28,14 @@ public class ChargeBoosterActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
 
-        ChargeBoosterFragment chargeBoosterFragment = (ChargeBoosterFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.fl_content);
+        ChargeBoosterFragment chargeBoosterFragment = (ChargeBoosterFragment) getSupportFragmentManager().findFragmentById(R.id.fl_content);
 
         if (chargeBoosterFragment == null) {
             chargeBoosterFragment = ChargeBoosterFragment.newInstance();
             ActivityUtil.addFragmentToActivity(getSupportFragmentManager(), chargeBoosterFragment, R.id.fl_content);
         }
 
-        new ChargeBoosterPresenter(chargeBoosterFragment);
+        new ChargeBoosterPresenter(chargeBoosterFragment, sharedPreferencesHelper);
     }
 
     @Override

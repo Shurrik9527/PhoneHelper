@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jerrywang.phonehelper.chargebooster.ChargeBoosterFragment">
+    tools:context=".chargebooster.ChargeBoosterFragment">
 
     <TextView
         android:id="@+id/iv_chargestatus"
@@ -44,13 +44,13 @@
 
 
         <Switch
-            android:id="@+id/s_chargecover"
+            android:id="@+id/s_protectcharging"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:theme="@style/MySwitch"
-            android:checked="true" />
+            android:checked="false" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -87,7 +87,8 @@
             android:layout_centerVertical="true"
             android:shadowColor="@color/colorPrimary"
             android:theme="@style/MySwitch"
-            android:checked="true" />
+            android:enabled="false"
+            android:checked="false" />
     </RelativeLayout>
 
 
