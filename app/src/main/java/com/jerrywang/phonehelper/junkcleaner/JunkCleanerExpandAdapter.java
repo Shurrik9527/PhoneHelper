@@ -20,6 +20,8 @@ import com.jerrywang.phonehelper.event.JunkCleanerTypeClickEvent;
 import com.jerrywang.phonehelper.util.DisplayUtil;
 import com.jerrywang.phonehelper.util.FormatUtil;
 import com.jerrywang.phonehelper.util.RxBus.RxBus;
+import com.jerrywang.phonehelper.util.SharedPreferencesHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,14 +124,29 @@ public class JunkCleanerExpandAdapter extends BaseExpandableListAdapter{
             public void onClick(View v) {
 
                 if(junkCleanerTypeBean.isCheck()){
+                    //保存未选清理状态
+                    new SharedPreferencesHelper(mContext).put("SAVE_JUNK_CLEANER_ISALL",false);
+
                     junkCleanerTypeBean.setCheck(false);
-                    for (int i = 0; i < junkCleanerTypeBean.getSubItems().size(); i++) {
-                        junkCleanerTypeBean.getSubItem(i).setCheck(false);
+                    List<JunkCleanerProcessInformBean> mlists =junkCleanerTypeBean.getSubItems();
+                    if(mlists!=null&&mlists.size()>0){
+                        for (int i = 0; i < junkCleanerTypeBean.getSubItems().size(); i++) {
+                            JunkCleanerProcessInformBean mBean =junkCleanerTypeBean.getSubItem(i);
+                            if(mBean!=null){
+                                mBean.setCheck(false);
+                            }
+                        }
                     }
                 }else{
                     junkCleanerTypeBean.setCheck(true);
-                    for (int i = 0; i < junkCleanerTypeBean.getSubItems().size(); i++) {
-                        junkCleanerTypeBean.getSubItem(i).setCheck(true);
+                    List<JunkCleanerProcessInformBean> mlists =junkCleanerTypeBean.getSubItems();
+                    if(mlists!=null&&mlists.size()>0){
+                        for (int i = 0; i < junkCleanerTypeBean.getSubItems().size(); i++) {
+                            JunkCleanerProcessInformBean mBean =junkCleanerTypeBean.getSubItem(i);
+                            if(mBean!=null){
+                                mBean.setCheck(true);
+                            }
+                        }
                     }
                 }
                 mData.set(groupPosition, junkCleanerTypeBean);
@@ -195,13 +212,6 @@ public class JunkCleanerExpandAdapter extends BaseExpandableListAdapter{
                     .setImageDrawable(R.id.junkcleaner_item_child_icon_iv, appProcessInfo.getIcon())
                     .setChecked(R.id.junkcleaner_item_child_cb, junkProcessInfo.isCheck())
                     .setVisibility(R.id.junkcleaner_item_child_cp, false);
-        }
-
-
-        if(junkProcessInfo.isCheck()){
-            ((CheckBox)holder.getView(R.id.junkcleaner_item_child_cb)).setChecked(true);
-        }else{
-            ((CheckBox)holder.getView(R.id.junkcleaner_item_child_cb)).setChecked(false);
         }
 
 

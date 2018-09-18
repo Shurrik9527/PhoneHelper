@@ -182,9 +182,6 @@ public class JunkCleanerPresenter implements JunkCleanerContract.Presenter {
             @Override
             public void isOverScanFinish(ArrayList<JunkCleanerInformBean> apkList, ArrayList<JunkCleanerInformBean> logList, ArrayList<JunkCleanerInformBean> tempList) {
 
-                Log.i(TAG,"扫描apkList.size="+apkList.size());
-                Log.i(TAG,"扫描logList.size="+logList.size());
-                Log.i(TAG,"扫描tempList.size="+tempList.size());
 
                 //通知apk结束进度条
                 RxBus.getDefault().post(new JunkCleanerItemDissDialogEvent(JunkCleanerTypeBean.APK));
@@ -209,7 +206,15 @@ public class JunkCleanerPresenter implements JunkCleanerContract.Presenter {
             public void isSysCacheScanFinish(ArrayList<JunkCleanerInformBean> sysCacheList) {
                 Log.i(TAG,"扫描sysCacheList.size="+sysCacheList.size());
                 RxBus.getDefault().post(new JunkCleanerItemDissDialogEvent(JunkCleanerTypeBean.CACHE));
+
                 RxBus.getDefault().post(new JunkCleanerItemTotalSizeEvent(JunkCleanerTypeBean.CACHE, getFilterJunkSize(sysCacheList)));
+                long size = 0L;
+                for (JunkCleanerInformBean info : sysCacheList) {
+                    size += info.getmSize();
+                }
+                mTotalJunkSize += size;
+                RxBus.getDefault().post(new JunkCleanerTotalSizeEvent(FormatUtil.formatFileSize(mTotalJunkSize).toString()));
+
             }
 
             //进程扫描结束
@@ -451,9 +456,6 @@ public class JunkCleanerPresenter implements JunkCleanerContract.Presenter {
                     .setIconResourceId(resourceId[i])
                     .setTotalSize("")
                     .setProgressVisible(true);
-            if (JunkCleanerTypeBean.CACHE == i) {
-                junkType.setCheck(false);
-            }
             list.add(junkType);
         }
         mView.initAdapterData(list);

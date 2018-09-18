@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jerrywang.phonehelper.R;
+import com.jerrywang.phonehelper.base.Constant;
 import com.jerrywang.phonehelper.bean.AppProcessInfornBean;
 import com.jerrywang.phonehelper.cpucooler.cpucoolersuccess.CpuCoolerSuccessActivity;
+import com.jerrywang.phonehelper.junkcleaner.optimized.OptimizedActivity;
+import com.jerrywang.phonehelper.util.SharedPreferencesHelper;
+import com.jerrywang.phonehelper.util.StringUtil;
+import com.jerrywang.phonehelper.util.TimeUtil;
 import com.jerrywang.phonehelper.widget.dialog.CpuCleanDialog;
 import com.jerrywang.phonehelper.widget.dialog.CpuScanDialog;
 
@@ -57,7 +63,7 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
     private CpuCleanDialog mCpuCleanDialog;
     private Handler mHandler = new Handler();
     private float temp;
-
+    private SharedPreferencesHelper mSP;
     public CpuCoolerFragment() {
         // Required empty public constructor
     }
@@ -99,8 +105,15 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.cpucooler_fragment, container, false);
         ButterKnife.bind(this, root);
-        initView();
-        initData();
+        if( isOptimized()){
+            Intent mIntent = new Intent(getActivity(), OptimizedActivity.class);
+            mIntent.putExtra("BUNDLE",getResources().getString(R.string.cpucooler_title));
+            startActivity(mIntent);
+            getActivity().finish();
+        }else{
+            initView();
+            initData();
+        }
         return root;
     }
 
@@ -336,6 +349,22 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
         }, 150);
     }
 
+    @Override
+    public boolean isOptimized() {
+        //获取上次清理保存时间
+        mSP = new SharedPreferencesHelper(getActivity());
+        if(mSP!=null){
+            String  lastTime= (String) mSP.getSharedPreference(Constant.SAVE_CPU_COOLER_TIME,"");
+            if(!TextUtils.isEmpty(lastTime)&&!TimeUtil.isTrue(lastTime,TimeUtil.currentTimeStr(),1000*60*5)){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
 
     @Override
     public void onDestroyView() {
@@ -345,6 +374,15 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
 
     @OnClick(R.id.cpucooler_start_iv)
     public void onClick() {
+        //保存此时清理状态
+
+        if(StringUtil.isFastDoubleClick()){
+            return;
+        }
+
+        if(mSP!=null){
+            mSP.put(Constant.SAVE_CPU_COOLER_TIME,TimeUtil.currentTimeStr());
+        }
         isStart = false;
         if (presenter != null) {
             if (mLists != null && mLists.size() > 0) {

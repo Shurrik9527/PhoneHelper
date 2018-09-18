@@ -49,6 +49,10 @@ public class JunkCleanerContract {
         void playHeartbeatAnimation();
         //停止扫描
         void stopScan();
+        //清除本地数据
+        void cleanSpData();
+        //开始扫描
+        void startScan();
 
     }
 
