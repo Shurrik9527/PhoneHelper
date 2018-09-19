@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
-import com.jerrywang.phonehelper.event.EmptyEvent;
+import com.jerrywang.phonehelper.event.UninstallEvent;
 import com.jerrywang.phonehelper.util.RxBus.RxBusHelper;
 
 import java.util.ArrayList;
@@ -25,10 +25,10 @@ public class AppManagerPresenter implements AppManagerContract.Presenter {
         this.mView = view;
         this.mView.setPresenter(this);
         mCompositeDisposable = new CompositeDisposable();
-        //总垃圾数
-        RxBusHelper.doOnMainThread(EmptyEvent.class, mCompositeDisposable, new RxBusHelper.OnEventListener<EmptyEvent>() {
+        //处理卸载完成事件
+        RxBusHelper.doOnMainThread(UninstallEvent.class, mCompositeDisposable, new RxBusHelper.OnEventListener<UninstallEvent>() {
             @Override
-            public void onEvent(EmptyEvent junkCleanerTotalSizeEvent) {
+            public void onEvent(UninstallEvent junkCleanerTotalSizeEvent) {
                 if (mView != null) {
                     mView.refresh();
                 }
