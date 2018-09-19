@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jerrywang.phonehelper.R;
+import com.jerrywang.phonehelper.base.Constant;
 import com.jerrywang.phonehelper.bean.JunkCleanerGroupBean;
 import com.jerrywang.phonehelper.bean.JunkCleanerMultiItemBean;
 import com.jerrywang.phonehelper.junkcleaner.junkcleanersuccess.JunkCleanerSuccessActivity;
+import com.jerrywang.phonehelper.junkcleaner.optimized.OptimizedActivity;
+import com.jerrywang.phonehelper.util.SharedPreferencesHelper;
+import com.jerrywang.phonehelper.util.StringUtil;
+import com.jerrywang.phonehelper.util.TimeUtil;
 import com.jerrywang.phonehelper.util.ToastUtil;
 import com.jerrywang.phonehelper.widget.RadarScanView;
 import com.jerrywang.phonehelper.widget.dialog.JunkCleanerDialog;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +63,8 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     private JunkCleanerDialog mJunkCleanerDialog;
     private boolean isStart =true;
     private String mNum;
+    private SharedPreferencesHelper mSP;
+    private String  lastTime;
     public JunkCleanerFragment() {
         // Required empty public constructor
     }
@@ -111,6 +120,9 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
         junkclearnerStartIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(StringUtil.isFastDoubleClick()){
+                    return;
+                }
                 isStart =false;
                 if(presenter!=null){
                     presenter.startCleanJunkTask(mAdapter.getData());
@@ -123,24 +135,31 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     @Override
     public void initData() {
 
-        if(presenter!=null){
-            //初始化适配器数据
-            presenter.initAdapterData();
-            //开始雷达扫描任务
-            if(junkclearnerRsv!=null){
-                junkclearnerRsv.start();
+        //获取上次清理保存时间
+        mSP = new SharedPreferencesHelper(getActivity());
+        if(mSP!=null){
+            String lastTime= (String) mSP.getSharedPreference(Constant.SAVE_JUNK_CLEANER_TIME,"");
+            boolean isAll = (boolean) mSP.getSharedPreference(Constant.SAVE_JUNK_CLEANER_ISALL,true);
+            if(!TextUtils.isEmpty(lastTime)&&!TimeUtil.isTrue(lastTime,TimeUtil.currentTimeStr(),1000*60*5)&&isAll){
+                //跳转 最佳页面
+                Intent mIntent = new Intent(getActivity(), OptimizedActivity.class);
+                mIntent.putExtra("BUNDLE",getResources().getString(R.string.junkcleaner_title));
+                startActivity(mIntent);
+                getActivity().finish();
+            }else {
+                startScan();
             }
-            presenter.startScanTask();
+        }else{
+            startScan();
         }
 
-        //心跳
-        startHeartBeat();
     }
 
     @Override
     public void showTotalSize(String size) {
         if(TextUtils.isEmpty(size))
             return;
+        Log.i(TAG,"size=:"+size);
         if(junkclearnerRsv!=null){
             junkclearnerRsv.stop();
             if(size.contains("M")){
@@ -151,6 +170,16 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
                     mNum =sizes[0];
                     junkclearnerRsv.showScore(Float.valueOf(sizes[0]));
                 }
+            }else if(size.contains("B")){
+                String[] sizes =size.split("B");
+                if(TextUtils.isEmpty(sizes[0])){
+                    junkclearnerRsv.showScore(0.0f);
+                }else{
+                    mNum =sizes[0];
+                    junkclearnerRsv.showScore(Float.valueOf(sizes[0]));
+                }
+            }else{
+                junkclearnerRsv.showScore(0.0f);
             }
         }
     }
@@ -216,6 +245,11 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
 
     @Override
     public void cleanFinish() {
+        //保存此时清理状态
+        if(mSP!=null){
+            mSP.put(Constant.SAVE_JUNK_CLEANER_TIME,TimeUtil.currentTimeStr());
+        }
+
         mJunkCleanerDialog = new JunkCleanerDialog(getContext(), new JunkCleanerDialog.DismissListener() {
             @Override
             public void callBack() {
@@ -334,6 +368,32 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     @Override
     public void stopScan() {
 
+    }
+
+    @Override
+    public void cleanSpData() {
+        if(mSP!=null){
+            mSP.remove(Constant.SAVE_JUNK_CLEANER_TIME);
+            mSP.remove(Constant.SAVE_JUNK_CLEANER_ISALL);
+        }
+    }
+
+    @Override
+    public void startScan() {
+        cleanSpData();
+        if(presenter!=null){
+            //初始化适配器数据
+            presenter.initAdapterData();
+            //开始雷达扫描任务
+            if(junkclearnerRsv!=null){
+                junkclearnerRsv.start();
+            }
+            presenter.startScanTask();
+
+        }
+
+        //心跳
+        startHeartBeat();
     }
 
 }

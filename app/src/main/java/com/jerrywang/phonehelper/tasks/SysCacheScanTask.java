@@ -150,6 +150,7 @@ public class SysCacheScanTask extends AsyncTask<Void, Void, Void>{
                     }
                     info.setmPackageName(pStats.packageName);
                     info.setmName(mName);
+                    info.setmIsCheck(true);
                     info.setmDrawable(mDrawable);
                     info.setmSize(pStats.cacheSize + pStats.externalCacheSize);
                     if (info.getmSize() > 0) {
@@ -164,7 +165,7 @@ public class SysCacheScanTask extends AsyncTask<Void, Void, Void>{
                 junkCleanerInformBean.setmPackageName(pStats.packageName);
                 junkCleanerInformBean.setmName(App.getmContext().getString(R.string.system_cache));
                 junkCleanerInformBean.setmSize(mTotalSize);
-                junkCleanerInformBean.setmIsCheck(false);
+                junkCleanerInformBean.setmIsCheck(true);
                 junkCleanerInformBean.setmIsVisible(true);
                 junkCleanerInformBean.setmIsChild(false);
                 junkCleanerInformBean.setmChildren(mSysCaches);

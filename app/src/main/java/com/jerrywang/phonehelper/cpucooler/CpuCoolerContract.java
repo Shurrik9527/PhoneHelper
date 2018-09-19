@@ -24,6 +24,8 @@ public class CpuCoolerContract {
         void cleanFinish();
         void startCleanDialog();
         void startRocketAnimation();
+        //判断是否是最佳
+        boolean isOptimized();
     }
 
     public interface Presenter extends BasePresenter {
