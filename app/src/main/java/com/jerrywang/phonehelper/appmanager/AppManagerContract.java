@@ -1,6 +1,7 @@
 package com.jerrywang.phonehelper.appmanager;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 import com.jerrywang.phonehelper.BasePresenter;
 import com.jerrywang.phonehelper.BaseView;
@@ -18,6 +19,6 @@ public class AppManagerContract {
     }
 
     public interface Presenter extends BasePresenter {
-        List<String> loadData(Context context);
+        List<ApplicationInfo> loadData(Context context);
     }
 }

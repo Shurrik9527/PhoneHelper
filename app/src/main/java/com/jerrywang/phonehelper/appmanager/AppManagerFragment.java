@@ -1,5 +1,6 @@
 package com.jerrywang.phonehelper.appmanager;
 
+import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,7 +23,7 @@ public class AppManagerFragment extends Fragment implements AppManagerContract.V
 
     @BindView(R.id.lv_apps)
     ListView lvApps;
-    private List<String> data;
+    private List<ApplicationInfo> data;
 
     private AppManagerAdapter adapter;
 
@@ -75,7 +76,7 @@ public class AppManagerFragment extends Fragment implements AppManagerContract.V
 
     @Override
     public void initView() {
-        data = new ArrayList<String>();
+        data = new ArrayList<ApplicationInfo>();
         data.addAll(presenter.loadData(getActivity()));
         adapter = new AppManagerAdapter(getActivity(), data);
         lvApps.setAdapter(adapter);
