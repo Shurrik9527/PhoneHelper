@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/junkcleaner_item_icon_iv"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:src="@mipmap/ic_launcher"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -41,8 +41,8 @@
 
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/junkcleaner_item_cb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             />
 
         <com.jerrywang.phonehelper.widget.ProgressWheel

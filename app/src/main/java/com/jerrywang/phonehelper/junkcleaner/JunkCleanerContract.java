@@ -1,6 +1,7 @@
 package com.jerrywang.phonehelper.junkcleaner;
 
-import android.view.ViewOutlineProvider;
+
+import android.view.View;
 
 import com.jerrywang.phonehelper.BasePresenter;
 import com.jerrywang.phonehelper.BaseView;
@@ -54,6 +55,12 @@ public class JunkCleanerContract {
         //开始扫描
         void startScan();
 
+        void allMemorySpace(long num);
+
+        void startAnimation(float progress,long time);
+
+        void setProgress();
+
     }
 
     public interface Presenter extends BasePresenter {
@@ -65,5 +72,7 @@ public class JunkCleanerContract {
         void initAdapterData();
         //获取数据结束
         void cheanDataFile(List<String> processList,List<String> appCacheList,List<String> junkList);
+
+        void allMemorySpace();
     }
 }
