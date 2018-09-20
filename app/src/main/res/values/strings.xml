@@ -12,5 +12,7 @@
     <string name="junkcleaner_log_file_tiele">Log File</string>
 
     <string name="cpucooler_title">CpuCooler</string>
+    <!-- App Manager-->
+    <string name="uninstall">Uninstall</string>
 
 </resources>

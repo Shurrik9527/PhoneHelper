@@ -20,9 +20,9 @@
     <dimen name="element_half_space">8dp</dimen>
     <dimen name="element_default_space">16dp</dimen>
     <dimen name="element_double_space">32dp</dimen>
-    <dimen name="text_large_size">16dp</dimen>
-    <dimen name="text_default_size">14dp</dimen>
-    <dimen name="text_small_size">12dp</dimen>
+    <dimen name="text_large_size">16sp</dimen>
+    <dimen name="text_default_size">14sp</dimen>
+    <dimen name="text_small_size">12sp</dimen>
 
     <dimen name="line_size">1dp</dimen>
 </resources>

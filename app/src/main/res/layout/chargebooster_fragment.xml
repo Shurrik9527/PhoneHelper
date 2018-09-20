@@ -32,12 +32,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="充电保护"
+            android:textColor="@color/default_text"
             android:textSize="@dimen/text_large_size" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_chargecover"
+            android:textColor="@color/description_text"
             android:paddingTop="@dimen/element_half_space"
             android:text="使用充电屏保加速充电，并防止过度充电！"
             android:textSize="@dimen/text_small_size" />
@@ -68,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="充电提醒"
+            android:textColor="@color/default_text"
             android:textSize="@dimen/text_large_size" />
 
         <TextView
@@ -76,6 +79,7 @@
             android:layout_below="@id/tv_chargealert"
             android:paddingTop="@dimen/element_half_space"
             android:text="充电完成时发出声音提醒"
+            android:textColor="@color/description_text"
             android:textSize="@dimen/text_small_size" />
 
 

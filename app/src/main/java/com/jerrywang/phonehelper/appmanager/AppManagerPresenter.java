@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
-import com.jerrywang.phonehelper.event.EmptyEvent;
+import com.jerrywang.phonehelper.event.UninstallEvent;
 import com.jerrywang.phonehelper.util.RxBus.RxBusHelper;
 
 import java.util.ArrayList;
@@ -25,10 +25,10 @@ public class AppManagerPresenter implements AppManagerContract.Presenter {
         this.mView = view;
         this.mView.setPresenter(this);
         mCompositeDisposable = new CompositeDisposable();
-        //总垃圾数
-        RxBusHelper.doOnMainThread(EmptyEvent.class, mCompositeDisposable, new RxBusHelper.OnEventListener<EmptyEvent>() {
+        //处理卸载完成事件
+        RxBusHelper.doOnMainThread(UninstallEvent.class, mCompositeDisposable, new RxBusHelper.OnEventListener<UninstallEvent>() {
             @Override
-            public void onEvent(EmptyEvent junkCleanerTotalSizeEvent) {
+            public void onEvent(UninstallEvent junkCleanerTotalSizeEvent) {
                 if (mView != null) {
                     mView.refresh();
                 }
@@ -43,24 +43,24 @@ public class AppManagerPresenter implements AppManagerContract.Presenter {
 
     @Override
     public void unsubscribe() {
-        if(mCompositeDisposable.isDisposed()){
+        if (mCompositeDisposable.isDisposed()) {
             mCompositeDisposable.clear();
         }
     }
 
     @Override
-    public List<String> loadData(Context context) {
-        List<String> data = new ArrayList<String>();
+    public List<ApplicationInfo> loadData(Context context) {
+        List<ApplicationInfo> data = new ArrayList<ApplicationInfo>();
         PackageManager pm = context.getPackageManager(); // 获得PackageManager对象
         List<ApplicationInfo> listAppcations = pm.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
         Collections.sort(listAppcations, new ApplicationInfo.DisplayNameComparator(pm));// 字典排序
         for (ApplicationInfo app : listAppcations) {
             if ((app.flags & ApplicationInfo.FLAG_SYSTEM) <= 0) {
                 //非系统程序
-                data.add(app.packageName);
+                data.add(app);
             } else if ((app.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
                 //本来是系统程序，被用户手动更新后，该系统程序也成为第三方应用程序了
-                data.add(app.packageName);
+                //data.add(app);
             }
         }
         return data;

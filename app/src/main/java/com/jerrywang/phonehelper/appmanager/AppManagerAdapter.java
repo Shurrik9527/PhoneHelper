@@ -2,12 +2,14 @@ package com.jerrywang.phonehelper.appmanager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jerrywang.phonehelper.R;
@@ -19,10 +21,10 @@ import butterknife.ButterKnife;
 
 public class AppManagerAdapter extends BaseAdapter {
     private Context context;
-    private List<String> data;
+    private List<ApplicationInfo> data;
     private LayoutInflater inflater;
 
-    public AppManagerAdapter(Context context, List<String> data) {
+    public AppManagerAdapter(Context context, List<ApplicationInfo> data) {
         this.context = context;
         this.data = data;
         inflater = LayoutInflater.from(context);
@@ -53,12 +55,15 @@ public class AppManagerAdapter extends BaseAdapter {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        final String packageName = data.get(position);
-        holder.name.setText(packageName);
+        final ApplicationInfo applicationInfo = data.get(position);
+        ;
+        holder.ivAppIcon.setImageDrawable(applicationInfo.loadIcon(context.getPackageManager()));
+        holder.tvAppName.setText(applicationInfo.loadLabel(context.getPackageManager()));
+        holder.tvAppPackageName.setText(applicationInfo.packageName);
         holder.bUnstall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("package:" + packageName);
+                Uri uri = Uri.parse("package:" + applicationInfo.packageName);
                 //创建Intent意图
                 Intent intent = new Intent(Intent.ACTION_DELETE, uri);
                 //执行卸载程序
@@ -69,8 +74,12 @@ public class AppManagerAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        @BindView(R.id.tv_name)
-        TextView name;
+        @BindView(R.id.iv_appicon)
+        ImageView ivAppIcon;
+        @BindView(R.id.tv_appname)
+        TextView tvAppName;
+        @BindView(R.id.tv_apppackagename)
+        TextView tvAppPackageName;
         @BindView(R.id.b_uninstall)
         Button bUnstall;
         public ViewHolder(View view) {
