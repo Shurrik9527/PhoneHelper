@@ -21,11 +21,13 @@ import com.jerrywang.phonehelper.event.JunkCleanerTotalSizeEvent;
 import com.jerrywang.phonehelper.event.JunkCleanerTypeClickEvent;
 import com.jerrywang.phonehelper.manager.CleanManager;
 import com.jerrywang.phonehelper.manager.JunkCleanerManager;
+import com.jerrywang.phonehelper.manager.MemoryManager;
 import com.jerrywang.phonehelper.manager.ProcessManager;
 import com.jerrywang.phonehelper.util.FormatUtil;
 import com.jerrywang.phonehelper.util.MimeTypes;
 import com.jerrywang.phonehelper.util.RxBus.RxBus;
 import com.jerrywang.phonehelper.util.RxBus.RxBusHelper;
+import com.jerrywang.phonehelper.util.StorageUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -63,7 +65,7 @@ public class JunkCleanerPresenter implements JunkCleanerContract.Presenter {
     private ProcessManager mProcessManager;//进程管理
     private long mTotalJunkSize;
     private boolean mOverScanFinish;
-
+    private MemoryManager mMemoryManager;
     public JunkCleanerPresenter(JunkCleanerContract.View view) {
         this.mView = view;
         this.mContext = App.getmContext();
@@ -72,7 +74,7 @@ public class JunkCleanerPresenter implements JunkCleanerContract.Presenter {
         mJunkCleanerManager =JunkCleanerManager.getInstance();
         mCleanManager =CleanManager.getmInstance();
         mProcessManager =ProcessManager.getInstance();
-
+        mMemoryManager = MemoryManager.getmInstance();
         //总垃圾数
         RxBusHelper.doOnMainThread(JunkCleanerTotalSizeEvent.class, mCompositeDisposable, new RxBusHelper.OnEventListener<JunkCleanerTotalSizeEvent>() {
             @Override
@@ -161,6 +163,7 @@ public class JunkCleanerPresenter implements JunkCleanerContract.Presenter {
             }
 
         });
+
 
 
     }
@@ -502,6 +505,26 @@ public class JunkCleanerPresenter implements JunkCleanerContract.Presenter {
                         mView.cleanFinish();
                     }
                 });
+
+    }
+
+    @Override
+    public void allMemorySpace() {
+
+        mMemoryManager.getDeviceTotalMemoryObservable().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
+            @Override
+            public void accept(Long aLong) throws Exception {
+                if(mView!=null){
+                    mView.allMemorySpace(aLong);
+                }
+            }
+        });
+
+        StorageUtil.SDCardInfo sdCardInfo = StorageUtil.getSDCardInfo(mContext);
+        String storageInfo = FormatUtil.formatFileSize(sdCardInfo.mTotal - sdCardInfo.mFree).toString() + "/" +
+                FormatUtil.formatFileSize(sdCardInfo.mTotal).toString();
+        Log.i(TAG,"storageInfo==="+storageInfo);
+
 
     }
 

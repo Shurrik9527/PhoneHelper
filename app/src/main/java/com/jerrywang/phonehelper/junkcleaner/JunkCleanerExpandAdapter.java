@@ -113,8 +113,10 @@ public class JunkCleanerExpandAdapter extends BaseExpandableListAdapter{
 
         if(junkCleanerTypeBean.isCheck()){
             ((CheckBox)holder.getView(R.id.junkcleaner_item_cb)).setChecked(true);
+            ((CheckBox)holder.getView(R.id.junkcleaner_item_cb)).setButtonDrawable(R.mipmap.junkcleaner_checked);
         }else{
             ((CheckBox)holder.getView(R.id.junkcleaner_item_cb)).setChecked(false);
+            ((CheckBox)holder.getView(R.id.junkcleaner_item_cb)).setButtonDrawable(R.mipmap.junkcleaner_check);
         }
 
 
@@ -201,19 +203,26 @@ public class JunkCleanerExpandAdapter extends BaseExpandableListAdapter{
                     .setText(R.id.junkcleaner_item_child_totail_size_tv, FormatUtil.formatFileSize(junkInfo.getmSize()).toString())
                     .setChecked(R.id.junkcleaner_item_child_cb, junkProcessInfo.isCheck())
                     .setVisibility(R.id.junkcleaner_item_child_cp, false);
-            if (junkProcessInfo.getItemType()!= JunkCleanerTypeBean.CACHE) {
+            if (junkInfo.getmDrawable()!=null) {
                 holder.setImageDrawable(R.id.junkcleaner_item_child_icon_iv,junkInfo.getmDrawable());
             } else {
                 holder.setImageResource(R.id.junkcleaner_item_child_icon_iv, R.mipmap.ic_launcher);
             }
+
         } else if (appProcessInfo != null) {
             holder.setText(R.id.junkcleaner_item_child_title_tv, appProcessInfo.getAppName())
                     .setText(R.id.junkcleaner_item_child_totail_size_tv, FormatUtil.formatFileSize(appProcessInfo.getMemory()).toString())
                     .setImageDrawable(R.id.junkcleaner_item_child_icon_iv, appProcessInfo.getIcon())
                     .setChecked(R.id.junkcleaner_item_child_cb, junkProcessInfo.isCheck())
                     .setVisibility(R.id.junkcleaner_item_child_cp, false);
+
         }
 
+        if(junkProcessInfo.isCheck()){
+            ((CheckBox)holder.getView(R.id.junkcleaner_item_child_cb)).setButtonDrawable(R.mipmap.junkcleaner_checked);
+        }else{
+            ((CheckBox)holder.getView(R.id.junkcleaner_item_child_cb)).setButtonDrawable(R.mipmap.junkcleaner_check);
+        }
 
         ((CheckBox)holder.getView(R.id.junkcleaner_item_child_cb)).setOnClickListener(new View.OnClickListener() {
             @Override
