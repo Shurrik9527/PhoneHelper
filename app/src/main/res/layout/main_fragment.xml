@@ -5,26 +5,30 @@
     android:layout_height="match_parent"
     tools:context=".main.MainFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lav_phonebooster"
-        android:layout_width="320dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/element_default_space"
-        app:layout_constraintDimensionRatio="H,1:1"
+    <RelativeLayout
+        android:id="@+id/rl_phonebooster"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryLight"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="false"
-        android:background="@color/colorPrimaryLight"
-        app:lottie_fileName="100_percent.json"
-        app:lottie_loop="true" />
+        app:layout_constraintTop_toTopOf="parent">
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lav_phonebooster"
+            android:layout_width="320dp"
+            android:layout_height="320dp"
+            android:layout_centerInParent="true"
+            app:lottie_autoPlay="false"
+            app:lottie_fileName="spinning_gear_with_check.json"
+            app:lottie_loop="false" />
+    </RelativeLayout>
+    <!-- TODO: Update blank fragment layout -->
+
 
     <android.support.v7.widget.CardView
         android:id="@+id/cv_appmanager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/element_default_space"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@android:color/white"
@@ -32,7 +36,7 @@
         app:layout_constraintBottom_toTopOf="@id/cv_junkcleaner"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/cv_cpucooler"
-        app:layout_constraintTop_toBottomOf="@+id/lav_phonebooster">
+        app:layout_constraintTop_toBottomOf="@+id/rl_phonebooster">
 
         <TextView
             android:id="@+id/tv_appmanager"
@@ -51,7 +55,6 @@
         android:id="@+id/cv_cpucooler"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/element_default_space"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@android:color/white"
@@ -59,7 +62,7 @@
         app:layout_constraintBottom_toTopOf="@id/cv_chargebooster"
         app:layout_constraintLeft_toRightOf="@id/cv_appmanager"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lav_phonebooster">
+        app:layout_constraintTop_toBottomOf="@+id/rl_phonebooster">
 
         <TextView
             android:id="@+id/tv_cpucooler"
