@@ -23,10 +23,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 
 public class MainFragment extends Fragment implements MainContract.View {
@@ -75,8 +72,8 @@ public class MainFragment extends Fragment implements MainContract.View {
     @Override
     public void showJunkCleaner() {
         //垃圾清理
-        if(presenter!=null){
-            presenter.startActivity(getActivity(), JunkCleanerActivity.class,null);
+        if (presenter != null) {
+            presenter.startActivity(getActivity(), JunkCleanerActivity.class, null);
         }
 
     }
@@ -97,14 +94,6 @@ public class MainFragment extends Fragment implements MainContract.View {
         startActivity(intent);
     }
 
-    @OnClick(R.id.cv_chargebooster)
-    @Override
-    public void showChargeBooster() {
-        //智能充电
-        Intent intent = new Intent(getActivity(), ChargeBoosterActivity.class);
-        startActivity(intent);
-    }
-
     @OnClick(R.id.lav_phonebooster)
     @Override
     public void showPhoneBooster() {
@@ -116,25 +105,40 @@ public class MainFragment extends Fragment implements MainContract.View {
         //lavPhoneBooster.cancelAnimation();
     }
 
+
+    @OnClick(R.id.cv_chargebooster)
+    @Override
+    public void showChargeBooster() {
+        //智能充电
+        Intent intent = new Intent(getActivity(), ChargeBoosterActivity.class);
+        startActivity(intent);
+    }
+
+
+
     @Override
     public void initView() {
         //手动授予权限  目前未授予权限则退出APP
-        RxPermissions rxPermission =new RxPermissions(getActivity());
-        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CLEAR_APP_CACHE,Manifest.permission.DELETE_CACHE_FILES)
+        RxPermissions rxPermission = new RxPermissions(getActivity());
+        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CLEAR_APP_CACHE, Manifest.permission.DELETE_CACHE_FILES)
                 .subscribe(new Consumer<Permission>() {
                     @Override
                     public void accept(Permission permission) throws Exception {
-                        if(permission.granted){
-                            Log.i("MainFragment","MainFragment 授权成功");
+                        if (permission.granted) {
+                            Log.i("MainFragment", "MainFragment 授权成功");
                         }
                     }
                 });
-
 
     }
 
     @Override
     public void showMessageTips(String msg) {
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }

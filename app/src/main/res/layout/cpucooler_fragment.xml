@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/shape_yellow_red"
+        android:background="@mipmap/cpucooler_red"
         >
         <TextView
             android:id="@+id/cpucooler_thermometer_tv"

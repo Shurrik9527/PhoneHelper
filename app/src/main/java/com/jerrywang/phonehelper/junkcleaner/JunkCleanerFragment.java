@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,7 +16,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -31,24 +31,16 @@ import com.jerrywang.phonehelper.bean.JunkCleanerGroupBean;
 import com.jerrywang.phonehelper.bean.JunkCleanerMultiItemBean;
 import com.jerrywang.phonehelper.junkcleaner.junkcleanersuccess.JunkCleanerSuccessActivity;
 import com.jerrywang.phonehelper.junkcleaner.optimized.OptimizedActivity;
-import com.jerrywang.phonehelper.util.ScreenUtils;
 import com.jerrywang.phonehelper.util.SharedPreferencesHelper;
 import com.jerrywang.phonehelper.util.StringUtil;
 import com.jerrywang.phonehelper.util.TimeUtil;
 import com.jerrywang.phonehelper.util.ToastUtil;
 import com.jerrywang.phonehelper.widget.dialog.JunkCleanerDialog;
-
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
+
 
 /**
  * @author heguogui
@@ -74,7 +66,7 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     TextView junkclearnerNumTv;
     @BindView(R.id.junkclearner_Rl)
     RelativeLayout junkclearnerRl;
-
+    private float mProgress = 0.0f;
     private JunkCleanerExpandAdapter mAdapter;
     private JunkCleanerContract.Presenter presenter;
     private JunkCleanerDialog mJunkCleanerDialog;
@@ -216,9 +208,6 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
         if (junkCleanerGroupBean != null) {
             if (mAdapter != null) {
                 mAdapter.setData(junkCleanerGroupBean);
-
-                //隐藏按钮
-                junkclearnerStartIv.setVisibility(View.GONE);
             }
         }
     }
@@ -338,7 +327,7 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     public void playHeartbeatAnimation() {
 
         AnimationSet animationSet = new AnimationSet(true);
-        animationSet.addAnimation(new ScaleAnimation(1.0f, 1.3f, 1.0f, 1.3f,
+        animationSet.addAnimation(new ScaleAnimation(1.0f, 1.2f, 1.0f, 1.2f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
                 0.5f));
         animationSet.addAnimation(new AlphaAnimation(1.0f, 0.4f));
@@ -359,7 +348,7 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
             @Override
             public void onAnimationEnd(Animation animation) {
                 AnimationSet animationSet = new AnimationSet(true);
-                animationSet.addAnimation(new ScaleAnimation(1.3f, 1.0f, 1.3f,
+                animationSet.addAnimation(new ScaleAnimation(1.2f, 1.0f, 1.2f,
                         1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
                         Animation.RELATIVE_TO_SELF, 0.5f));
                 animationSet.addAnimation(new AlphaAnimation(0.4f, 1.0f));
@@ -431,7 +420,6 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     public void setProgress() {
 
         float msize = Float.parseFloat(mNum);
-        float mProgress = 0.0f;
         if(msize>0){
             if (msize < 100.0) {
                 mProgress = -70.0f;
@@ -452,8 +440,24 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
             }else if (msize >= 1024 && msize < totalNum) {
                 mProgress = 90.0f;
             }
-            startAnimation(mProgress,2000);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(mHandler!=null){
+                        mHandler.sendEmptyMessage(0);
+                    }
+                }
+            },1500);
         }
     }
+
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            startAnimation(mProgress,1000);
+        }
+    };
 
 }

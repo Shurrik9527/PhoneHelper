@@ -200,7 +200,7 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
     @Override
     public void playHeartbeatAnimation() {
         AnimationSet animationSet = new AnimationSet(true);
-        animationSet.addAnimation(new ScaleAnimation(1.0f, 1.3f, 1.0f, 1.3f,
+        animationSet.addAnimation(new ScaleAnimation(1.0f, 1.2f, 1.0f, 1.2f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
                 0.5f));
         animationSet.addAnimation(new AlphaAnimation(1.0f, 0.4f));
@@ -221,7 +221,7 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
             @Override
             public void onAnimationEnd(Animation animation) {
                 AnimationSet animationSet = new AnimationSet(true);
-                animationSet.addAnimation(new ScaleAnimation(1.3f, 1.0f, 1.3f,
+                animationSet.addAnimation(new ScaleAnimation(1.2f, 1.0f, 1.2f,
                         1.0f, Animation.RELATIVE_TO_SELF, 0.5f,
                         Animation.RELATIVE_TO_SELF, 0.5f));
                 animationSet.addAnimation(new AlphaAnimation(0.4f, 1.0f));

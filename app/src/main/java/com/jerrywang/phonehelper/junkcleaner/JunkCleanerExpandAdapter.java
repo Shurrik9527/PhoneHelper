@@ -111,13 +111,13 @@ public class JunkCleanerExpandAdapter extends BaseExpandableListAdapter{
 
 
 
-        if(junkCleanerTypeBean.isCheck()){
-            ((CheckBox)holder.getView(R.id.junkcleaner_item_cb)).setChecked(true);
-            ((CheckBox)holder.getView(R.id.junkcleaner_item_cb)).setButtonDrawable(R.mipmap.junkcleaner_checked);
-        }else{
-            ((CheckBox)holder.getView(R.id.junkcleaner_item_cb)).setChecked(false);
-            ((CheckBox)holder.getView(R.id.junkcleaner_item_cb)).setButtonDrawable(R.mipmap.junkcleaner_check);
-        }
+//        if(junkCleanerTypeBean.isCheck()){
+//            ((CheckBox)holder.getView(R.id.junkcleaner_item_cb)).setChecked(true);
+//            ((CheckBox)holder.getView(R.id.junkcleaner_item_cb)).setBackgroundResource(R.mipmap.junkcleaner_checked);
+//        }else{
+//            ((CheckBox)holder.getView(R.id.junkcleaner_item_cb)).setChecked(false);
+//            ((CheckBox)holder.getView(R.id.junkcleaner_item_cb)).setBackgroundResource(R.mipmap.junkcleaner_check);
+//        }
 
 
 
@@ -218,11 +218,11 @@ public class JunkCleanerExpandAdapter extends BaseExpandableListAdapter{
 
         }
 
-        if(junkProcessInfo.isCheck()){
-            ((CheckBox)holder.getView(R.id.junkcleaner_item_child_cb)).setButtonDrawable(R.mipmap.junkcleaner_checked);
-        }else{
-            ((CheckBox)holder.getView(R.id.junkcleaner_item_child_cb)).setButtonDrawable(R.mipmap.junkcleaner_check);
-        }
+//        if(junkProcessInfo.isCheck()){
+//            ((CheckBox)holder.getView(R.id.junkcleaner_item_child_cb)).setBackgroundResource(R.mipmap.junkcleaner_checked);
+//        }else{
+//            ((CheckBox)holder.getView(R.id.junkcleaner_item_child_cb)).setBackgroundResource(R.mipmap.junkcleaner_check);
+//        }
 
         ((CheckBox)holder.getView(R.id.junkcleaner_item_child_cb)).setOnClickListener(new View.OnClickListener() {
             @Override
