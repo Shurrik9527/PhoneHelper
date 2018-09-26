@@ -1,10 +1,11 @@
 package com.jerrywang.phonehelper.cpucooler;
 
 import android.support.v4.app.Fragment;
-import com.jerrywang.phonehelper.R;
-import com.jerrywang.phonehelper.ToolbarActivity;
 
-public class CpuCoolerActivity extends ToolbarActivity {
+import com.jerrywang.phonehelper.BaseActivity;
+import com.jerrywang.phonehelper.R;
+
+public class CpuCoolerActivity extends BaseActivity {
 
     @Override
     protected int getContentViewId() {
@@ -18,7 +19,7 @@ public class CpuCoolerActivity extends ToolbarActivity {
 
     @Override
     protected int getFragmentContentId() {
-        return R.id.contentFragment;
+        return R.id.fl_content;
     }
 
 
