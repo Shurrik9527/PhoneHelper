@@ -3,8 +3,9 @@ package com.jerrywang.phonehelper.junkcleaner.junkcleanersuccess;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+
+import com.jerrywang.phonehelper.BaseActivity;
 import com.jerrywang.phonehelper.R;
-import com.jerrywang.phonehelper.ToolbarActivity;
 
 /**
  * @author heguogui
@@ -13,7 +14,7 @@ import com.jerrywang.phonehelper.ToolbarActivity;
  * @date 2018/9/14
  * @email 252774645@qq.com
  */
-public class JunkCleanerSuccessActivity extends ToolbarActivity{
+public class JunkCleanerSuccessActivity extends BaseActivity {
 
     private static  final String TAG = JunkCleanerSuccessActivity.class.getName();
     private JunkCleanerSuccessFragment junkCleanerSuccessFragment= null;
@@ -37,7 +38,7 @@ public class JunkCleanerSuccessActivity extends ToolbarActivity{
 
     @Override
     protected int getFragmentContentId() {
-        return R.id.contentFragment;
+        return R.id.fl_content;
     }
 
 

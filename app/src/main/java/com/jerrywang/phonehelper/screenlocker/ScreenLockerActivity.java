@@ -3,38 +3,50 @@ package com.jerrywang.phonehelper.screenlocker;
 import android.app.WallpaperManager;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.widget.FrameLayout;
 
+import com.jaeger.library.StatusBarUtil;
+import com.jerrywang.phonehelper.BaseActivity;
 import com.jerrywang.phonehelper.R;
-import com.jerrywang.phonehelper.util.ActivityUtil;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class ScreenLockerActivity extends AppCompatActivity {
+public class ScreenLockerActivity extends BaseActivity {
     private BatteryReceiver receiver;
     @BindView(R.id.fl_content)
     FrameLayout flContent;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.screenlocker_activity);
-        ButterKnife.bind(this);
+    protected int getContentViewId() {
+        return R.layout.base_activity;
+    }
 
-        ScreenLockerFragment chargeBoosterFragment = (ScreenLockerFragment) getSupportFragmentManager().findFragmentById(R.id.fl_content);
-
-        if (chargeBoosterFragment == null) {
-            chargeBoosterFragment = ScreenLockerFragment.newInstance();
-            ActivityUtil.addFragmentToActivity(getSupportFragmentManager(), chargeBoosterFragment, R.id.fl_content);
-        }
-
+    @Override
+    protected Fragment getFragment() {
+        ScreenLockerFragment chargeBoosterFragment =  ScreenLockerFragment.newInstance();
+        // Create the presenter
         new ScreenLockerPresenter(chargeBoosterFragment);
-
         receiver = new BatteryReceiver(chargeBoosterFragment);
+        return chargeBoosterFragment;
+    }
 
+    @Override
+    protected int getFragmentContentId() {
+        return R.id.fl_content;
+    }
+
+    protected void initStatusBar() {
+        //透明显示状态栏
+        StatusBarUtil.setTranslucent(this);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        //隐藏导航栏
+        hideToolbar();
+        //获取桌面壁纸并设置为默认屏保
         WallpaperManager mWallpaperManager = WallpaperManager.getInstance(getApplicationContext());
         flContent.setBackground(mWallpaperManager.getDrawable());
     }

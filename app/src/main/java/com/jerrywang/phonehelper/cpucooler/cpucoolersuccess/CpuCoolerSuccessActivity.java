@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.jerrywang.phonehelper.BaseActivity;
 import com.jerrywang.phonehelper.R;
-import com.jerrywang.phonehelper.ToolbarActivity;
 
 /**
  * @author heguogui
@@ -14,10 +14,11 @@ import com.jerrywang.phonehelper.ToolbarActivity;
  * @date 2018/9/14
  * @email 252774645@qq.com
  */
-public class CpuCoolerSuccessActivity extends ToolbarActivity{
+public class CpuCoolerSuccessActivity extends BaseActivity {
 
-    private static  final String TAG = CpuCoolerSuccessActivity.class.getName();
-    private CpuCoolerSuccessFragment cpuCoolerSuccessFragment= null;
+    private static final String TAG = CpuCoolerSuccessActivity.class.getName();
+    private CpuCoolerSuccessFragment cpuCoolerSuccessFragment = null;
+
     @Override
     protected int getContentViewId() {
         return R.layout.base_activity;
@@ -25,12 +26,12 @@ public class CpuCoolerSuccessActivity extends ToolbarActivity{
 
     @Override
     protected Fragment getFragment() {
-        cpuCoolerSuccessFragment =CpuCoolerSuccessFragment.newInstance();
-        Intent mIntent =getIntent();
-        if(mIntent!=null){
+        cpuCoolerSuccessFragment = CpuCoolerSuccessFragment.newInstance();
+        Intent mIntent = getIntent();
+        if (mIntent != null) {
             String temp = mIntent.getStringExtra("BUNDLE");
             Bundle mBundle = new Bundle();
-            mBundle.putString("BUNDLE",temp);
+            mBundle.putString("BUNDLE", temp);
             cpuCoolerSuccessFragment.setArguments(mBundle);
         }
         return cpuCoolerSuccessFragment;
@@ -38,7 +39,7 @@ public class CpuCoolerSuccessActivity extends ToolbarActivity{
 
     @Override
     protected int getFragmentContentId() {
-        return R.id.contentFragment;
+        return R.id.fl_content;
     }
 
 

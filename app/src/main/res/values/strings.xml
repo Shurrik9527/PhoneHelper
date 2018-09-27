@@ -2,7 +2,7 @@
     <string name="app_name">Phone Helper</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-
+    <!--Junk Files-->
     <string name="junkcleaner_title">Junk Files</string>
     <string name="system_cache">System Cache</string>
     <string name="junkcleaner_process_title">Running Process</string>
@@ -10,9 +10,14 @@
     <string name="junkcleaner_unused_apk_tiele">Unused Apk</string>
     <string name="junkcleaner_temporary_file_tiele">Temporary File</string>
     <string name="junkcleaner_log_file_tiele">Log File</string>
-
-    <string name="cpucooler_title">CpuCooler</string>
+    <!--CPU Cooler-->
+    <string name="cpucooler_title">CPU Cooler</string>
     <!-- App Manager-->
+    <string name="appmanager_title">App Manager</string>
     <string name="uninstall">Uninstall</string>
+    <!--Phone Booster-->
+    <string name="phonebooster_title">Phone Booster</string>
+    <!--Charge Booster-->
+    <string name="chargebooster_title">Charge Booster</string>
 
 </resources>

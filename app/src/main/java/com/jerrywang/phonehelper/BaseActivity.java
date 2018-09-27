@@ -3,15 +3,21 @@ package com.jerrywang.phonehelper;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.WindowManager;
 
+import com.jaeger.library.StatusBarUtil;
 import com.jerrywang.phonehelper.util.ActivityUtil;
+
+import butterknife.BindColor;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * @author heguogui
@@ -20,7 +26,13 @@ import com.jerrywang.phonehelper.util.ActivityUtil;
  * @date 2018/9/6
  * @email 252774645@qq.com
  */
-public abstract class BaseActivity extends AppCompatActivity{
+public abstract class BaseActivity extends AppCompatActivity {
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindColor(R.color.colorPrimaryDark)
+    int colorPrimaryDark;
+
+    private ActionBar actionBar;
 
 
     /**
@@ -53,35 +65,78 @@ public abstract class BaseActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getContentViewId());
+        //ButterKnife初始化
+        ButterKnife.bind(this);
         //竖屏显示
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        // Set up the statusBar.
         initStatusBar();
-        ActivityUtil.getmInstance().add(this);
-        setContentView(getContentViewId());
 
+        // Set up the toolBar.
+        initToolbar();
+
+        ActivityUtil.getmInstance().add(this);
         // 将fragment添加到activity
         addFragmentToActivity();
         // 后续初始化操作
         init();
     }
 
+    /**
+     * 初始化状态栏
+     */
+    protected void initStatusBar() {
+        //设置通用的状态栏颜色
+        StatusBarUtil.setColor(this, colorPrimaryDark);
+    }
+
+    /**
+     * 初始化标题栏
+     */
+    private void initToolbar() {
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+    }
+
+    /**
+     * 设置标题栏图标
+     *
+     * @param icon 设置的图标
+     */
+    public void setIcon(Drawable icon) {
+        actionBar.setHomeAsUpIndicator(icon);
+    }
+
+    /**
+     * 设置标题栏文字
+     *
+     * @param title 要设置的标题
+     */
+    public void setTitle(String title) {
+        actionBar.setTitle(title);
+    }
+
+    /**
+     * 隐藏标题栏
+     */
+    public void hideToolbar() {
+        actionBar.hide();
+    }
+
+    /**
+     * 将Fragment添加到Activity
+     */
     private void addFragmentToActivity() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(getFragmentContentId());
         if (fragment == null) {
             // create the fragment
             fragment = getFragment();
-            if (fragment != null) {
-                ActivityUtil.getmInstance().addFragmentToActivity(
-                        getSupportFragmentManager(),
-                        fragment,
-                        getFragmentContentId()
-                );
-            }
-
-
+            ActivityUtil.getmInstance().addFragmentToActivity(getSupportFragmentManager(), fragment, getFragmentContentId());
         }
     }
-
 
     /**
      * 加载完fragment之后进行一些初始化操作
@@ -91,34 +146,10 @@ public abstract class BaseActivity extends AppCompatActivity{
     }
 
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ActivityUtil.getmInstance().removeActivity(this);
-    }
-
-    /**
-     * 初始化系统状态栏
-     * 在4.4以上版本是否设置透明状态栏
-     */
-    private void initStatusBar() {
-        if (!setTranslucentStatusBar()) {
-            return;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
-    }
-
-    /**
-     * 设置透明状态栏
-     *
-     * @return true 设置, false 不设置, 默认为false
-     */
-    protected boolean setTranslucentStatusBar() {
-        return false;
     }
 
     @Override
@@ -131,7 +162,9 @@ public abstract class BaseActivity extends AppCompatActivity{
     }
 
 
-    // 返回上一个画面的功能
+    /**
+     * 返回上一个画面的功能
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -142,6 +175,5 @@ public abstract class BaseActivity extends AppCompatActivity{
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 }

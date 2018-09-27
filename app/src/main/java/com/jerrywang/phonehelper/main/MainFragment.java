@@ -1,7 +1,7 @@
 package com.jerrywang.phonehelper.main;
 
 import android.Manifest;
-
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.jerrywang.phonehelper.R;
-import com.jerrywang.phonehelper.junkcleaner.JunkCleanerActivity;
 import com.jerrywang.phonehelper.appmanager.AppManagerActivity;
 import com.jerrywang.phonehelper.chargebooster.ChargeBoosterActivity;
 import com.jerrywang.phonehelper.cpucooler.CpuCoolerActivity;
+import com.jerrywang.phonehelper.junkcleaner.JunkCleanerActivity;
 import com.jerrywang.phonehelper.util.ToastUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -51,6 +51,18 @@ public class MainFragment extends Fragment implements MainContract.View {
         if (getArguments() != null) {
 
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.subscribe();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.unsubscribe();
     }
 
     @Override
@@ -97,12 +109,21 @@ public class MainFragment extends Fragment implements MainContract.View {
     @OnClick(R.id.lav_phonebooster)
     @Override
     public void showPhoneBooster() {
-        //优化加速
-        ToastUtil.showToast(getContext(), "优化加速");
         //播放动画
         lavPhoneBooster.playAnimation();
         //停止动画
         //lavPhoneBooster.cancelAnimation();
+        ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f).setDuration(5000);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = Float.parseFloat(animation.getAnimatedValue().toString());
+                if (value >= 1f) {
+                    ToastUtil.showToast(getContext(), "Phone Boosted");
+                }
+            }
+        });
+        animator.start();
     }
 
 
@@ -113,7 +134,6 @@ public class MainFragment extends Fragment implements MainContract.View {
         Intent intent = new Intent(getActivity(), ChargeBoosterActivity.class);
         startActivity(intent);
     }
-
 
 
     @Override
@@ -130,6 +150,7 @@ public class MainFragment extends Fragment implements MainContract.View {
                     }
                 });
 
+        showPhoneBooster();
     }
 
     @Override

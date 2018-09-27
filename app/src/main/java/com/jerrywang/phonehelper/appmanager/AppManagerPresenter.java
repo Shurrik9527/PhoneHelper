@@ -51,9 +51,9 @@ public class AppManagerPresenter implements AppManagerContract.Presenter {
     @Override
     public List<ApplicationInfo> loadData(Context context) {
         List<ApplicationInfo> data = new ArrayList<ApplicationInfo>();
-        PackageManager pm = context.getPackageManager(); // 获得PackageManager对象
-        List<ApplicationInfo> listAppcations = pm.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
-        Collections.sort(listAppcations, new ApplicationInfo.DisplayNameComparator(pm));// 字典排序
+        PackageManager packageManager = context.getPackageManager(); // 获得PackageManager对象
+        List<ApplicationInfo> listAppcations = packageManager.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
+        Collections.sort(listAppcations, new ApplicationInfo.DisplayNameComparator(packageManager));// 字典排序
         for (ApplicationInfo app : listAppcations) {
             if ((app.flags & ApplicationInfo.FLAG_SYSTEM) <= 0) {
                 //非系统程序
