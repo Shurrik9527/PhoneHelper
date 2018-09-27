@@ -74,7 +74,6 @@ public class AppUtil {
             AppInformBean appInformBean = new AppInformBean();
             ApplicationInfo applicationInfo = info.applicationInfo;
             if (filterSystem) {
-
                 if (!isSystemApp(applicationInfo)) {
                     if (!isAppDisable(context, info.packageName)) {
                         appInformBean.setmPackageInfo(info);

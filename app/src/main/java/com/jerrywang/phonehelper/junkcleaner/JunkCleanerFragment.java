@@ -173,16 +173,23 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
             junkclearnerNumTv.setText(size + "");
             if (size.contains("M")) {
                 String[] sizes = size.split("M");
-                mNum = sizes[0];
+                mNum = sizes[0].trim();
                 setProgress();
             } else if (size.contains("B")) {
                 String[] sizes = size.split("B");
-                mNum = sizes[0];
+                mNum = sizes[0].trim();
             } else if (size.contains("G")) {
                 String[] sizes = size.split("G");
-                mNum = sizes[0];
-                mNum=String.valueOf(Integer.parseInt(mNum)*1024);
-                setProgress();
+                mNum = sizes[0].trim();
+                try {
+                    if(!TextUtils.isEmpty(mNum)){
+                        float  number =Float.parseFloat(mNum)*1024;
+                        mNum=String.valueOf(number);
+                        setProgress();
+                    }
+                }catch (Exception e){
+
+                }
             }
 
         }
@@ -435,20 +442,20 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
                 mProgress = 30.0f;
             }else if (msize >= 600 && msize < 1024) {
                 mProgress = 50.0f;
-            }else if (msize >= 1024 && msize < 2014) {
+            }else if (msize >= 1024 && msize < 2048) {
+                mProgress = 60.0f;
+            }else if (msize >= 2048) {
                 mProgress = 70.0f;
-            }else if (msize >= 1024 && msize < totalNum) {
-                mProgress = 90.0f;
             }
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if(mHandler!=null){
-                        mHandler.sendEmptyMessage(0);
+                        mHandler.sendEmptyMessageDelayed(0,1000);
                     }
                 }
-            },1500);
+            },100);
         }
     }
 
@@ -456,7 +463,7 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            startAnimation(mProgress,1000);
+            startAnimation(mProgress,5000);
         }
     };
 
