@@ -3,7 +3,6 @@ package com.jerrywang.phonehelper.screenlocker;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.BatteryManager;
 
 public class BatteryReceiver extends BroadcastReceiver {
     private ScreenLockerContract.View view;
@@ -18,11 +17,11 @@ public class BatteryReceiver extends BroadcastReceiver {
         int total = intent.getExtras().getInt("scale");// 获得总电量
         int percent = current * 100 / total;
         view.showBatteryInfo(percent);
-        int status = intent.getIntExtra("status", BatteryManager.BATTERY_STATUS_UNKNOWN);
-        if(status == BatteryManager.BATTERY_STATUS_CHARGING) {
-            view.showChargeStatus(true);
-        } else {
-            view.showChargeStatus(false);
-        }
+//        int status = intent.getIntExtra("status", BatteryManager.BATTERY_STATUS_UNKNOWN);
+//        if(status == BatteryManager.BATTERY_STATUS_CHARGING) {
+//            view.showChargeStatus(true);
+//        } else {
+//            view.showChargeStatus(false);
+//        }
     }
 }

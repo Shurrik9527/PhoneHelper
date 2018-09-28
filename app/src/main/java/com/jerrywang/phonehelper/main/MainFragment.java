@@ -113,7 +113,7 @@ public class MainFragment extends Fragment implements MainContract.View {
         lavPhoneBooster.playAnimation();
         //停止动画
         //lavPhoneBooster.cancelAnimation();
-        ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f).setDuration(5000);
+        ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f).setDuration(3000);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {

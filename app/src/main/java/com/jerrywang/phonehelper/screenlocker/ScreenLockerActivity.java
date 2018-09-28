@@ -1,21 +1,21 @@
 package com.jerrywang.phonehelper.screenlocker;
 
-import android.app.WallpaperManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
-import android.widget.FrameLayout;
 
 import com.jaeger.library.StatusBarUtil;
 import com.jerrywang.phonehelper.BaseActivity;
 import com.jerrywang.phonehelper.R;
 
-import butterknife.BindView;
+import butterknife.BindColor;
 
 public class ScreenLockerActivity extends BaseActivity {
     private BatteryReceiver receiver;
-    @BindView(R.id.fl_content)
-    FrameLayout flContent;
+//    @BindView(R.id.fl_content)
+//    FrameLayout flContent;
+    @BindColor(R.color.bg_start)
+    int bg_start;
 
     @Override
     protected int getContentViewId() {
@@ -38,7 +38,7 @@ public class ScreenLockerActivity extends BaseActivity {
 
     protected void initStatusBar() {
         //透明显示状态栏
-        StatusBarUtil.setTranslucent(this);
+        StatusBarUtil.setColor(this, bg_start);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class ScreenLockerActivity extends BaseActivity {
         //隐藏导航栏
         hideToolbar();
         //获取桌面壁纸并设置为默认屏保
-        WallpaperManager mWallpaperManager = WallpaperManager.getInstance(getApplicationContext());
-        flContent.setBackground(mWallpaperManager.getDrawable());
+//        WallpaperManager mWallpaperManager = WallpaperManager.getInstance(getApplicationContext());
+//        flContent.setBackground(mWallpaperManager.getDrawable());
     }
 
     @Override

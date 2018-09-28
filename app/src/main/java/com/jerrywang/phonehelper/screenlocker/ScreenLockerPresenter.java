@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,11 +18,14 @@ public class ScreenLockerPresenter implements ScreenLockerContract.Presenter {
 
 
     Handler handler = new Handler() {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd    E", Locale.ENGLISH);
         @Override
         public void handleMessage(Message message) {
             String time = sdf.format(System.currentTimeMillis());
+            String date = sdf1.format(System.currentTimeMillis());
             view.showTime(time);
+            view.showDate(date);
         }
     };
 

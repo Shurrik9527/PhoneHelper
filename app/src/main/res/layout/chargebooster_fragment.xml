@@ -26,7 +26,7 @@
             android:drawablePadding="-30dp"
             android:textColor="@color/white"
             android:textSize="@dimen/text_small_size"
-            android:text="Charge Protect: ON"/>
+            android:text="@string/charge_protect_on"/>
     </RelativeLayout>
 
 
@@ -45,7 +45,7 @@
             android:id="@+id/tv_chargecover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="充电保护"
+            android:text="@string/charge_cover"
             android:textColor="@color/default_text"
             android:textSize="@dimen/text_large_size" />
 
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_chargecover"
             android:paddingTop="@dimen/element_half_space"
-            android:text="使用充电屏保加速充电，并防止过度充电！"
+            android:text="@string/chargecover_desc"
             android:textColor="@color/description_text"
             android:textSize="@dimen/text_small_size" />
 
@@ -63,7 +63,7 @@
             android:id="@+id/s_protectcharging"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:checked="false"
             android:theme="@style/MySwitch" />
@@ -83,7 +83,7 @@
             android:id="@+id/tv_chargealert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="充电提醒"
+            android:text="@string/charge_alert"
             android:textColor="@color/default_text"
             android:textSize="@dimen/text_large_size" />
 
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_chargealert"
             android:paddingTop="@dimen/element_half_space"
-            android:text="充电完成时发出声音提醒"
+            android:text="@string/chargealert_desc"
             android:textColor="@color/description_text"
             android:textSize="@dimen/text_small_size" />
 
@@ -101,7 +101,7 @@
             android:id="@+id/s_chargealert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:checked="false"
             android:enabled="false"

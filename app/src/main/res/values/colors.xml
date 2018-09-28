@@ -43,5 +43,8 @@
     <color name="gray2">#cccccc</color>
     <color name="gray3">#ffc3c3c3</color>
 
-
+    <!--Screen Locker-->
+    <color name="bg_start">#090d22</color>
+    <color name="bg_end">#020712</color>
+    <color name="stv_slidetounlock">#08f90e</color>
 </resources>
