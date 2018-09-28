@@ -22,7 +22,7 @@ public class App extends Application {
         this.mContext =this;
 
         MemoryManager.init(this);
-        ProcessManager.init(this);
+        ProcessManager.init(getApplicationContext());
         CleanManager.init(this);
         JunkCleanerManager.init(this);
     }

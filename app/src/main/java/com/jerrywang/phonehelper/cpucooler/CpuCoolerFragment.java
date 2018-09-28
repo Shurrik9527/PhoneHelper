@@ -380,12 +380,12 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
             return;
         }
 
-        if(mSP!=null){
-            mSP.put(Constant.SAVE_CPU_COOLER_TIME,TimeUtil.currentTimeStr());
-        }
-        isStart = false;
         if (presenter != null) {
             if (mLists != null && mLists.size() > 0) {
+                if(mSP!=null){
+                    mSP.put(Constant.SAVE_CPU_COOLER_TIME,TimeUtil.currentTimeStr());
+                }
+                isStart = false;
                 presenter.startCleanApp(mLists);
             }
         }

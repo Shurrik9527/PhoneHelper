@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -161,7 +162,8 @@ public class JunkCleanerManager {
         mProcessManager = ProcessManager.getInstance();
 
         mProcessManager.getRunningAppListObservable(true)
-                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<AppProcessInfornBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {

@@ -5,25 +5,32 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.airbnb.lottie.L;
 import com.jaredrummler.android.processes.AndroidProcesses;
 import com.jerrywang.phonehelper.App;
 import com.jerrywang.phonehelper.R;
+import com.jerrywang.phonehelper.bean.AppInformBean;
 import com.jerrywang.phonehelper.bean.AppProcessInfornBean;
+import com.jerrywang.phonehelper.util.AppUtil;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import android.app.ActivityManager;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -76,72 +83,150 @@ public class ProcessManager {
             return new ArrayList<AppProcessInfornBean>();
 
         mTempList = new ArrayList<>();
-        ApplicationInfo appInfo = null;
-        AppProcessInfornBean abAppProcessInfornBean = null;
-
-        for (ActivityManager.RunningAppProcessInfo info : AndroidProcesses.getRunningAppProcessInfo(mContext)) {
-
-            if (!info.processName.equals(mContext.getPackageName())) {
-                abAppProcessInfornBean = new AppProcessInfornBean(info.processName, info.pid, info.uid);
-                try {
-                    appInfo = mPackageManager.getApplicationInfo(info.processName, 0);
-                    if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
-                        abAppProcessInfornBean.setSystem(true);
+        //大于Android 6.0
+        if(Build.VERSION.SDK_INT >Build.VERSION_CODES.M){
+            ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+            //获取所有当前服务
+            List<ActivityManager.RunningServiceInfo> mlists =am.getRunningServices(2000);
+            if(mTempList!=null&&mTempList.size()>0)
+                mTempList.clear();
+            mTempList.addAll(getRunningAppLists(mlists));
+            if(mTempList!=null&&mTempList.size()>0){
+                ComoaratorApp comparator = new ComoaratorApp();
+                Collections.sort(mTempList, comparator);
+                int lastUid = 0;
+                int index = -1;
+                mRunningProcessList.clear();
+                for (AppProcessInfornBean info : mTempList) {
+                    if (lastUid == info.getU_id()) {
+                        AppProcessInfornBean nowInfo = mTempList.get(index);
+                        mRunningProcessList.get(index).setMemory(nowInfo.getMemory() + info.getMemory());
                     } else {
-                        abAppProcessInfornBean.setSystem(false);
+                        index++;
+                        mRunningProcessList.add(info);
+                        lastUid = info.getU_id();
                     }
-                    Drawable icon = appInfo.loadIcon(mPackageManager) == null ?
-                            ActivityCompat.getDrawable(mContext, R.mipmap.ic_launcher)
-                            : appInfo.loadIcon(mPackageManager);
-                    String name = appInfo.loadLabel(mPackageManager).toString();
-                    abAppProcessInfornBean.setIcon(icon);
-                    abAppProcessInfornBean.setAppName(name);
-                } catch (PackageManager.NameNotFoundException e) {
-                    /*名字没找到，可能是应用的服务*/
-                    if (info.processName.contains(":")) {
-                        appInfo = getApplicationInfo(info.processName.split(":")[0]);
-                        if (appInfo != null) {
-                            Drawable icon = appInfo.loadIcon(mPackageManager);
-                            abAppProcessInfornBean.setIcon(icon);
-                        } else {
-                            abAppProcessInfornBean.setIcon(mContext.getResources().getDrawable(R.mipmap.ic_launcher));
-                        }
-                    }
-                    abAppProcessInfornBean.setSystem(true);
-                    abAppProcessInfornBean.setAppName(info.processName);
                 }
-
-                long memsize = mActivityManager.getProcessMemoryInfo(new int[]{info.pid})[0].getTotalPrivateDirty() * 1024;
-                abAppProcessInfornBean.setMemory(memsize);
-
-                if(isSelect){
-                    if (!abAppProcessInfornBean.isSystem()) {
-                        mTempList.add(abAppProcessInfornBean);
-                    }
-                }else{
-                    mTempList.add(abAppProcessInfornBean);
-                }
-
             }
+            return mTempList;
+        }else{
+            ApplicationInfo appInfo = null;
+            AppProcessInfornBean abAppProcessInfornBean = null;
+            List<ActivityManager.RunningAppProcessInfo> infos =AndroidProcesses.getRunningAppProcessInfo(mContext);
+            if(infos!=null&&infos.size()>0){
+                for (ActivityManager.RunningAppProcessInfo info : infos) {
+                    if (!TextUtils.isEmpty(info.processName)&&!info.processName.equals(mContext.getPackageName())) {
+                        abAppProcessInfornBean = new AppProcessInfornBean(info.processName, info.pid, info.uid);
+                        try {
+                            appInfo = mPackageManager.getApplicationInfo(info.processName, 0);
+                            if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+                                abAppProcessInfornBean.setSystem(true);
+                            } else {
+                                abAppProcessInfornBean.setSystem(false);
+                            }
+                            Drawable icon = appInfo.loadIcon(mPackageManager) == null ?
+                                    ActivityCompat.getDrawable(mContext, R.mipmap.ic_launcher)
+                                    : appInfo.loadIcon(mPackageManager);
+                            String name = appInfo.loadLabel(mPackageManager).toString();
+                            abAppProcessInfornBean.setIcon(icon);
+                            abAppProcessInfornBean.setAppName(name);
+                        } catch (PackageManager.NameNotFoundException e) {
+                            /*名字没找到，可能是应用的服务*/
+                            if (info.processName.contains(":")) {
+                                appInfo = getApplicationInfo(info.processName.split(":")[0]);
+                                if (appInfo != null) {
+                                    Drawable icon = appInfo.loadIcon(mPackageManager);
+                                    abAppProcessInfornBean.setIcon(icon);
+                                } else {
+                                    abAppProcessInfornBean.setIcon(mContext.getResources().getDrawable(R.mipmap.ic_launcher));
+                                }
+                            }
+                            abAppProcessInfornBean.setSystem(true);
+                            abAppProcessInfornBean.setAppName(info.processName);
+                        }
 
+                        long memsize = mActivityManager.getProcessMemoryInfo(new int[]{info.pid})[0].getTotalPrivateDirty() * 1024;
+                        abAppProcessInfornBean.setMemory(memsize);
+
+                        if(isSelect){
+                            if (!abAppProcessInfornBean.isSystem()) {
+                                mTempList.add(abAppProcessInfornBean);
+                            }
+                        }else{
+                            mTempList.add(abAppProcessInfornBean);
+                        }
+
+                    }
+
+                }
+
+                ComoaratorApp comparator = new ComoaratorApp();
+                Collections.sort(mTempList, comparator);
+                int lastUid = 0;
+                int index = -1;
+                mRunningProcessList.clear();
+                //
+                for (AppProcessInfornBean info : mTempList) {
+                    if (lastUid == info.getU_id()) {
+                        AppProcessInfornBean nowInfo = mTempList.get(index);
+                        mRunningProcessList.get(index).setMemory(nowInfo.getMemory() + info.getMemory());
+                    } else {
+                        index++;
+                        mRunningProcessList.add(info);
+                        lastUid = info.getU_id();
+                    }
+                }
+                return mTempList;
+            }else {
+                return mTempList;
+            }
         }
 
-        //APP去重
-        ComoaratorApp comparator = new ComoaratorApp();
-        Collections.sort(mTempList, comparator);
-        int lastUid = 0;
-        int index = -1;
-        mRunningProcessList.clear();
-        //
-        for (AppProcessInfornBean info : mTempList) {
-            if (lastUid == info.getU_id()) {
-                AppProcessInfornBean nowInfo = mTempList.get(index);
-                mRunningProcessList.get(index).setMemory(nowInfo.getMemory() + info.getMemory());
-            } else {
-                index++;
-                mRunningProcessList.add(info);
-                lastUid = info.getU_id();
+
+    }
+
+    private List<AppProcessInfornBean> getRunningAppLists(List<ActivityManager.RunningServiceInfo> mlists) {
+
+        List<AppProcessInfornBean>  mTempList = new ArrayList<>();
+        if(mlists!=null&&mlists.size()>0){
+            final List<AppProcessInfornBean> mlist = new ArrayList<>();
+            List<AppProcessInfornBean> malllist = new ArrayList<>();
+            for (ActivityManager.RunningServiceInfo info :mlists){
+                AppProcessInfornBean mBean = new AppProcessInfornBean();
+                mBean.setProcessName(info.process);
+                mBean.setP_id(info.pid);
+                mBean.setU_id(info.uid);
+                mlist.add(mBean);
             }
+            try{
+                List<AppInformBean>  appInformBeans =AppUtil.getInstalledApplicationInfo(mContext,false);
+                if(appInformBeans!=null&&appInformBeans.size()>0){
+                    if(appInformBeans.size()>0){
+                        if(mlist!=null&&mlist.size()>0){
+                            for(int i=0;i<appInformBeans.size();i++){
+                                AppInformBean appInformBean = appInformBeans.get(i);
+                                for (int j=0;j<mlist.size();j++){
+                                    AppProcessInfornBean mbean = mlist.get(j);
+                                    if(appInformBean.getmPackageName().equals(mbean.getProcessName())){
+                                        mbean.setAppName(appInformBean.getmName());
+                                        mbean.setSystem(appInformBean.ismIsSystem());
+                                        mbean.setIcon(appInformBean.getmDrawable());
+                                        long memsize = mActivityManager.getProcessMemoryInfo(new int[]{mbean.getP_id()})[0].getTotalPrivateDirty() * 1024;
+                                        mbean.setMemory(memsize);
+                                        malllist.add(mbean);
+                                    }
+                                }
+
+                            }
+
+                        }
+                        return removeDuplicate(malllist);
+                    }
+                }
+            }catch (Exception e){
+
+            }
+
         }
         return mTempList;
     }
@@ -334,6 +419,19 @@ public class ProcessManager {
             }
         }
 
+    }
+
+
+
+    public   static   List<AppProcessInfornBean>  removeDuplicate(List<AppProcessInfornBean> list)  {
+        for  ( int  i  =   0 ; i  <  list.size()  -   1 ; i ++ )  {
+            for  ( int  j  =  list.size()  -   1 ; j  >  i; j -- )  {
+                if  (list.get(j).getProcessName().equals(list.get(i).getProcessName()))  {
+                    list.remove(j);
+                }
+            }
+        }
+        return list;
     }
 
 }

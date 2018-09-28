@@ -28,7 +28,11 @@ public class CpuCoolerAdapter extends BaseQuickAdapter<AppProcessInfornBean,Base
             return;
         }
         helper.setText(R.id.cpucooler_item_name_tv,item.getAppName()+"");
-        helper.setImageDrawable(R.id.cpucooler_item_icon_iv,item.getIcon());
+        if(item.getIcon()==null){
+            helper.setImageResource(R.id.cpucooler_item_icon_iv,R.mipmap.ic_launcher);
+        }else {
+            helper.setImageDrawable(R.id.cpucooler_item_icon_iv,item.getIcon());
+        }
     }
 
 }

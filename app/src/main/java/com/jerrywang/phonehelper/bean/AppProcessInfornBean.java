@@ -27,6 +27,9 @@ public class AppProcessInfornBean {
         this.p_id = p_id;
     }
 
+    public AppProcessInfornBean() {
+    }
+
     public String getAppName() {
         return appName;
     }
