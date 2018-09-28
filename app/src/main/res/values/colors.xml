@@ -13,7 +13,7 @@
     <!--辅助文本-->
     <color name="description_text">#757575</color>
     <!--控件不可用-->
-    <color name="disable">#757575</color>
+    <color name="disable">#bababa</color>
     <!--分割线-->
     <color name="divider">#f8f8f8</color>
     <!--白色-->

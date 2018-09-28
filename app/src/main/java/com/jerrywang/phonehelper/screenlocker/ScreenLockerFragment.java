@@ -110,7 +110,7 @@ public class ScreenLockerFragment extends Fragment implements ScreenLockerContra
         if (isCharging) {
             tvChargestatus.setText("Charging");
         } else {
-            tvChargestatus.setText("No Charging");
+            tvChargestatus.setText("Charged");
         }
     }
 

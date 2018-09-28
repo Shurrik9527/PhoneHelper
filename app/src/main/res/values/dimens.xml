@@ -25,4 +25,5 @@
     <dimen name="text_small_size">12sp</dimen>
 
     <dimen name="line_size">1dp</dimen>
+    <dimen name="thin_line_size">0.5dp</dimen>
 </resources>

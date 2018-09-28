@@ -2,6 +2,7 @@ package com.jerrywang.phonehelper.main;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -81,16 +82,21 @@ public class MainActivity extends BaseActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.main_update_menu_item:
                                 //检查更新
-                                ToastUtil.showToast(MainActivity.this, "检查更新");
+                                ToastUtil.showToast(MainActivity.this, "This is the newest version!");
                                 break;
                             case R.id.main_feedback_menu_item:
                                 //意见反馈
-                                ToastUtil.showToast(MainActivity.this, "意见反馈");
+                                //ToastUtil.showToast(MainActivity.this, "意见反馈");
+                                Intent data = new Intent(Intent.ACTION_SENDTO);
+                                data.setData(Uri.parse("mailto:jerrywang724@gmail.com"));
+                                data.putExtra(Intent.EXTRA_SUBJECT, "I want to say");
+                                data.putExtra(Intent.EXTRA_TEXT, "Hi, There!");
+                                startActivity(data);
                                 break;
-                            case R.id.main_comment_menu_item:
-                                //评论我们
-                                ToastUtil.showToast(MainActivity.this, "评论我们");
-                                break;
+//                            case R.id.main_comment_menu_item:
+//                                //评论我们
+//                                ToastUtil.showToast(MainActivity.this, "评论我们");
+//                                break;
                             case R.id.main_aboutus_menu_item:
                                 //关于我们
                                 ToastUtil.showToast(MainActivity.this, "关于我们");
