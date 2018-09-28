@@ -1,11 +1,11 @@
-package com.jerrywang.phonehelper.phonebooster;
+package com.jerrywang.phonehelper.aboutus;
 
 import android.support.v4.app.Fragment;
 
 import com.jerrywang.phonehelper.BaseActivity;
 import com.jerrywang.phonehelper.R;
 
-public class PhoneBoosterActivity extends BaseActivity {
+public class AboutUsActivity extends BaseActivity {
 
     @Override
     protected int getContentViewId() {
@@ -14,10 +14,10 @@ public class PhoneBoosterActivity extends BaseActivity {
 
     @Override
     protected Fragment getFragment() {
-        PhoneBoosterFragment phoneBoosterFragment = PhoneBoosterFragment.newInstance();
+        AboutUsFragment chargeBoosterFragment = AboutUsFragment.newInstance();
         // Create the presenter
-        new PhoneBoosterPresenter(phoneBoosterFragment);
-        return phoneBoosterFragment;
+        new AboutUsPresenter(chargeBoosterFragment);
+        return chargeBoosterFragment;
     }
 
     @Override
@@ -28,7 +28,6 @@ public class PhoneBoosterActivity extends BaseActivity {
     @Override
     protected void init() {
         super.init();
-        setTitle(getString(R.string.phonebooster_title));
+        setTitle(getString(R.string.aboutus_title));
     }
-
 }

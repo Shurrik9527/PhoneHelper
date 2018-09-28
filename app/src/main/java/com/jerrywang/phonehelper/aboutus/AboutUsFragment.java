@@ -1,4 +1,4 @@
-package com.jerrywang.phonehelper.login;
+package com.jerrywang.phonehelper.aboutus;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,17 +12,17 @@ import com.jerrywang.phonehelper.util.ToastUtil;
 import butterknife.ButterKnife;
 
 
-public class LoginFragment extends Fragment implements LoginContract.View {
+public class AboutUsFragment extends Fragment implements AboutUsContract.View {
 
-    private LoginContract.Presenter presenter;
+    private AboutUsContract.Presenter presenter;
 
-    public LoginFragment() {
+    public AboutUsFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static LoginFragment newInstance() {
-        LoginFragment fragment = new LoginFragment();
+    public static AboutUsFragment newInstance() {
+        AboutUsFragment fragment = new AboutUsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -52,24 +52,24 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.login_fragment, container, false);
+        View root = inflater.inflate(R.layout.aboutus_fragment, container, false);
         ButterKnife.bind(this, root);
         initView();
         return root;
     }
 
     @Override
-    public void setPresenter(LoginContract.Presenter presenter) {
+    public void setPresenter(AboutUsContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
     @Override
     public void initView() {
-
     }
 
     @Override
     public void showMessageTips(String msg) {
         ToastUtil.showToast(getContext(), msg);
     }
+
 }

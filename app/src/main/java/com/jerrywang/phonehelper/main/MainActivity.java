@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.jaeger.library.StatusBarUtil;
 import com.jerrywang.phonehelper.BaseActivity;
 import com.jerrywang.phonehelper.R;
+import com.jerrywang.phonehelper.aboutus.AboutUsActivity;
 import com.jerrywang.phonehelper.screenlocker.ScreenLockerService;
 import com.jerrywang.phonehelper.util.ToastUtil;
 
@@ -99,7 +100,9 @@ public class MainActivity extends BaseActivity {
 //                                break;
                             case R.id.main_aboutus_menu_item:
                                 //关于我们
-                                ToastUtil.showToast(MainActivity.this, "关于我们");
+                                //ToastUtil.showToast(MainActivity.this, "关于我们");
+                                Intent intent = new Intent(MainActivity.this, AboutUsActivity.class);
+                                startActivity(intent);
                                 break;
                         }
                         // Close the navigation drawer when an item is selected.

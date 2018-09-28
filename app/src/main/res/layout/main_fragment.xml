@@ -44,7 +44,6 @@
         app:layout_constraintTop_toBottomOf="@+id/rl_phonebooster">
 
         <TextView
-            android:id="@+id/tv_appmanager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -73,7 +72,6 @@
         app:layout_constraintTop_toBottomOf="@+id/rl_phonebooster">
 
         <TextView
-            android:id="@+id/tv_cpucooler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -100,7 +98,6 @@
         app:layout_constraintTop_toBottomOf="@+id/cv_appmanager">
 
         <TextView
-            android:id="@+id/tv_junkcleaner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -127,7 +124,6 @@
         app:layout_constraintTop_toBottomOf="@+id/cv_cpucooler">
 
         <TextView
-            android:id="@+id/tv_chargebooster"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

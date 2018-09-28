@@ -62,7 +62,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cpucooler_notication_rl"
         android:layout_below="@+id/cpucooler_msg_tv"
         android:layout_marginTop="10dp"
         >

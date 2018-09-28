@@ -25,7 +25,6 @@
             android:textStyle="normal"
             />
         <TextView
-            android:id="@+id/cpucooler_notication_tv"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:textColor="@color/white"

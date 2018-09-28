@@ -24,6 +24,6 @@
     <string name="charge_alert">Charge Alert</string>
     <string name="chargealert_desc">Sound alert when charging is completed.</string>
     <string name="charge_protect_on">Charge Protect: ON</string>
-    <string name="charge_protect_off">Charge Protect: OFF</string>
-
+    <!--About Us-->
+    <string name="aboutus_title">About Us</string>
 </resources>

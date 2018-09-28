@@ -1,13 +1,9 @@
-package com.jerrywang.phonehelper.settings;
+package com.jerrywang.phonehelper.aboutus;
 
 import com.jerrywang.phonehelper.BasePresenter;
 import com.jerrywang.phonehelper.BaseView;
 
-/**
- * Created by Shurrik on 2017/11/30.
- */
-
-public class SettingsContract {
+public class AboutUsContract {
 
     public interface View extends BaseView<Presenter> {
 
