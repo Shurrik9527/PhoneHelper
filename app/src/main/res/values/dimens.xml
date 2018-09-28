@@ -16,7 +16,6 @@
 
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="element_quarter_space">4dp</dimen>
     <dimen name="element_half_space">8dp</dimen>
     <dimen name="element_default_space">16dp</dimen>
     <dimen name="element_double_space">32dp</dimen>
@@ -25,4 +24,5 @@
     <dimen name="text_small_size">12sp</dimen>
 
     <dimen name="line_size">1dp</dimen>
+    <dimen name="thin_line_size">0.5dp</dimen>
 </resources>

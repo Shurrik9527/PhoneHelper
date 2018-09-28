@@ -8,6 +8,7 @@ import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jerrywang.phonehelper.R;
@@ -29,10 +30,14 @@ public class ScreenLockerFragment extends Fragment implements ScreenLockerContra
     SildingFinishLayout sflContent;
     @BindView(R.id.tv_time)
     TextView tvTime;
-    @BindView(R.id.tv_chargestatus)
-    TextView tvChargestatus;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
+//    @BindView(R.id.tv_chargestatus)
+//    TextView tvChargestatus;
     @BindView(R.id.tv_batteryinfo)
     TextView tvBatterInfo;
+    @BindView(R.id.iv_batterystatus)
+    ImageView ivBatterStatus;
     @BindView(R.id.stv_slidetounlock)
     ShimmerTextView stvSlideToUnLock;
 
@@ -106,20 +111,36 @@ public class ScreenLockerFragment extends Fragment implements ScreenLockerContra
     }
 
     @Override
-    public void showChargeStatus(boolean isCharging) {
-        if (isCharging) {
-            tvChargestatus.setText("Charging");
-        } else {
-            tvChargestatus.setText("No Charging");
-        }
+    public void showDate(String date) {
+        tvDate.setText(date);
     }
+
+//    @Override
+//    public void showChargeStatus(boolean isCharging) {
+//        if (isCharging) {
+//            tvChargestatus.setText("Charging");
+//        } else {
+//            tvChargestatus.setText("Charged");
+//        }
+//    }
 
 
     @Override
     public void showBatteryInfo(int percent) {
-        tvBatterInfo.setText(percent + "%");
-        if(percent == 100) {
-            presenter.checkChargingCompleted();
+        tvBatterInfo.setText("Current Power: " + percent + "%");
+        if(percent <= 20){
+            ivBatterStatus.setBackgroundResource(R.mipmap.bg_screenlocker_chargestatus_1);
+        } else if (percent <= 40){
+            ivBatterStatus.setBackgroundResource(R.mipmap.bg_screenlocker_chargestatus_2);
+        } else if (percent <= 60){
+            ivBatterStatus.setBackgroundResource(R.mipmap.bg_screenlocker_chargestatus_3);
+        } else if (percent <= 80){
+            ivBatterStatus.setBackgroundResource(R.mipmap.bg_screenlocker_chargestatus_4);
+        } else {
+            ivBatterStatus.setBackgroundResource(R.mipmap.bg_screenlocker_chargestatus_5);
+            if(percent == 100) {
+                presenter.checkChargingCompleted();
+            }
         }
     }
 
