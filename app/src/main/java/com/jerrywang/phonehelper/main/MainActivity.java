@@ -11,8 +11,11 @@ import android.view.MenuItem;
 import com.jaeger.library.StatusBarUtil;
 import com.jerrywang.phonehelper.BaseActivity;
 import com.jerrywang.phonehelper.R;
+import com.jerrywang.phonehelper.bean.AppProcessInfornBean;
 import com.jerrywang.phonehelper.screenlocker.ScreenLockerService;
 import com.jerrywang.phonehelper.util.ToastUtil;
+
+import java.util.List;
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
@@ -27,6 +30,8 @@ public class MainActivity extends BaseActivity {
     Drawable menu;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
+    public static List<AppProcessInfornBean> cpuLists;
 
     @Override
     protected int getContentViewId() {

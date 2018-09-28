@@ -49,6 +49,7 @@
         <activity android:name=".cpucooler.cpucoolersuccess.CpuCoolerSuccessActivity"/>
         <activity android:name=".junkcleaner.junkcleanersuccess.JunkCleanerSuccessActivity"/>
         <activity android:name=".junkcleaner.optimized.OptimizedActivity"/>
+        <activity android:name=".cpucooler.cpucoolerscan.CpuCoolerScanActivity"/>
         <!--锁屏服务-->
         <service android:name=".screenlocker.ScreenLockerService" />
         <receiver android:name=".appmanager.PackageReceiver">

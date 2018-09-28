@@ -26,11 +26,12 @@ import com.jerrywang.phonehelper.base.Constant;
 import com.jerrywang.phonehelper.bean.AppProcessInfornBean;
 import com.jerrywang.phonehelper.cpucooler.cpucoolersuccess.CpuCoolerSuccessActivity;
 import com.jerrywang.phonehelper.junkcleaner.optimized.OptimizedActivity;
+import com.jerrywang.phonehelper.main.MainActivity;
 import com.jerrywang.phonehelper.util.SharedPreferencesHelper;
 import com.jerrywang.phonehelper.util.StringUtil;
 import com.jerrywang.phonehelper.util.TimeUtil;
 import com.jerrywang.phonehelper.widget.dialog.CpuCleanDialog;
-import com.jerrywang.phonehelper.widget.dialog.CpuScanDialog;
+
 
 import java.util.List;
 
@@ -56,7 +57,6 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
     @BindView(R.id.cpucooler_rocket_iv)
     ImageView cpucoolerRocketIv;
     private CpuCoolerAdapter mAdapter;
-    private CpuScanDialog mCpuScanDialog;
     private CpuCoolerContract.Presenter presenter;
     private boolean isStart = true;
     private List<AppProcessInfornBean> mLists;
@@ -80,7 +80,8 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            Bundle mBundle =getArguments();
+            this.temp =mBundle.getFloat("TEMP");
         }
 
         new CpuCoolerPresenter(this);
@@ -124,7 +125,6 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
 
     @Override
     public void initView() {
-        startScanApp();
         startHeartBeat();
     }
 
@@ -138,10 +138,6 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
     public void showProcessRunning(List<AppProcessInfornBean> mlists) {
         if (mAdapter != null && mlists != null) {
             this.mLists = mlists;
-            if (mCpuScanDialog != null) {
-                mCpuScanDialog.dismiss();
-                mCpuScanDialog = null;
-            }
             mAdapter.setNewData(mlists);
         }
     }
@@ -154,22 +150,23 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
 
     @Override
     public void startScanApp() {
-        if (mCpuScanDialog == null) {
-            mCpuScanDialog = new CpuScanDialog();
-        }
-        mCpuScanDialog.show(getActivity().getFragmentManager(), "cpuscan");
+
     }
 
     @Override
     public void initData() {
+
+        if(MainActivity.cpuLists!=null){
+            mLists =MainActivity.cpuLists;
+        }
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         cpucoolerThermometerRv.setLayoutManager(layoutManager);
         mAdapter = new CpuCoolerAdapter(getActivity());
-        cpucoolerThermometerRv.setAdapter(mAdapter);
-        if (presenter != null) {
-            presenter.startScanProcessRunningApp();
-            presenter.getProcessRunningApp();
+        if(mLists!=null){
+            mAdapter.setNewData(mLists);
         }
+        cpucoolerThermometerRv.setAdapter(mAdapter);
+        initTemp(temp);
     }
 
     @Override
@@ -365,6 +362,18 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
         }
     }
 
+    @Override
+    public void initProcessList(List<AppProcessInfornBean> list) {
+        if(list!=null){
+            mAdapter.setNewData(list);
+        }
+    }
+
+    @Override
+    public void initTemp(float temp) {
+        cpucoolerThermometerTv.setText(temp + "°C");
+    }
+
 
     @Override
     public void onDestroyView() {
@@ -379,6 +388,11 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
         if(StringUtil.isFastDoubleClick()){
             return;
         }
+
+        if(MainActivity.cpuLists!=null){
+            MainActivity.cpuLists = null;
+        }
+
 
         if (presenter != null) {
             if (mLists != null && mLists.size() > 0) {

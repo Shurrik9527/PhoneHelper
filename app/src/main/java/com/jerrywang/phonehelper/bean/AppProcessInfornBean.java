@@ -3,6 +3,8 @@ package com.jerrywang.phonehelper.bean;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+
 /**
  * @author heguogui
  * @version v 1.0.0
@@ -10,7 +12,7 @@ import android.support.annotation.NonNull;
  * @date 2018/9/6
  * @email 252774645@qq.com
  */
-public class AppProcessInfornBean {
+public class AppProcessInfornBean implements Serializable{
 
     private String appName;                 //app名字
     private String processName;            //进程名字

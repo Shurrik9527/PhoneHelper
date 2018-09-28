@@ -39,8 +39,8 @@ public class CpuScanDialog extends DialogFragment{
         RelativeLayout.LayoutParams param =new RelativeLayout.LayoutParams(5 * width / 8, 5 * height / 8);
         param.addRule(RelativeLayout.CENTER_IN_PARENT);
         imageView.setLayoutParams(param);
-        TopBottomScanView mTopBottomScanView =view.findViewById(R.id.cpucooler_scan_tbsv);
-        mTopBottomScanView.setScanAnimatorDuration(1000);
+//        TopBottomScanView mTopBottomScanView =view.findViewById(R.id.cpucooler_scan_tbsv);
+//        mTopBottomScanView.setScanAnimatorDuration(1000);
         final Dialog dialog = new Dialog(getActivity(), R.style.dialogTransparent);
 
         dialog.setContentView(view);

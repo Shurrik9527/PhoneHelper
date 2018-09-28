@@ -418,7 +418,9 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
         rotateAnimation.setInterpolator(lir);
         rotateAnimation.setDuration(time);//设置动画持续时间
         rotateAnimation.setFillAfter(true);//动画执行完后是否停留在执行完的状态
-        junkclearnerPointIv.startAnimation(rotateAnimation);
+        if(junkclearnerPointIv!=null){
+            junkclearnerPointIv.startAnimation(rotateAnimation);
+        }
         mTemp = progress;
 
     }
@@ -467,4 +469,12 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
         }
     };
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(junkclearnerPointIv!=null){
+            junkclearnerPointIv.clearAnimation();
+        }
+    }
 }

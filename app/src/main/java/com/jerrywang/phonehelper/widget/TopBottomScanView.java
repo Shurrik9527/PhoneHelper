@@ -1,5 +1,8 @@
 package com.jerrywang.phonehelper.widget;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -16,6 +19,9 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 import com.jerrywang.phonehelper.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author heguogui
@@ -84,10 +90,10 @@ public class TopBottomScanView extends View{
         mScancolor = resources.getColor(R.color.radarscan_blue);
 
         //扫描区域的四角线框的样式
-        mLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mLinePaint.setColor(mBoundaryColor);
-        mLinePaint.setStrokeWidth(mBoundaryStrokeWidth);
-        mLinePaint.setStyle(Paint.Style.STROKE);
+//        mLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//        mLinePaint.setColor(mBoundaryColor);
+//        mLinePaint.setStrokeWidth(mBoundaryStrokeWidth);
+//        mLinePaint.setStyle(Paint.Style.STROKE);
 
         //变换矩阵，用来处理扫描的上下扫描效果
         mScanMatrix = new Matrix();
@@ -132,17 +138,18 @@ public class TopBottomScanView extends View{
         }
 
         if (mValueAnimator == null) {
-            initScanValueAnim(mFrame.height());
+           // initScanValueAnim(mFrame.height());
+            floatAnim(this,10000);
         }
     }
 
     @SuppressLint("DrawAllocation")
     @Override
     public void onDraw(Canvas canvas) {
-        if (mFrame == null||mBoundaryLinePath==null) {
+        if (mFrame == null) {
             return;
         }
-        canvas.drawPath(mBoundaryLinePath, mLinePaint);
+       // canvas.drawPath(mBoundaryLinePath, mLinePaint);
         switch (mScanStyle) {
             case style_gridding:
             default:
@@ -195,6 +202,7 @@ public class TopBottomScanView extends View{
     }
 
     public void initScanValueAnim(int height) {
+
         mValueAnimator = new ValueAnimator();
         mValueAnimator.setDuration(mScanAnimatorDuration);
         mValueAnimator.setFloatValues(-height, 0);
@@ -215,6 +223,22 @@ public class TopBottomScanView extends View{
         });
         mValueAnimator.start();
     }
+
+
+    private void floatAnim(View view,int delay){
+        List<Animator> animators = new ArrayList<>();
+        ObjectAnimator translationYAnim = ObjectAnimator.ofFloat(view, "translationY", 100.0f,-200.0f,200.0f,100.0f);
+        translationYAnim.setDuration(1500);
+        translationYAnim.setRepeatCount(ValueAnimator.INFINITE);
+        translationYAnim.setRepeatMode(ValueAnimator.RESTART);
+        translationYAnim.start();
+        animators.add(translationYAnim);
+        AnimatorSet btnSexAnimatorSet = new AnimatorSet();
+        btnSexAnimatorSet.playTogether(animators);
+        btnSexAnimatorSet.setStartDelay(delay);
+        btnSexAnimatorSet.start();
+    }
+
 
     @Override
     protected void onDetachedFromWindow() {

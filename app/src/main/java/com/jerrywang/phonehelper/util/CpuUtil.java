@@ -79,7 +79,7 @@ public class CpuUtil {
 
                 //暂时以电池温度为准
 
-               // Log.i(TAG,"type="+type+"|temperature"+line);
+                Log.i(TAG,"type="+type+"|temperature"+line);
 
 //                if (line != null) {
 //                    long temperature = Long.parseLong(line);
@@ -93,13 +93,25 @@ public class CpuUtil {
                 if (line != null) {
                     long temperature = Long.parseLong(line);
                     if(!TextUtils.isEmpty(type)&&type.equals("battery")){
-                        //Log.i(TAG,"type0"+type);
-                        result.add(temperature);
+                        Log.i(TAG,"type0"+type);
+                        if(temperature>0&&temperature<1000){
+                            if(temperature>0&&temperature<100){
+                                result.add(temperature);
+                            }else if(temperature>100&&temperature<1000){
+                                temperature =temperature/10;
+                                result.add(temperature);
+                            }
+                        }
                         break;
                     }else{
-                        //Log.i(TAG,"type1"+type);
+                        Log.i(TAG,"type1"+type);
                         if(temperature>0&&temperature<1000){
-                            result.add(temperature);
+                            if(temperature>0&&temperature<100){
+                                result.add(temperature);
+                            }else if(temperature>100&&temperature<1000){
+                                temperature =temperature/10;
+                                result.add(temperature);
+                            }
                         }
                     }
                 }

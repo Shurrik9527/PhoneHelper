@@ -15,6 +15,7 @@ import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.appmanager.AppManagerActivity;
 import com.jerrywang.phonehelper.chargebooster.ChargeBoosterActivity;
 import com.jerrywang.phonehelper.cpucooler.CpuCoolerActivity;
+import com.jerrywang.phonehelper.cpucooler.cpucoolerscan.CpuCoolerScanActivity;
 import com.jerrywang.phonehelper.junkcleaner.JunkCleanerActivity;
 import com.jerrywang.phonehelper.util.ToastUtil;
 import com.tbruyelle.rxpermissions2.Permission;
@@ -102,7 +103,7 @@ public class MainFragment extends Fragment implements MainContract.View {
     @Override
     public void showCpuCooler() {
         //手机降温
-        Intent intent = new Intent(getContext(), CpuCoolerActivity.class);
+        Intent intent = new Intent(getContext(), CpuCoolerScanActivity.class);
         startActivity(intent);
     }
 
