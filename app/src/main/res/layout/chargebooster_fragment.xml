@@ -5,27 +5,41 @@
     android:layout_height="match_parent"
     tools:context=".chargebooster.ChargeBoosterFragment">
 
-    <TextView
-        android:id="@+id/iv_chargestatus"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rl_chargestatus"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:drawableBottom="@mipmap/ic_chargebooster"
-        android:text="加快充电速度"
+        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/iv_chargestatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/element_default_space"
+            android:layout_marginTop="@dimen/element_double_space"
+            android:drawableTop="@mipmap/ic_chargestatus_on"
+            android:gravity="center"
+            android:drawablePadding="-30dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_small_size"
+            android:text="Charge Protect: ON"/>
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/rl_chargecover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:background="@color/white"
+        android:layout_marginTop="@dimen/element_default_space"
         android:padding="@dimen/element_default_space"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_chargestatus">
+        app:layout_constraintTop_toBottomOf="@+id/rl_chargestatus">
 
         <TextView
             android:id="@+id/tv_chargecover"
@@ -39,9 +53,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_chargecover"
-            android:textColor="@color/description_text"
             android:paddingTop="@dimen/element_half_space"
             android:text="使用充电屏保加速充电，并防止过度充电！"
+            android:textColor="@color/description_text"
             android:textSize="@dimen/text_small_size" />
 
 
@@ -51,8 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:theme="@style/MySwitch"
-            android:checked="false" />
+            android:checked="false"
+            android:theme="@style/MySwitch" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -89,12 +103,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:shadowColor="@color/colorPrimary"
-            android:theme="@style/MySwitch"
+            android:checked="false"
             android:enabled="false"
-            android:checked="false" />
+            android:shadowColor="@color/colorPrimary"
+            android:theme="@style/MySwitch" />
     </RelativeLayout>
-
 
 
 </android.support.constraint.ConstraintLayout>
