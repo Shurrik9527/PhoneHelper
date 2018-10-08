@@ -19,7 +19,6 @@ import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.aboutus.AboutUsActivity;
 import com.jerrywang.phonehelper.bean.AppProcessInfornBean;
 import com.jerrywang.phonehelper.screenlocker.ScreenLockerService;
-import com.jerrywang.phonehelper.util.ToastUtil;
 
 import java.util.List;
 
@@ -112,7 +111,8 @@ public class MainActivity extends BaseActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.main_update_menu_item:
                                 //检查更新
-                                ToastUtil.showToast(MainActivity.this, "This is the newest version!");
+//                                ToastUtil.showToast(MainActivity.this, "This is the newest version!");
+                                goToAppDetailPage();
                                 break;
                             case R.id.main_feedback_menu_item:
                                 //意见反馈
@@ -123,10 +123,11 @@ public class MainActivity extends BaseActivity {
                                 data.putExtra(Intent.EXTRA_TEXT, "Hi, There!");
                                 startActivity(data);
                                 break;
-//                            case R.id.main_comment_menu_item:
-//                                //评论我们
+                            case R.id.main_comment_menu_item:
+                                //评论我们
 //                                ToastUtil.showToast(MainActivity.this, "评论我们");
-//                                break;
+                                goToAppDetailPage();
+                                break;
                             case R.id.main_aboutus_menu_item:
                                 //关于我们
                                 //ToastUtil.showToast(MainActivity.this, "关于我们");
@@ -141,5 +142,15 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
-
+    /**
+     * 跳转到应用详情页面
+     */
+    public void goToAppDetailPage() {
+        final String GOOGLE_PLAY = "com.android.vending";
+        Uri uri = Uri.parse("market://details?id=com.jerrywang.phonehelper");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setPackage(GOOGLE_PLAY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 }
