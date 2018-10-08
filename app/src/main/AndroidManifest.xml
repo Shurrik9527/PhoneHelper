@@ -57,6 +57,11 @@
                 <data android:scheme="package"/>
             </intent-filter>
         </receiver>
+
+        <!--AdMob-->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-7217354661273867~3134135584"/>
     </application>
 
 </manifest>

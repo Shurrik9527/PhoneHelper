@@ -8,11 +8,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.jaeger.library.StatusBarUtil;
 import com.jerrywang.phonehelper.BaseActivity;
 import com.jerrywang.phonehelper.R;
-import com.jerrywang.phonehelper.bean.AppProcessInfornBean;
 import com.jerrywang.phonehelper.aboutus.AboutUsActivity;
+import com.jerrywang.phonehelper.bean.AppProcessInfornBean;
 import com.jerrywang.phonehelper.screenlocker.ScreenLockerService;
 import com.jerrywang.phonehelper.util.ToastUtil;
 
@@ -31,6 +36,8 @@ public class MainActivity extends BaseActivity {
     Drawable menu;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
+    private InterstitialAd interstitialAd;
 
     public static List<AppProcessInfornBean> cpuLists;
 
@@ -65,6 +72,24 @@ public class MainActivity extends BaseActivity {
         setIcon(menu);
         //开启服务，开启锁屏界面
         startService(new Intent(MainActivity.this, ScreenLockerService.class));
+
+        //初始化AdMob
+        MobileAds.initialize(this);
+        //初始化Interstitial Ads
+        interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId("ca-app-pub-7217354661273867/8093273638");
+        AdRequest request = new AdRequest.Builder()
+//                .addTestDevice("3354EE0DE60D4DE6C845A1C28842FDEA")
+                .build();
+        interstitialAd.loadAd(request);
+        //初始化成功以后直接显示
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                interstitialAd.show();
+            }
+        });
     }
 
 
