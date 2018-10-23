@@ -19,7 +19,7 @@ public class ScreenLockerService extends Service {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction() == Intent.ACTION_SCREEN_OFF) {
                 boolean isProtect = Boolean.parseBoolean(sharedPreferencesHelper.getSharedPreference("isProtect", false).toString().trim());
-                if(isProtect) {
+                if (isProtect) {
                     Intent lockScreenIntent = new Intent(ScreenLockerService.this, ScreenLockerActivity.class);
                     lockScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     //开启锁屏界面
@@ -34,8 +34,6 @@ public class ScreenLockerService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         return START_STICKY;
     }
-
-    ;
 
     @Override
     public void onCreate() {
