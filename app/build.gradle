@@ -81,4 +81,8 @@ dependencies {
     implementation 'com.romainpiel.shimmer:library:1.4.0@aar'
     //AdMob
     implementation 'com.google.android.gms:play-services-ads:16.0.0'
+    implementation  'org.litepal.android:core:1.6.1'
+
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.1.4'
+
 }

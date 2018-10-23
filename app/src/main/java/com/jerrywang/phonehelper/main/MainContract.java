@@ -18,6 +18,7 @@ public class MainContract {
         void showCpuCooler();
         void showPhoneBooster();
         void showChargeBooster();
+        void showPermissions();
     }
 
     public interface Presenter extends BasePresenter {

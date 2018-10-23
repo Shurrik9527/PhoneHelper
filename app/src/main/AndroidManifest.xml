@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.jerrywang.phonehelper"
     >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- if you want to load images from a file OR from the internet -->
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
@@ -19,6 +21,25 @@
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
     <uses-permission android:name="android.permission.DELETE_CACHE_FILES"/>
     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"/>
+
+
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+
+
+    <!--应用锁需要的权限-->
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name="com.jerrywang.phonehelper.App"
@@ -49,6 +70,21 @@
         <activity android:name=".junkcleaner.optimized.OptimizedActivity"/>
         <activity android:name=".cpucooler.cpucoolerscan.CpuCoolerScanActivity"/>
         <activity android:name=".aboutus.AboutUsActivity"/>
+        <activity android:name=".applock.AppLockActivity"/>
+        <activity android:name=".applock.gesturelock.unlock.GestureUnlockActivity"
+            android:excludeFromRecents="true"
+            android:label=""
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/unlock_activity_style"
+            />
+        <activity android:name=".applock.gesturelock.createlock.GestureCreateActivity"/>
+        <activity android:name=".applock.gesturelock.setting.SettingLockActivity"/>
+        <activity android:name=".applock.gesturelock.resetlock.ResetPasswordActivity"/>
+        <activity android:name=".harassintercept.HarassInterceptActivity"/>
+        <activity android:name=".harassintercept.detail.SmsDetailActivity"/>
+
         <!--锁屏服务-->
         <service android:name=".screenlocker.ScreenLockerService" />
         <receiver android:name=".appmanager.PackageReceiver">
@@ -57,6 +93,43 @@
                 <data android:scheme="package"/>
             </intent-filter>
         </receiver>
+        <!--加载应用服务-->
+        <service android:name=".service.LoadAppListService"/>
+        <!--应用锁服务-->
+        <service android:name=".service.LockService"/>
+        <!--应用锁服务-->
+        <service android:name=".service.HarassInterceptService"/>
+
+        <!--启动服务广播-->
+        <receiver android:name="com.jerrywang.phonehelper.broadcase.BootBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.jerrywang.phonehelper.broadcase.PhoneBroadcastReceiver">
+            <intent-filter
+                android:priority="1000"
+                >
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+
+        <!--启动短信广播-->
+        <receiver android:name="com.jerrywang.phonehelper.broadcase.SmsReciever">
+            <intent-filter android:priority="1000">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED2"/>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED_2"/>
+                <action android:name="android.provider.Telephony.GSM_SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.jerrywang.phonehelper.service.PhoneService"/>
 
         <!--AdMob-->
         <meta-data

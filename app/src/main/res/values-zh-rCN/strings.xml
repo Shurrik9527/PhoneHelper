@@ -7,6 +7,29 @@
     <string name="junkcleaner_unused_apk_tiele">无用安装包</string>
     <string name="junkcleaner_temporary_file_tiele">临时文件</string>
     <string name="junkcleaner_log_file_tiele">日志文件</string>
+    <string name="gesturecreate_create_password">请绘制4个以上的密码</string>
+    <string name="gesturecreate_top_title">创建密码</string>
+    <string name="gesturecreate_reset_tv">重置</string>
+    <string name="lock_recording_intro_header">请重新绘制密码</string>
+    <string name="gesturecreate_password_small">对不起!你的密码太少...</string>
+    <string name="gesturecreate_password_success">恭喜!设置成功...</string>
+    <string name="gesturecreate_password_fail">对不起!两个密码不一致...</string>
+    <string name="gesturecreate_recommend_msg">个已被推荐!</string>
+    <string name="password_gestrue_tips">绘制密码解锁</string>
+    <string name="lock_need_to_unlock_wrong">密码不匹配，请重试。</string>
+    <string name="setting_lock_applock_state_title">应用锁</string>
+    <string name="setting_lock_reset_password">重设置密码</string>
+    <string name="setting_lock_lockscreen">锁屏后立即加锁</string>
+    <string name="setting_lock_applock_state_open_success">已开启，加锁应用打开时需要密码!</string>
+    <string name="setting_lock_applock_state_close_success">已关闭，加锁应用打开时不需要密码!</string>
+    <string name="resetpassword_top_title">重新设置密码</string>
+    <string name="resetpassword_success">密码重置成功</string>
+
+
+    <string name="harassintercept_top_title">骚扰拦截</string>
+    <string name="harassintercept_sms_title">短信</string>
+    <string name="harassintercept_phone_title">手机</string>
+
 </resources>
 
 

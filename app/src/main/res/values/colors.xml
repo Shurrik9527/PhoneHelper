@@ -30,4 +30,7 @@
     <color name="bg_start">#090d22</color>
     <color name="bg_end">#020712</color>
     <color name="stv_slidetounlock">#08f90e</color>
+    <color name="red1">#fe0100</color>
+    <color name="green0">#29b95c</color>
+
 </resources>

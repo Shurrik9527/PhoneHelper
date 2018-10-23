@@ -33,4 +33,19 @@
         android:id="@+id/main_aboutus_menu_item"
         android:icon="@drawable/ic_aboutus"
         android:title="About Us" />
+
+    <item
+        android:id="@+id/main_applock_menu_item"
+        android:icon="@drawable/ic_aboutus"
+        android:title="App Lock" />
+
+    <item
+        android:id="@+id/main_harassintercept_menu_item"
+        android:icon="@drawable/ic_aboutus"
+        android:title="Harass Intercept" />
+
+    <item
+        android:id="@+id/main_setting_menu_item"
+        android:icon="@drawable/ic_aboutus"
+        android:title="Setting" />
 </menu>

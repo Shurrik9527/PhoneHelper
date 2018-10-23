@@ -14,17 +14,16 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.appmanager.AppManagerActivity;
 import com.jerrywang.phonehelper.chargebooster.ChargeBoosterActivity;
-import com.jerrywang.phonehelper.cpucooler.CpuCoolerActivity;
 import com.jerrywang.phonehelper.cpucooler.cpucoolerscan.CpuCoolerScanActivity;
 import com.jerrywang.phonehelper.junkcleaner.JunkCleanerActivity;
 import com.jerrywang.phonehelper.util.ToastUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
+
 
 
 public class MainFragment extends Fragment implements MainContract.View {
@@ -49,21 +48,23 @@ public class MainFragment extends Fragment implements MainContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
+        showPermissions();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        presenter.subscribe();
+        if(presenter!=null){
+            presenter.subscribe();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        presenter.unsubscribe();
+        if(presenter!=null){
+            presenter.unsubscribe();
+        }
     }
 
     @Override
@@ -136,12 +137,14 @@ public class MainFragment extends Fragment implements MainContract.View {
         startActivity(intent);
     }
 
-
     @Override
-    public void initView() {
+    public void showPermissions() {
         //手动授予权限  目前未授予权限则退出APP
         RxPermissions rxPermission = new RxPermissions(getActivity());
-        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CLEAR_APP_CACHE, Manifest.permission.DELETE_CACHE_FILES)
+        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CLEAR_APP_CACHE, Manifest.permission.DELETE_CACHE_FILES,Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_CONTACTS,
+                Manifest.permission.READ_SMS,
+                Manifest.permission.READ_CALL_LOG)
                 .subscribe(new Consumer<Permission>() {
                     @Override
                     public void accept(Permission permission) throws Exception {
@@ -150,7 +153,11 @@ public class MainFragment extends Fragment implements MainContract.View {
                         }
                     }
                 });
+    }
 
+
+    @Override
+    public void initView() {
         showPhoneBooster();
     }
 
@@ -163,4 +170,6 @@ public class MainFragment extends Fragment implements MainContract.View {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
+
 }

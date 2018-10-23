@@ -1,8 +1,10 @@
 package com.jerrywang.phonehelper.main;
 
 import android.content.Intent;
+import android.database.Observable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -17,14 +19,28 @@ import com.jaeger.library.StatusBarUtil;
 import com.jerrywang.phonehelper.BaseActivity;
 import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.aboutus.AboutUsActivity;
+import com.jerrywang.phonehelper.applock.AppLockActivity;
+import com.jerrywang.phonehelper.applock.gesturelock.createlock.GestureCreateActivity;
+import com.jerrywang.phonehelper.applock.gesturelock.setting.SettingLockActivity;
+import com.jerrywang.phonehelper.base.Constant;
 import com.jerrywang.phonehelper.bean.AppProcessInfornBean;
+import com.jerrywang.phonehelper.harassintercept.HarassInterceptActivity;
+import com.jerrywang.phonehelper.manager.AddressListManager;
+import com.jerrywang.phonehelper.manager.CallLogManager;
+import com.jerrywang.phonehelper.manager.SMSManager;
 import com.jerrywang.phonehelper.screenlocker.ScreenLockerService;
+import com.jerrywang.phonehelper.util.SpHelper;
 
 import java.util.List;
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
 import butterknife.BindView;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
     @BindView(R.id.drawer_layout)
@@ -134,6 +150,45 @@ public class MainActivity extends BaseActivity {
                                 Intent intent = new Intent(MainActivity.this, AboutUsActivity.class);
                                 startActivity(intent);
                                 break;
+                            case R.id.main_applock_menu_item:
+                                boolean isFirstLock = (boolean) SpHelper.getInstance().get(Constant.LOCK_IS_FIRST_LOCK, true);
+                                if(isFirstLock){
+                                    startActivity(new Intent(MainActivity.this, GestureCreateActivity.class));
+                                }else{
+                                    startActivity(new Intent(MainActivity.this, AppLockActivity.class));
+                                }
+                                break;
+                            case R.id.main_setting_menu_item:
+                                startActivity(new Intent(MainActivity.this, SettingLockActivity.class));
+                                break;
+                            case R.id.main_harassintercept_menu_item:
+                                //首次进入做一次数据库更新
+                                boolean isUpdate = (boolean) SpHelper.getInstance().get(Constant.UPDATE_SQLITE,false);
+                                if(!isUpdate){
+                                    io.reactivex.Observable.create(new ObservableOnSubscribe<Boolean>() {
+                                        @Override
+                                        public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
+                                            AddressListManager.getmInstance().updateAddressListSqliteData();
+                                            CallLogManager.getmInstance().updateCallLogSqliteData();
+                                            SMSManager.getmInstance().updateSMSSqliteData();
+                                            SpHelper.getInstance().put(Constant.UPDATE_SQLITE,true);
+                                            e.onNext(true);
+                                        }
+                                    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+                                        @Override
+                                        public void accept(Boolean aBoolean) throws Exception {
+                                            if(aBoolean){
+                                                //停留5秒
+                                                SystemClock.sleep(5000);
+                                                startActivity(new Intent(MainActivity.this, HarassInterceptActivity.class));
+                                            }
+                                        }
+                                    });
+                                }else{
+                                    startActivity(new Intent(MainActivity.this, HarassInterceptActivity.class));
+                                }
+                                break;
+
                         }
                         // Close the navigation drawer when an item is selected.
                         //mDrawerLayout.closeDrawers();
@@ -153,4 +208,9 @@ public class MainActivity extends BaseActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
+
+
+
+
 }

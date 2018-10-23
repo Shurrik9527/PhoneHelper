@@ -25,4 +25,6 @@
 
     <dimen name="line_size">1dp</dimen>
     <dimen name="thin_line_size">0.5dp</dimen>
+    <dimen name="swipe_size">80dip</dimen>
+    <dimen name="swipe_size_80">80dip</dimen>
 </resources>

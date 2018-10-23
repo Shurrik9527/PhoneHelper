@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import com.jerrywang.phonehelper.applock.gesturelock.unlock.GestureUnlockActivity;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -316,5 +317,19 @@ public class ActivityUtil {
         transaction.add(frameId, fragment);
         transaction.commitAllowingStateLoss();
     }
+
+
+    public  void clearAllActivity() {
+        try {
+            for (Activity activity : activities) {
+                if (activity != null && !isExistActivity(GestureUnlockActivity.class))
+                    activity.finish();
+            }
+            activities.clear();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

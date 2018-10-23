@@ -81,6 +81,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         addFragmentToActivity();
         // 后续初始化操作
         init();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     /**
