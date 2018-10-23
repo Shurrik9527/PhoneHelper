@@ -67,13 +67,20 @@ public class AddressListManager {
      * @return
      */
     public Observable<List<AddressListBean>> getMobileAddressListObservable() {
-        return Observable.create(new ObservableOnSubscribe<List<AddressListBean>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<AddressListBean>> e) throws Exception {
-                e.onNext(PhoneUtils.getAllAddressListNum(mContext));
-                e.onComplete();
-            }
-        }).subscribeOn(Schedulers.io());
+        try {
+            Observable<List<AddressListBean>> observable =Observable.create(new ObservableOnSubscribe<List<AddressListBean>>() {
+                @Override
+                public void subscribe(ObservableEmitter<List<AddressListBean>> e) throws Exception {
+                    List<AddressListBean> mlist= PhoneUtils.getAllAddressListNum(mContext);
+                    if(mlist!=null&&mlist.size()>0){
+                        e.onNext(mlist);
+                    }
+                }
+            }).subscribeOn(Schedulers.io());
+            return observable;
+        }catch (Exception e){
+            return null;
+        }
     }
 
     /**
@@ -93,7 +100,13 @@ public class AddressListManager {
 
     public void updateAddressListSqliteData(){
         try {
-            Observable.zip(getMobileAddressListObservable(),getSqliteAddressListObservable(), new BiFunction<List<AddressListBean>, List<AddressListBean>, List<AddressListBean>>() {
+
+            Observable<List<AddressListBean>> observableaddress =getMobileAddressListObservable();
+            if(observableaddress==null){
+                return;
+            }
+
+            Observable.zip(observableaddress,getSqliteAddressListObservable(), new BiFunction<List<AddressListBean>, List<AddressListBean>, List<AddressListBean>>() {
                 @Override
                 public List<AddressListBean> apply(List<AddressListBean> addressListBeans, List<AddressListBean> addressListBeans2) throws Exception {
                     return PhoneUtils.updateAddressListSqlite(addressListBeans,addressListBeans2);

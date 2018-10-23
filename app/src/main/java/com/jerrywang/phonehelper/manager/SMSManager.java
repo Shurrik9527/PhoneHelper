@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.jerrywang.phonehelper.bean.AddressListBean;
 import com.jerrywang.phonehelper.bean.CallLogBean;
 import com.jerrywang.phonehelper.bean.SmsBean;
 import com.jerrywang.phonehelper.event.RefreshSMSEvent;
@@ -73,13 +74,22 @@ public class SMSManager {
      * @return
      */
     public Observable<List<SmsBean>> getMobileSMSObservable() {
-        return Observable.create(new ObservableOnSubscribe<List<SmsBean>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<SmsBean>> e) throws Exception {
-                e.onNext(SMSUtils.getSmsInfo(mContext));
-                e.onComplete();
-            }
-        }).subscribeOn(Schedulers.io());
+
+        try {
+            Observable<List<SmsBean>> observable =Observable.create(new ObservableOnSubscribe<List<SmsBean>>() {
+                @Override
+                public void subscribe(ObservableEmitter<List<SmsBean>> e) throws Exception {
+                    List<SmsBean> mlists = SMSUtils.getSmsInfo(mContext);
+                    if(mlists!=null&&mlists.size()>0){
+                        e.onNext(SMSUtils.getSmsInfo(mContext));
+                    }
+                }
+            }).subscribeOn(Schedulers.io());
+            return observable;
+        }catch (Exception e){
+            return null;
+        }
+
     }
 
     /**
@@ -87,19 +97,32 @@ public class SMSManager {
      * @return
      */
     public Observable<List<SmsBean>> getSqliteSMSObservable() {
-        return Observable.create(new ObservableOnSubscribe<List<SmsBean>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<SmsBean>> e) throws Exception {
-                e.onNext(manager.getAllSMSInfos());
-                e.onComplete();
-            }
-        }).subscribeOn(Schedulers.io());
+        try {
+            Observable<List<SmsBean>> observable =Observable.create(new ObservableOnSubscribe<List<SmsBean>>() {
+                @Override
+                public void subscribe(ObservableEmitter<List<SmsBean>> e) throws Exception {
+                    e.onNext(manager.getAllSMSInfos());
+                    e.onComplete();
+                }
+            }).subscribeOn(Schedulers.io());
+            return observable;
+        }catch (Exception e){
+            return null;
+        }
     }
 
 
     public void updateSMSSqliteData(){
+
+
         try {
-            Observable.zip(getMobileSMSObservable(),getSqliteSMSObservable(), new BiFunction<List<SmsBean>, List<SmsBean>, List<SmsBean>>() {
+
+            Observable<List<SmsBean>> observable =getMobileSMSObservable();
+            if(observable==null){
+                return;
+            }
+
+            Observable.zip(observable,getSqliteSMSObservable(), new BiFunction<List<SmsBean>, List<SmsBean>, List<SmsBean>>() {
                 @Override
                 public List<SmsBean> apply(List<SmsBean> mSmsBean, List<SmsBean> mSmsBean2) throws Exception {
                     return SMSUtils.updateSMSSqlite(mSmsBean,mSmsBean2);

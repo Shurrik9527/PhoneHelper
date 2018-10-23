@@ -34,10 +34,9 @@ public class PhoneUtils {
      * @return
      */
     public static List<AddressListBean> getAllAddressListNum(Context context) {
-
-        List<AddressListBean> mList = new ArrayList<>();
         Cursor cursor =null;
         try {
+            List<AddressListBean> mList = new ArrayList<>();
             cursor = context.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
             while (cursor.moveToNext()) {
                 AddressListBean mBean = new AddressListBean();
@@ -58,15 +57,18 @@ public class PhoneUtils {
                 if (phones != null && !phones.isClosed()) {
                     phones.close();
                 }
-
             }
+            return mList;
         } catch (Exception e) {
+
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
             }
+            return new ArrayList<>();
         }
-        return mList;
+
+
     }
 
 

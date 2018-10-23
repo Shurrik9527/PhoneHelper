@@ -68,13 +68,21 @@ public class CallLogManager {
      * @return
      */
     public Observable<List<CallLogBean>> getMobileCallLogObservable() {
-        return Observable.create(new ObservableOnSubscribe<List<CallLogBean>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<CallLogBean>> e) throws Exception {
-                e.onNext(PhoneUtils.getCallLogLists(mContext));
-                e.onComplete();
-            }
-        }).subscribeOn(Schedulers.io());
+        try {
+            Observable<List<CallLogBean>> observable =Observable.create(new ObservableOnSubscribe<List<CallLogBean>>() {
+                @Override
+                public void subscribe(ObservableEmitter<List<CallLogBean>> e) throws Exception {
+                    List<CallLogBean> mlist = PhoneUtils.getCallLogLists(mContext);
+                    if(mlist!=null&&mlist.size()>0){
+                        e.onNext(mlist);
+                    }
+                }
+            }).subscribeOn(Schedulers.io());
+            return observable;
+        }catch (Exception e){
+            return null;
+        }
+
     }
 
     /**
@@ -94,7 +102,13 @@ public class CallLogManager {
 
     public void updateCallLogSqliteData(){
         try {
-            Observable.zip(getMobileCallLogObservable(),getSqliteCallLogObservable(), new BiFunction<List<CallLogBean>, List<CallLogBean>, List<CallLogBean>>() {
+
+            Observable<List<CallLogBean>> observable =getMobileCallLogObservable();
+            if(observable==null){
+                return;
+            }
+
+            Observable.zip(observable,getSqliteCallLogObservable(), new BiFunction<List<CallLogBean>, List<CallLogBean>, List<CallLogBean>>() {
                 @Override
                 public List<CallLogBean> apply(List<CallLogBean> mCallLogBean, List<CallLogBean> mCallLogBeanBeans2) throws Exception {
                     return PhoneUtils.updateCallLogSqlite(mCallLogBean,mCallLogBeanBeans2);
