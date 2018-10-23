@@ -1,10 +1,16 @@
 package com.jerrywang.phonehelper.main;
 
+import android.annotation.TargetApi;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Observable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.SystemClock;
+import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +24,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.jaeger.library.StatusBarUtil;
 import com.jerrywang.phonehelper.BaseActivity;
 import com.jerrywang.phonehelper.R;
+import com.jerrywang.phonehelper.VMDaemonJobService;
 import com.jerrywang.phonehelper.aboutus.AboutUsActivity;
 import com.jerrywang.phonehelper.applock.AppLockActivity;
 import com.jerrywang.phonehelper.applock.gesturelock.createlock.GestureCreateActivity;
@@ -105,6 +112,9 @@ public class MainActivity extends BaseActivity {
                 interstitialAd.show();
             }
         });
+
+        //启动守护进程
+        startJobScheduler();
     }
 
 
@@ -209,8 +219,17 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
 
-
-
-
+    /**
+     * 5.x以上系统启用 JobScheduler API 进行实现守护进程的唤醒操作
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void startJobScheduler() {
+        int jobId = 1;
+        JobInfo.Builder jobInfo = new JobInfo.Builder(jobId, new ComponentName(this, VMDaemonJobService.class));
+        jobInfo.setPeriodic(10000);
+        jobInfo.setPersisted(true);
+        JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        jobScheduler.schedule(jobInfo.build());
+    }
 
 }
