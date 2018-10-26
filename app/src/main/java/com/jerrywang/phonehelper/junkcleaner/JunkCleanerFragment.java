@@ -35,6 +35,7 @@ import com.jerrywang.phonehelper.util.SharedPreferencesHelper;
 import com.jerrywang.phonehelper.util.StringUtil;
 import com.jerrywang.phonehelper.util.TimeUtil;
 import com.jerrywang.phonehelper.util.ToastUtil;
+import com.jerrywang.phonehelper.widget.DigitalRollingTextView;
 import com.jerrywang.phonehelper.widget.dialog.JunkCleanerDialog;
 import java.util.List;
 import butterknife.BindView;
@@ -63,7 +64,9 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     @BindView(R.id.junkclearner_point_iv)
     ImageView junkclearnerPointIv;
     @BindView(R.id.junkclearner_num_tv)
-    TextView junkclearnerNumTv;
+    DigitalRollingTextView junkclearnerNumTv;
+    @BindView(R.id.junkclearner_num_dw_tv)
+    TextView junkclearnerNumDwTv;
     @BindView(R.id.junkclearner_Rl)
     RelativeLayout junkclearnerRl;
     private float mProgress = 0.0f;
@@ -115,8 +118,10 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
 
     @Override
     public void initView() {
-        junkclearnerNumTv.setText("0.0M");
+        junkclearnerNumTv.setText("0.00");
+        junkclearnerNumTv.setModleType(DigitalRollingTextView.ModleType.MONEY_TYPE);
         startAnimation(-90.0f,500);
+        setBtnEnable(false);
     }
 
 
@@ -170,17 +175,22 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
             return;
         Log.i(TAG, "size=" + size);
         if (junkclearnerNumTv != null) {
-            junkclearnerNumTv.setText(size + "");
             if (size.contains("M")) {
                 String[] sizes = size.split("M");
                 mNum = sizes[0].trim();
+                junkclearnerNumTv.setContent(mNum);
+                junkclearnerNumDwTv.setText("MB");
                 setProgress();
             } else if (size.contains("B")) {
                 String[] sizes = size.split("B");
                 mNum = sizes[0].trim();
+                junkclearnerNumTv.setContent(mNum);
+                junkclearnerNumDwTv.setText("B");
             } else if (size.contains("G")) {
                 String[] sizes = size.split("G");
                 mNum = sizes[0].trim();
+                junkclearnerNumTv.setContent(mNum);
+                junkclearnerNumDwTv.setText("G");
                 try {
                     if(!TextUtils.isEmpty(mNum)){
                         float  number =Float.parseFloat(mNum)*1024;
@@ -235,10 +245,12 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
 
     @Override
     public void clickGroup(boolean isExpand, int index) {
-        if (!isExpand) {
-            junkclearnerElv.expandGroup(index);
-        } else {
-            junkclearnerElv.collapseGroup(index);
+        if(junkclearnerElv!=null){
+            if (!isExpand) {
+                junkclearnerElv.expandGroup(index);
+            } else {
+                junkclearnerElv.collapseGroup(index);
+            }
         }
     }
 
@@ -458,6 +470,17 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
                     }
                 }
             },100);
+        }
+    }
+
+    @Override
+    public void setBtnEnable(boolean enable) {
+        if(junkclearnerStartIv!=null){
+            if(enable){
+                junkclearnerStartIv.setEnabled(true);
+            }else{
+                junkclearnerStartIv.setEnabled(false);
+            }
         }
     }
 

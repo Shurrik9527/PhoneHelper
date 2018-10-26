@@ -126,6 +126,7 @@ public class JunkCleanerPresenter implements JunkCleanerContract.Presenter {
             public void onEvent(JunkCleanerDataEvent junkCleanerDataEvent) {
                 if(mView!=null){
                     mView.showData(junkCleanerDataEvent.getJunkCleanerGroupBean());
+                    mView.setBtnEnable(true);
                 }
             }
 

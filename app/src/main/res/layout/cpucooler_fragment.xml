@@ -4,25 +4,40 @@
     android:layout_height="match_parent"
     tools:context=".cpucooler.CpuCoolerFragment"
     android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/cpucooler_thermometer_top_ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="150dp"
         android:background="@mipmap/cpucooler_red"
         >
-        <TextView
+        <com.jerrywang.phonehelper.widget.DigitalRollingTextView
             android:id="@+id/cpucooler_thermometer_tv"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="50sp"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:text="0.0"
+            android:textStyle="normal"
+            android:layout_marginTop="10dp"
+            app:runWhenChange="false"
+            />
+        <TextView
+            android:id="@+id/cpucooler_thermometer_dw_tv"
+            android:layout_width="wrap_content"
             android:layout_height="150dp"
             android:gravity="center"
             android:textSize="50sp"
             android:textColor="@color/white"
-            android:layout_centerInParent="true"
-            android:text="0.0°C"
+            android:layout_alignBottom="@+id/cpucooler_thermometer_tv"
+            android:layout_toRightOf="@+id/cpucooler_thermometer_tv"
+            android:text="°C"
             android:textStyle="normal"
+            android:layout_marginTop="10dp"
             />
         <TextView
             android:layout_width="match_parent"
@@ -31,8 +46,9 @@
             android:textSize="14sp"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
             android:text="the following apps are heating up your phone" />
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <android.support.v7.widget.RecyclerView

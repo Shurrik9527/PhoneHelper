@@ -61,6 +61,8 @@ public class JunkCleanerContract {
 
         void setProgress();
 
+        void setBtnEnable(boolean enable);
+
     }
 
     public interface Presenter extends BasePresenter {

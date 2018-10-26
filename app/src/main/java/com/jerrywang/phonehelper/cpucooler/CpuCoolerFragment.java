@@ -19,6 +19,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jerrywang.phonehelper.R;
@@ -30,6 +31,7 @@ import com.jerrywang.phonehelper.main.MainActivity;
 import com.jerrywang.phonehelper.util.SharedPreferencesHelper;
 import com.jerrywang.phonehelper.util.StringUtil;
 import com.jerrywang.phonehelper.util.TimeUtil;
+import com.jerrywang.phonehelper.widget.DigitalRollingTextView;
 import com.jerrywang.phonehelper.widget.dialog.CpuCleanDialog;
 
 
@@ -43,9 +45,9 @@ import butterknife.OnClick;
 public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.View {
     private static final String TAG = CpuCoolerFragment.class.getName();
     @BindView(R.id.cpucooler_thermometer_tv)
-    TextView cpucoolerThermometerTv;
+    DigitalRollingTextView cpucoolerThermometerTv;
     @BindView(R.id.cpucooler_thermometer_top_ll)
-    LinearLayout cpucoolerThermometerTopLl;
+    RelativeLayout cpucoolerThermometerTopLl;
     @BindView(R.id.cpucooler_start_iv)
     ImageView cpucoolerStartIv;
     @BindView(R.id.cpucooler_thermometer_rv)
@@ -125,6 +127,10 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
 
     @Override
     public void initView() {
+        if(cpucoolerThermometerTv!=null){
+            cpucoolerThermometerTv.setDuration(2000);
+            cpucoolerThermometerTv.setModleType(DigitalRollingTextView.ModleType.COOLER_TYPE);
+        }
         startHeartBeat();
     }
 
@@ -145,7 +151,7 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
     @Override
     public void showTemperature(float temper) {
         this.temp =temper;
-        cpucoolerThermometerTv.setText(temper + "°C");
+        cpucoolerThermometerTv.setContent(temper+"");
     }
 
     @Override
@@ -371,7 +377,9 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
 
     @Override
     public void initTemp(float temp) {
-        cpucoolerThermometerTv.setText(temp + "°C");
+        if(cpucoolerThermometerTv!=null){
+            cpucoolerThermometerTv.setContent(temp+"");
+        }
     }
 
 

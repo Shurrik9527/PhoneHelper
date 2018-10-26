@@ -114,7 +114,7 @@ public class MainActivity extends BaseActivity {
         });
 
         //启动守护进程
-        startJobScheduler();
+        //startJobScheduler();
     }
 
 
@@ -219,17 +219,17 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    /**
-     * 5.x以上系统启用 JobScheduler API 进行实现守护进程的唤醒操作
-     */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void startJobScheduler() {
-        int jobId = 1;
-        JobInfo.Builder jobInfo = new JobInfo.Builder(jobId, new ComponentName(this, VMDaemonJobService.class));
-        jobInfo.setPeriodic(10000);
-        jobInfo.setPersisted(true);
-        JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        jobScheduler.schedule(jobInfo.build());
-    }
+//    /**
+//     * 5.x以上系统启用 JobScheduler API 进行实现守护进程的唤醒操作
+//     */
+//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+//    private void startJobScheduler() {
+//        int jobId = 1;
+//        JobInfo.Builder jobInfo = new JobInfo.Builder(jobId, new ComponentName(this, VMDaemonJobService.class));
+//        jobInfo.setPeriodic(10000);
+//        jobInfo.setPersisted(true);
+//        JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+//        jobScheduler.schedule(jobInfo.build());
+//    }
 
 }

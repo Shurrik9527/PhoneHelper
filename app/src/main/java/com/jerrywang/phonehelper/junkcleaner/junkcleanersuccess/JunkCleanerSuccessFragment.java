@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.util.ToastUtil;
+import com.jerrywang.phonehelper.widget.DigitalRollingTextView;
+
 import java.math.BigDecimal;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,13 +29,13 @@ public class JunkCleanerSuccessFragment extends Fragment implements JunkCleanerS
 
 
     private static final String TAG =JunkCleanerSuccessFragment.class.getName();
-    @BindView(R.id.cpucooler_success_tv)
-    TextView cpucoolerSuccessTv;
-    @BindView(R.id.cpucooler_success_iv)
+    @BindView(R.id.junkclearn_success_tv)
+    DigitalRollingTextView cpucoolerSuccessTv;
+    @BindView(R.id.junkclearn_success_iv)
     ImageView cpucoolerSuccessIv;
-    @BindView(R.id.cpucooler_success_rotate_iv)
+    @BindView(R.id.junkclearn_success_rotate_iv)
     ImageView cpucoolerSuccessRotateIv;
-    @BindView(R.id.cpucooler_time_tv)
+    @BindView(R.id.junkclearn_time_tv)
     TextView cpucoolerTimeTv;
 
     private JunkCleanerSuccessContract.Presenter presenter;
@@ -79,7 +81,7 @@ public class JunkCleanerSuccessFragment extends Fragment implements JunkCleanerS
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.cpucooler_success_fragment, container, false);
+        View root = inflater.inflate(R.layout.junkclearn_success_fragment, container, false);
         ButterKnife.bind(this, root);
         initView();
         startScan();
@@ -96,7 +98,8 @@ public class JunkCleanerSuccessFragment extends Fragment implements JunkCleanerS
 
 
         if(cpucoolerSuccessTv!=null){
-            cpucoolerSuccessTv.setText("0M");
+            cpucoolerSuccessTv.setModleType(DigitalRollingTextView.ModleType.MONEY_TYPE);
+            cpucoolerSuccessTv.setText("0.00");
         }
         if(cpucoolerTimeTv!=null){
             cpucoolerTimeTv.setText("Junk Files Cleaned");
@@ -145,11 +148,11 @@ public class JunkCleanerSuccessFragment extends Fragment implements JunkCleanerS
             cpucoolerSuccessRotateIv.setVisibility(View.GONE);
         }
 
-        if(!TextUtils.isEmpty(mTemp)){
-            float temp =Float.parseFloat(mTemp);
-            BigDecimal bigDecimal= new BigDecimal(Math.abs(msize-temp));
-            float dropped =bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-            cpucoolerSuccessTv.setText(dropped+"M");
+        if(!TextUtils.isEmpty(mTemp)) {
+            float temp = Float.parseFloat(mTemp);
+            BigDecimal bigDecimal = new BigDecimal(Math.abs(msize - temp));
+            float dropped = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+            cpucoolerSuccessTv.setContent(dropped + "");
         }
     }
 

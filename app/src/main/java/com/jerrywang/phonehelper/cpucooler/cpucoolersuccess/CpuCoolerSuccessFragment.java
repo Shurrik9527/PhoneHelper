@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.util.ToastUtil;
+import com.jerrywang.phonehelper.widget.DigitalRollingTextView;
 
 import java.math.BigDecimal;
 
@@ -31,7 +32,7 @@ import butterknife.ButterKnife;
 public class CpuCoolerSuccessFragment extends Fragment implements CpuCoolerSuccessContract.View {
 
     @BindView(R.id.cpucooler_success_tv)
-    TextView cpucoolerSuccessTv;
+    DigitalRollingTextView cpucoolerSuccessTv;
     @BindView(R.id.cpucooler_success_iv)
     ImageView cpucoolerSuccessIv;
     @BindView(R.id.cpucooler_success_rotate_iv)
@@ -101,7 +102,8 @@ public class CpuCoolerSuccessFragment extends Fragment implements CpuCoolerSucce
 
         Animation rotate = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_chean_anim);
         cpucoolerSuccessRotateIv.startAnimation(rotate);
-
+        cpucoolerSuccessTv.setDuration(2000);
+        cpucoolerSuccessTv.setModleType(DigitalRollingTextView.ModleType.COOLER_TYPE);
     }
 
     @Override
@@ -121,7 +123,7 @@ public class CpuCoolerSuccessFragment extends Fragment implements CpuCoolerSucce
             float temp =Float.parseFloat(mTemp);
             BigDecimal bigDecimal= new BigDecimal(Math.abs(temper-temp));
             float dropped =bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-            cpucoolerSuccessTv.setText(dropped+"°C");
+            cpucoolerSuccessTv.setContent(dropped+"");
             triggerCountDown();
         }
 

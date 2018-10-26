@@ -24,15 +24,28 @@
             android:layout_marginBottom="5dp"
             />
 
-        <TextView
+        <com.jerrywang.phonehelper.widget.DigitalRollingTextView
             android:id="@+id/junkclearner_num_tv"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="141.5M"
+            android:text="0.00"
             android:textColor="@color/radarscan_blue"
             android:textSize="35sp"
             android:gravity="center"
             android:layout_centerInParent="true"
+            />
+        <TextView
+            android:id="@+id/junkclearner_num_dw_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M"
+            android:textColor="@color/radarscan_blue"
+            android:textSize="20sp"
+            android:layout_alignBottom="@+id/junkclearner_num_tv"
+            android:layout_toRightOf="@+id/junkclearner_num_tv"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="2dp"
+            android:gravity="center"
             />
         <TextView
             android:layout_width="match_parent"
