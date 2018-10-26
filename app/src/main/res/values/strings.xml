@@ -76,7 +76,7 @@
     <string name="resetpassword_success">Reset password success!</string>
 
     <!--HarassIntercept-->
-    <string name="harassintercept_top_title">HarassIntercept</string>
+    <string name="harassintercept_top_title">Do not disturb</string>
     <string name="harassintercept_sms_title">SMS</string>
     <string name="harassintercept_phone_title">PHONE</string>
     <string name="harassintercept_phone_refriend_title">DEFRIEND</string>
