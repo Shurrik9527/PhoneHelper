@@ -24,7 +24,7 @@
             android:layout_marginBottom="5dp"
             />
 
-        <com.jerrywang.phonehelper.widget.DigitalRollingTextView
+        <com.sharkwang8.phoneassistant.widget.DigitalRollingTextView
             android:id="@+id/junkclearner_num_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

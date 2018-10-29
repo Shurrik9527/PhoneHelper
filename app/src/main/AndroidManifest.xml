@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.jerrywang.phonehelper"
+    package="com.sharkwang8.phoneassistant"
     >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -43,7 +43,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
-        android:name="com.jerrywang.phonehelper.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -51,7 +51,7 @@
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="false"
         >
-        <activity android:name="com.jerrywang.phonehelper.main.MainActivity"
+        <activity android:name="com.sharkwang8.phoneassistant.main.MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -83,7 +83,7 @@
         <activity android:name=".applock.gesturelock.createlock.GestureCreateActivity"/>
         <activity android:name=".applock.gesturelock.setting.SettingLockActivity"/>
         <activity android:name=".applock.gesturelock.resetlock.ResetPasswordActivity"/>
-        <activity android:name=".harassintercept.HarassInterceptActivity"/>
+        <activity android:name=".harassintercept.HarassInterceptActivity" android:launchMode="singleTask"/>
         <activity android:name=".harassintercept.detail.SmsDetailActivity"/>
 
         <!--锁屏服务-->
@@ -102,14 +102,14 @@
         <service android:name=".service.HarassInterceptService"/>
 
         <!--启动服务广播-->
-        <receiver android:name="com.jerrywang.phonehelper.broadcase.BootBroadcastReceiver">
+        <receiver android:name="com.sharkwang8.phoneassistant.broadcase.BootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.jerrywang.phonehelper.broadcase.PhoneBroadcastReceiver">
+        <receiver android:name="com.sharkwang8.phoneassistant.broadcase.PhoneBroadcastReceiver">
             <intent-filter
                 android:priority="1000"
                 >
@@ -121,7 +121,7 @@
 
 
         <!--启动短信广播-->
-        <receiver android:name="com.jerrywang.phonehelper.broadcase.SmsReciever">
+        <receiver android:name="com.sharkwang8.phoneassistant.broadcase.SmsReciever">
             <intent-filter android:priority="1000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED2"/>
@@ -130,7 +130,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.jerrywang.phonehelper.service.PhoneService"/>
+        <service android:name="com.sharkwang8.phoneassistant.service.PhoneService"/>
 
         <!--AdMob-->
         <meta-data

@@ -68,7 +68,7 @@
         android:visibility="visible"/>
 
 
-    <com.jerrywang.phonehelper.widget.LockPatternView
+    <com.sharkwang8.phoneassistant.widget.LockPatternView
         android:id="@+id/gestureunlock_app_unlock_lpv"
         android:layout_width="280.0dip"
         android:layout_height="280.0dip"

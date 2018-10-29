@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jerrywang.phonehelper.harassintercept.detail.SmsDetailActivity"
+    tools:context="com.sharkwang8.phoneassistant.harassintercept.detail.SmsDetailActivity"
     android:orientation="vertical"
     android:background="@color/white"
     >
