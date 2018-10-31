@@ -36,7 +36,6 @@ import com.sharkwang8.phoneassistant.manager.SMSManager;
 import com.sharkwang8.phoneassistant.screenlocker.ScreenLockerService;
 import com.sharkwang8.phoneassistant.util.AdUtil;
 import com.sharkwang8.phoneassistant.util.SpHelper;
-import com.sharkwang8.phoneassistant.util.ToastUtil;
 
 import java.util.List;
 
@@ -163,8 +162,8 @@ public class MainActivity extends BaseActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.main_update_menu_item:
                                 //检查更新
-                                ToastUtil.showToast(MainActivity.this, "This is the newest version!");
-//                                goToAppDetailPage();
+//                                ToastUtil.showToast(MainActivity.this, "This is the newest version!");
+                                goToAppDetailPage();
                                 break;
                             case R.id.main_feedback_menu_item:
                                 //意见反馈
@@ -172,11 +171,11 @@ public class MainActivity extends BaseActivity {
 //                                feedback("jerrywang724@gmail.com");
                                 feedback("sharkwang8@gmail.com");
                                 break;
-//                            case R.id.main_comment_menu_item:
+                            case R.id.main_comment_menu_item:
                                 //评论我们
 //                                ToastUtil.showToast(MainActivity.this, "评论我们");
-//                                goToAppDetailPage();
-//                                break;
+                                goToAppDetailPage();
+                                break;
                             case R.id.main_aboutus_menu_item:
                                 //关于我们
                                 //ToastUtil.showToast(MainActivity.this, "关于我们");
@@ -246,7 +245,7 @@ public class MainActivity extends BaseActivity {
      */
     public void goToAppDetailPage() {
         final String GOOGLE_PLAY = "com.android.vending";
-        Uri uri = Uri.parse("market://details?id=com.jerrywang.phonehelper");
+        Uri uri = Uri.parse("market://details?id=com.sharkwang8.phoneassistant");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setPackage(GOOGLE_PLAY);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
