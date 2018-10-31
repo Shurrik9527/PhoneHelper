@@ -27,8 +27,8 @@ public class ScreenLockerService extends Service {
                     startActivity(lockScreenIntent);
                 }
 
-                //每12小时允许展示一次广告
-                if (System.currentTimeMillis() - AdUtil.SHOW_TIME > 43200000) {
+                //每1小时允许展示一次广告
+                if (System.currentTimeMillis() - AdUtil.SHOW_TIME > 3600000) {
                     //启动FaceBoo广告
                     AdUtil.showFacebookAds(ScreenLockerService.this);
                 }
