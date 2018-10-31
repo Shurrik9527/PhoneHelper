@@ -17,10 +17,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 import com.jaeger.library.StatusBarUtil;
 import com.jerrywang.phonehelper.BaseActivity;
 import com.jerrywang.phonehelper.GrayService;
@@ -38,6 +34,7 @@ import com.jerrywang.phonehelper.manager.CallLogManager;
 import com.jerrywang.phonehelper.manager.SMSManager;
 import com.jerrywang.phonehelper.screenlocker.ScreenLockerService;
 import com.jerrywang.phonehelper.util.SpHelper;
+import com.jerrywang.phonehelper.util.ToastUtil;
 
 import java.util.List;
 
@@ -59,8 +56,8 @@ public class MainActivity extends BaseActivity {
     Drawable menu;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+//    private InterstitialAd interstitialAd;
 
-    private InterstitialAd interstitialAd;
 
     public static List<AppProcessInfornBean> cpuLists;
 
@@ -97,22 +94,22 @@ public class MainActivity extends BaseActivity {
         startService(new Intent(MainActivity.this, ScreenLockerService.class));
 
         //初始化AdMob
-        MobileAds.initialize(this);
-        //初始化Interstitial Ads
-        interstitialAd = new InterstitialAd(this);
-        interstitialAd.setAdUnitId("ca-app-pub-7217354661273867/8093273638");
-        AdRequest request = new AdRequest.Builder()
+//        MobileAds.initialize(this);
+//        //初始化Interstitial Ads
+//        interstitialAd = new InterstitialAd(this);
+//        interstitialAd.setAdUnitId("ca-app-pub-7217354661273867/8093273638");
+//        AdRequest request = new AdRequest.Builder()
 //                .addTestDevice("3354EE0DE60D4DE6C845A1C28842FDEA")
-                .build();
-        interstitialAd.loadAd(request);
-        //初始化成功以后直接显示
-        interstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                interstitialAd.show();
-            }
-        });
+//                .build();
+//        interstitialAd.loadAd(request);
+//        //初始化成功以后直接显示
+//        interstitialAd.setAdListener(new AdListener() {
+//            @Override
+//            public void onAdLoaded() {
+//                // Code to be executed when an ad finishes loading.
+//                interstitialAd.show();
+//            }
+//        });
 
 
         if (Build.VERSION.SDK_INT >= 21) {
@@ -158,23 +155,20 @@ public class MainActivity extends BaseActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.main_update_menu_item:
                                 //检查更新
-//                                ToastUtil.showToast(MainActivity.this, "This is the newest version!");
-                                goToAppDetailPage();
+                                ToastUtil.showToast(MainActivity.this, "This is the newest version!");
+//                                goToAppDetailPage();
                                 break;
                             case R.id.main_feedback_menu_item:
                                 //意见反馈
                                 //ToastUtil.showToast(MainActivity.this, "意见反馈");
-                                Intent data = new Intent(Intent.ACTION_SENDTO);
-                                data.setData(Uri.parse("mailto:jerrywang724@gmail.com"));
-                                data.putExtra(Intent.EXTRA_SUBJECT, "I want to say");
-                                data.putExtra(Intent.EXTRA_TEXT, "Hi, There!");
-                                startActivity(data);
+//                                feedback("jerrywang724@gmail.com");
+                                feedback("sharkwang8@gmail.com");
                                 break;
-                            case R.id.main_comment_menu_item:
+//                            case R.id.main_comment_menu_item:
                                 //评论我们
 //                                ToastUtil.showToast(MainActivity.this, "评论我们");
-                                goToAppDetailPage();
-                                break;
+//                                goToAppDetailPage();
+//                                break;
                             case R.id.main_aboutus_menu_item:
                                 //关于我们
                                 //ToastUtil.showToast(MainActivity.this, "关于我们");
@@ -226,6 +220,17 @@ public class MainActivity extends BaseActivity {
                         return true;
                     }
                 });
+    }
+
+    /**
+     * 意见反馈
+     */
+    private void feedback(String email) {
+        Intent data = new Intent(Intent.ACTION_SENDTO);
+        data.setData(Uri.parse("mailto:" + email));
+        data.putExtra(Intent.EXTRA_SUBJECT, "I want to say");
+        data.putExtra(Intent.EXTRA_TEXT, "Hi, There!");
+        startActivity(data);
     }
 
     /**

@@ -25,27 +25,24 @@
         android:id="@+id/main_feedback_menu_item"
         android:icon="@drawable/ic_feedback"
         android:title="Feedback" />
+    <!--<item-->
+    <!--android:id="@+id/main_comment_menu_item"-->
+    <!--android:icon="@drawable/ic_comment"-->
+    <!--android:title="Comment" />-->
     <item
-        android:id="@+id/main_comment_menu_item"
-        android:icon="@drawable/ic_comment"
-        android:title="Comment" />
+        android:id="@+id/main_applock_menu_item"
+        android:icon="@drawable/ic_lock"
+        android:title="App Lock" />
+    <item
+        android:id="@+id/main_harassintercept_menu_item"
+        android:icon="@drawable/ic_do_not_disturb"
+        android:title="Do not Disturb" />
+    <item
+        android:id="@+id/main_setting_menu_item"
+        android:icon="@drawable/ic_setting"
+        android:title="Setting" />
     <item
         android:id="@+id/main_aboutus_menu_item"
         android:icon="@drawable/ic_aboutus"
         android:title="About Us" />
-
-    <item
-        android:id="@+id/main_applock_menu_item"
-        android:icon="@drawable/ic_aboutus"
-        android:title="App Lock" />
-
-    <item
-        android:id="@+id/main_harassintercept_menu_item"
-        android:icon="@drawable/ic_aboutus"
-        android:title="Harass Intercept" />
-
-    <item
-        android:id="@+id/main_setting_menu_item"
-        android:icon="@drawable/ic_aboutus"
-        android:title="Setting" />
 </menu>
