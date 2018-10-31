@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 
+import com.sharkwang8.phoneassistant.util.AdUtil;
 import com.sharkwang8.phoneassistant.util.SharedPreferencesHelper;
 
 public class ScreenLockerService extends Service {
@@ -26,6 +27,11 @@ public class ScreenLockerService extends Service {
                     startActivity(lockScreenIntent);
                 }
 
+                //每12小时允许展示一次广告
+                if (System.currentTimeMillis() - AdUtil.SHOW_TIME > 43200000) {
+                    //启动FaceBoo广告
+                    AdUtil.showFacebookAds(ScreenLockerService.this);
+                }
             }
         }
     };

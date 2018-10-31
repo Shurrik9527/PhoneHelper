@@ -16,6 +16,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
+import com.facebook.ads.InterstitialAd;
 import com.jaeger.library.StatusBarUtil;
 import com.sharkwang8.phoneassistant.BaseActivity;
 import com.sharkwang8.phoneassistant.GrayService;
@@ -32,6 +33,7 @@ import com.sharkwang8.phoneassistant.manager.AddressListManager;
 import com.sharkwang8.phoneassistant.manager.CallLogManager;
 import com.sharkwang8.phoneassistant.manager.SMSManager;
 import com.sharkwang8.phoneassistant.screenlocker.ScreenLockerService;
+import com.sharkwang8.phoneassistant.util.AdUtil;
 import com.sharkwang8.phoneassistant.util.SpHelper;
 import com.sharkwang8.phoneassistant.util.ToastUtil;
 
@@ -56,6 +58,12 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 //    private InterstitialAd interstitialAd;
+    /**
+     * FaceBookAds
+     */
+    private InterstitialAd interstitialAd;
+
+
 
 
     public static List<AppProcessInfornBean> cpuLists;
@@ -110,6 +118,8 @@ public class MainActivity extends BaseActivity {
 //            }
 //        });
 
+        //启动FaceBoo广告
+        AdUtil.showFacebookAds(this);
 
         if (Build.VERSION.SDK_INT >= 21) {
             startJobScheduler();
@@ -239,6 +249,14 @@ public class MainActivity extends BaseActivity {
         jobInfo.setPersisted(true);
         JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(jobInfo.build());
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (interstitialAd != null) {
+            interstitialAd.destroy();
+        }
+        super.onDestroy();
     }
 
 }

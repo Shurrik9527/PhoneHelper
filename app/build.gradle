@@ -85,4 +85,7 @@ dependencies {
 
     implementation 'com.yanzhenjie:recyclerview-swipe:1.1.4'
 
+    //FaceBook Ads
+    implementation 'com.android.support:recyclerview-v7:27.1.1' // Required Dependency by Audience Network SDK
+    implementation 'com.facebook.android:audience-network-sdk:5.+'
 }
