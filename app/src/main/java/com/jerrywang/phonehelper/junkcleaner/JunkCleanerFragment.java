@@ -292,8 +292,12 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
         mJunkCleanerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                mJunkCleanerDialog.dismiss();
-                getActivity().finish();
+                if(mJunkCleanerDialog!=null){
+                    mJunkCleanerDialog.dismiss();
+                }
+                if(getActivity()!=null){
+                    getActivity().finish();
+                }
             }
         });
 

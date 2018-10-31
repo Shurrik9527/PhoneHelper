@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.jerrywang.phonehelper.bean.AppInformBean;
 import java.io.File;
@@ -199,5 +200,24 @@ public class AppUtil {
         }
         return isDisable;
     }
+
+    /**
+     * 得到当前包的uid
+     * @param context
+     * @param packageName
+     * @return
+     */
+    public static int getUidByPackageName(Context context, String packageName) {
+        int uid = -1;
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_META_DATA);
+            uid = packageInfo.applicationInfo.uid;
+        } catch (PackageManager.NameNotFoundException e) {
+
+        }
+        return uid;
+    }
+
 
 }
