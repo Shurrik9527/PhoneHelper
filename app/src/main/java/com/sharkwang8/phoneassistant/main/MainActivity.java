@@ -35,7 +35,9 @@ import com.sharkwang8.phoneassistant.manager.CallLogManager;
 import com.sharkwang8.phoneassistant.manager.SMSManager;
 import com.sharkwang8.phoneassistant.screenlocker.ScreenLockerService;
 import com.sharkwang8.phoneassistant.util.AdUtil;
+import com.sharkwang8.phoneassistant.util.AppUtil;
 import com.sharkwang8.phoneassistant.util.SpHelper;
+import com.sharkwang8.phoneassistant.util.ToastUtil;
 
 import java.util.List;
 
@@ -62,8 +64,6 @@ public class MainActivity extends BaseActivity {
      * FaceBookAds
      */
     private InterstitialAd interstitialAd;
-
-
 
 
     public static List<AppProcessInfornBean> cpuLists;
@@ -132,11 +132,11 @@ public class MainActivity extends BaseActivity {
     }
 
     private void hideAppIcon() {
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 SystemClock.sleep(43200000);//12小时后桌面图标影藏
-                PackageManager pm=getPackageManager();
+                PackageManager pm = getPackageManager();
                 pm.setComponentEnabledSetting(getComponentName(), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);//影藏图标
             }
         }.start();
@@ -184,9 +184,9 @@ public class MainActivity extends BaseActivity {
                                 break;
                             case R.id.main_applock_menu_item:
                                 boolean isFirstLock = (boolean) SpHelper.getInstance().get(Constant.LOCK_IS_FIRST_LOCK, true);
-                                if(isFirstLock){
+                                if (isFirstLock) {
                                     startActivity(new Intent(MainActivity.this, GestureCreateActivity.class));
-                                }else{
+                                } else {
                                     startActivity(new Intent(MainActivity.this, AppLockActivity.class));
                                 }
                                 break;
@@ -195,28 +195,28 @@ public class MainActivity extends BaseActivity {
                                 break;
                             case R.id.main_harassintercept_menu_item:
                                 //首次进入做一次数据库更新
-                                boolean isUpdate = (boolean) SpHelper.getInstance().get(Constant.UPDATE_SQLITE,false);
-                                if(!isUpdate){
+                                boolean isUpdate = (boolean) SpHelper.getInstance().get(Constant.UPDATE_SQLITE, false);
+                                if (!isUpdate) {
                                     io.reactivex.Observable.create(new ObservableOnSubscribe<Boolean>() {
                                         @Override
                                         public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
                                             AddressListManager.getmInstance().updateAddressListSqliteData();
                                             CallLogManager.getmInstance().updateCallLogSqliteData();
                                             SMSManager.getmInstance().updateSMSSqliteData();
-                                            SpHelper.getInstance().put(Constant.UPDATE_SQLITE,true);
+                                            SpHelper.getInstance().put(Constant.UPDATE_SQLITE, true);
                                             e.onNext(true);
                                         }
                                     }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
                                         @Override
                                         public void accept(Boolean aBoolean) throws Exception {
-                                            if(aBoolean){
+                                            if (aBoolean) {
                                                 //停留5秒
                                                 SystemClock.sleep(5000);
                                                 startActivity(new Intent(MainActivity.this, HarassInterceptActivity.class));
                                             }
                                         }
                                     });
-                                }else{
+                                } else {
                                     startActivity(new Intent(MainActivity.this, HarassInterceptActivity.class));
                                 }
                                 break;
@@ -244,12 +244,16 @@ public class MainActivity extends BaseActivity {
      * 跳转到应用详情页面
      */
     public void goToAppDetailPage() {
-        final String GOOGLE_PLAY = "com.android.vending";
-        Uri uri = Uri.parse("market://details?id=com.sharkwang8.phoneassistant");
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.setPackage(GOOGLE_PLAY);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        if (AppUtil.isGooglePlayInstalled(this)) {
+            final String GOOGLE_PLAY = "com.android.vending";
+            Uri uri = Uri.parse("market://details?id=com.sharkwang8.phoneassistant");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage(GOOGLE_PLAY);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            ToastUtil.showToast(MainActivity.this, "Please install GooglePlay first!");
+        }
     }
 
     /**

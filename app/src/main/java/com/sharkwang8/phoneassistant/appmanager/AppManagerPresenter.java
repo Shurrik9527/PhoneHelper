@@ -62,6 +62,7 @@ public class AppManagerPresenter implements AppManagerContract.Presenter {
                 //本来是系统程序，被用户手动更新后，该系统程序也成为第三方应用程序了
                 //data.add(app);
             }
+            System.out.println(app.packageName);
         }
         return data;
     }
