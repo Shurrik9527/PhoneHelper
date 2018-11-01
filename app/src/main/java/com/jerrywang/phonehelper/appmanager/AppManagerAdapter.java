@@ -56,7 +56,6 @@ public class AppManagerAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
         final ApplicationInfo applicationInfo = data.get(position);
-        ;
         holder.ivAppIcon.setImageDrawable(applicationInfo.loadIcon(context.getPackageManager()));
         holder.tvAppName.setText(applicationInfo.loadLabel(context.getPackageManager()));
         holder.tvAppPackageName.setText(applicationInfo.packageName);

@@ -33,6 +33,7 @@ import com.jerrywang.phonehelper.manager.AddressListManager;
 import com.jerrywang.phonehelper.manager.CallLogManager;
 import com.jerrywang.phonehelper.manager.SMSManager;
 import com.jerrywang.phonehelper.screenlocker.ScreenLockerService;
+import com.jerrywang.phonehelper.util.AppUtil;
 import com.jerrywang.phonehelper.util.SpHelper;
 import com.jerrywang.phonehelper.util.ToastUtil;
 
@@ -164,11 +165,11 @@ public class MainActivity extends BaseActivity {
 //                                feedback("jerrywang724@gmail.com");
                                 feedback("sharkwang8@gmail.com");
                                 break;
-//                            case R.id.main_comment_menu_item:
-                                //评论我们
+                            case R.id.main_comment_menu_item:
+//                                评论我们
 //                                ToastUtil.showToast(MainActivity.this, "评论我们");
-//                                goToAppDetailPage();
-//                                break;
+                                goToAppDetailPage();
+                                break;
                             case R.id.main_aboutus_menu_item:
                                 //关于我们
                                 //ToastUtil.showToast(MainActivity.this, "关于我们");
@@ -237,12 +238,16 @@ public class MainActivity extends BaseActivity {
      * 跳转到应用详情页面
      */
     public void goToAppDetailPage() {
-        final String GOOGLE_PLAY = "com.android.vending";
-        Uri uri = Uri.parse("market://details?id=com.jerrywang.phonehelper");
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.setPackage(GOOGLE_PLAY);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        if (AppUtil.isGooglePlayInstalled(this)) {
+            final String GOOGLE_PLAY = "com.android.vending";
+            Uri uri = Uri.parse("market://details?id=com.jerrywang.phonehelper");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage(GOOGLE_PLAY);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            ToastUtil.showToast(MainActivity.this, "Please install GooglePlay first!");
+        }
     }
 
     /**
