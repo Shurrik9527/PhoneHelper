@@ -8,16 +8,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import com.jerrywang.phonehelper.bean.AppInformBean;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -225,6 +224,17 @@ public class AppUtil {
         return uid;
     }
 
+    /**
+     * 判断GooglePlay是否已经安装在设备上
+     */
+    public static boolean isGooglePlayInstalled(Context context) {
+        try {
+            context.getApplicationContext().getPackageManager().getPackageInfo("com.android.vending", 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+        return true;
+    }
 
     public static  List<AppInformBean> queryFilterAppInfo(Context context) {
         PackageManager pm = context.getPackageManager();
