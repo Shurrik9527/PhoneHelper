@@ -33,5 +33,6 @@ public class Constant {
     public static final String LOCK_PERMISSION = "LOCK_PERMISSION";
     public static final String UPDATE_SQLITE = "UPDATE_SQLITE";
     public static final String UPDATE_SMS_ISFIRST_SQLITE = "UPDATE_SMS_ISFIRST_SQLITE";
+    public static final String BAIDU_KEY ="5c9805947a41c4dd";
 
 }

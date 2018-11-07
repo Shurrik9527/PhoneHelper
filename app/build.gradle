@@ -88,4 +88,6 @@ dependencies {
     //FaceBook Ads
     implementation 'com.android.support:recyclerview-v7:27.1.1' // Required Dependency by Audience Network SDK
     implementation 'com.facebook.android:audience-network-sdk:5.+'
+
+    implementation 'crab.baidu.crabsdk:crabsdk:7.3.5'
 }
