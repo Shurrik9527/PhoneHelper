@@ -27,7 +27,8 @@
             android:layout_toRightOf="@+id/trafficstatistic_icon_iv"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="15dp"
-            android:textSize="20sp"
+            android:textSize="18sp"
+            android:ellipsize="end"
             />
 
         <TextView
@@ -39,7 +40,7 @@
             android:layout_below="@+id/trafficstatistic_name_tv"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             />
 
         <TextView
@@ -51,8 +52,7 @@
             android:layout_below="@+id/trafficstatistic_name_tv"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
-            android:textSize="16sp"
-
+            android:textSize="14sp"
             />
 
         <TextView
@@ -62,7 +62,6 @@
             android:textColor="@color/description_text"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
             android:textSize="16sp"
             />

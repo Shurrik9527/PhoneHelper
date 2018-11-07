@@ -1,6 +1,7 @@
 package com.jerrywang.phonehelper.trafficstatistics;
 
 import android.support.v4.app.Fragment;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.jerrywang.phonehelper.BaseActivity;
@@ -35,4 +36,15 @@ public class TrafficStatisticsActivity extends BaseActivity{
         super.init();
         setTitle("TrafficStatistics");
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.trafficstatistics_setting_menu,menu);
+//        return true;
+//    }
+
+
+
+
+
 }

@@ -24,7 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 public class TrafficStatisticsPresenter implements TrafficStatisticsContract.Presenter{
 
 
-    private static final String TAG =AppLockPresenter.class.getName();
+    private static final String TAG =TrafficStatisticsPresenter.class.getName();
     private Context mContext;
     private TrafficStatisticsContract.View mView=null;
     @RequiresApi(api = Build.VERSION_CODES.M)

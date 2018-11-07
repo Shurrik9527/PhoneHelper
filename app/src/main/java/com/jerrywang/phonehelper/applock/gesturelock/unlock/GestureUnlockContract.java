@@ -20,8 +20,6 @@ public interface GestureUnlockContract {
 
         void onBackKey();
 
-        void startActivity(Context mContext, Class<?> mclass, Bundle mBundle);
-
     }
 
     interface Presenter extends BasePresenter {

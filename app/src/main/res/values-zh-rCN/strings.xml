@@ -25,7 +25,10 @@
     <string name="resetpassword_top_title">重新设置密码</string>
     <string name="resetpassword_success">密码重置成功</string>
 
-
+    <string name="lockscreen_access_pattern_cell_added">已添加单元格</string>
+    <string name="lockscreen_access_pattern_start">绘制解锁图案</string>
+    <string name="lockscreen_access_pattern_detected">密码已保存</string>
+    <string name="lockscreen_access_pattern_cleared">密码已删除</string>
     <string name="harassintercept_top_title">骚扰拦截</string>
     <string name="harassintercept_sms_title">短信</string>
     <string name="harassintercept_phone_title">手机</string>

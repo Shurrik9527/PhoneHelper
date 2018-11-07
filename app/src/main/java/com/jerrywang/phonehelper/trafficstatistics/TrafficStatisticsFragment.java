@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.applock.AppLockAdapter;
 import com.jerrywang.phonehelper.bean.TrafficStatisticsBean;
+import com.jerrywang.phonehelper.util.FormatUtil;
 import com.jerrywang.phonehelper.widget.dialog.MyAlertSingleDialog;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -88,7 +89,11 @@ public class TrafficStatisticsFragment extends Fragment implements TrafficStatis
 
     @Override
     public void showAllTraffic(long traffic) {
-        trafficstatisticsTotalTv.setText(traffic+"");
+        FormatUtil.FileSize mFileSize=FormatUtil.formatSizeBy1024(traffic);
+        if(trafficstatisticsTotalTv!=null&&mFileSize!=null){
+            trafficstatisticsTotalTv.setText(mFileSize.mSize+"");
+            trafficstatisticsTotalDwTv.setText(mFileSize.mUnit.name()+"");
+        }
     }
 
     @Override
@@ -153,14 +158,13 @@ public class TrafficStatisticsFragment extends Fragment implements TrafficStatis
 
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.trafficstatistics_setting_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.trafficstatics_setting_menu_item:
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

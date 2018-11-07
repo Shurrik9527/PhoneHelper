@@ -193,15 +193,15 @@ public class GestureUnlockFragment extends Fragment implements GestureUnlockCont
     }
 
 
-    @Override
-    public void startActivity(Context mContext, Class<?> mclass, Bundle mBundle) {
-
-        SpHelper.getInstance().put(Constant.LOCK_STATE, true);////开启应用锁开关
-        getActivity().startService(new Intent(getActivity(), LockService.class));
-        SpHelper.getInstance().put(Constant.LOCK_IS_FIRST_LOCK, false);//第一次设置成功
-        startActivity(new Intent(mContext, mclass));
-        getActivity().finish();
-    }
+//    @Override
+//    public void startActivity(Context mContext, Class<?> mclass, Bundle mBundle) {
+//
+//        SpHelper.getInstance().put(Constant.LOCK_STATE, true);////开启应用锁开关
+//        getActivity().startService(new Intent(getActivity(), LockService.class));
+//        SpHelper.getInstance().put(Constant.LOCK_IS_FIRST_LOCK, false);//第一次设置成功
+//        startActivity(new Intent(mContext, mclass));
+//        getActivity().finish();
+//    }
 
     @Override
     public void setPresenter(GestureUnlockContract.Presenter presenter) {
@@ -229,7 +229,9 @@ public class GestureUnlockFragment extends Fragment implements GestureUnlockCont
                                 gestureunlockUnlockLayout.getViewTreeObserver().removeOnPreDrawListener(this);
                                 gestureunlockUnlockLayout.buildDrawingCache();
                                 Bitmap bmp = LockUtil.drawableToBitmap(icon, gestureunlockUnlockLayout);
-                                LockUtil.blur(getActivity(), LockUtil.big(bmp), gestureunlockUnlockLayout);  //高斯模糊
+                                if(bmp!=null){
+                                    LockUtil.blur(getActivity(), LockUtil.big(bmp), gestureunlockUnlockLayout);  //高斯模糊
+                                }
                                 return true;
                             }
                         });

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.jerrywang.phonehelper.R;
 import com.jerrywang.phonehelper.bean.CommLockInfo;
 import com.jerrywang.phonehelper.bean.TrafficStatisticsBean;
 import com.jerrywang.phonehelper.manager.CommLockInfoManager;
+import com.jerrywang.phonehelper.util.FormatUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +46,35 @@ public class TrafficStatisticsAdapter extends BaseQuickAdapter<TrafficStatistics
         }else{
             mIcon.setImageResource(R.mipmap.ic_launcher);
         }
+        if(!TextUtils.isEmpty(item.getmName())){
+            helper.setText(R.id.trafficstatistic_name_tv,item.getmName());
+        }else{
+            helper.setText(R.id.trafficstatistic_name_tv,"未知App");
+        }
 
-        helper.setText(R.id.trafficstatistic_name_tv,item.getmName());
-        helper.setText(R.id.trafficstatistic_total_tv,item.getTotalSize());
-        helper.setText(R.id.trafficstatistic_wifisize_tv,"wifi:"+item.getWifiSize()+"MB");
-        helper.setText(R.id.trafficstatistic_mobilesize_tv,"mobile:"+item.getMobileSize()+"MB");
+
+        if(item.getWifiSize()==0){
+            helper.setText(R.id.trafficstatistic_wifisize_tv,"wifi:0B");
+        }else{
+            FormatUtil.FileSize mFileSize=FormatUtil.formatSizeBy1024(item.getWifiSize());
+            helper.setText(R.id.trafficstatistic_wifisize_tv,"wifi:"+ mFileSize.mSize+mFileSize.mUnit.name());
+        }
+
+
+        if(item.getMobileSize()==0){
+            helper.setText(R.id.trafficstatistic_mobilesize_tv,"mobile:0B");
+        }else{
+            FormatUtil.FileSize mFileSize=FormatUtil.formatSizeBy1024(item.getMobileSize());
+            helper.setText(R.id.trafficstatistic_mobilesize_tv,"mobile:"+ mFileSize.mSize+mFileSize.mUnit.name());
+        }
+
+        if(item.getTotalSize()==0){
+            helper.setText(R.id.trafficstatistic_total_tv,"0B");
+        }else{
+            FormatUtil.FileSize mFileSize=FormatUtil.formatSizeBy1024(item.getTotalSize());
+            helper.setText(R.id.trafficstatistic_total_tv,mFileSize.mSize+mFileSize.mUnit.name()+"");
+        }
+
 
     }
 }

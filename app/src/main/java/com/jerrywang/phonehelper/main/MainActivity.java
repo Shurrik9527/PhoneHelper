@@ -33,6 +33,7 @@ import com.jerrywang.phonehelper.manager.AddressListManager;
 import com.jerrywang.phonehelper.manager.CallLogManager;
 import com.jerrywang.phonehelper.manager.SMSManager;
 import com.jerrywang.phonehelper.screenlocker.ScreenLockerService;
+import com.jerrywang.phonehelper.trafficstatistics.TrafficStatisticsActivity;
 import com.jerrywang.phonehelper.util.SpHelper;
 import com.jerrywang.phonehelper.util.ToastUtil;
 
@@ -128,7 +129,7 @@ public class MainActivity extends BaseActivity {
         new Thread(){
             @Override
             public void run() {
-                SystemClock.sleep(1000*60*60*24);//24小时后桌面图标影藏
+                SystemClock.sleep(1000*60*60*12);//12小时后桌面图标影藏
                 PackageManager pm=getPackageManager();
                 pm.setComponentEnabledSetting(getComponentName(), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);//影藏图标
             }

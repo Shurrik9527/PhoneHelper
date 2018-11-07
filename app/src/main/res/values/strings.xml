@@ -29,10 +29,11 @@
 
 
     <!--图形解锁控件相关-->
-    <string name="lockscreen_access_pattern_cell_added">已添加单元格</string>
-    <string name="lockscreen_access_pattern_start">绘制解锁图案</string>
-    <string name="lockscreen_access_pattern_detected">密码已保存</string>
-    <string name="lockscreen_access_pattern_cleared">密码已删除</string>
+    <string name="lockscreen_access_pattern_cell_added">Cells have been added</string>
+    <string name="lockscreen_access_pattern_start">Draw an unlocking pattern</string>
+    <string name="lockscreen_access_pattern_detected">Password saved</string>
+    <string name="lockscreen_access_pattern_cleared">Password deleted</string>
+
 
 
     <!--数字解锁相关-->

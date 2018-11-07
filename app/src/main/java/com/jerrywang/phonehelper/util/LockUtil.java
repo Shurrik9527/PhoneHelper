@@ -123,11 +123,16 @@ public class LockUtil {
                 }
             }
         }
-        Bitmap bitmap2 = Bitmap.createBitmap(mUnLockLayout.getWidth(), mUnLockLayout.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas2 = new Canvas(bitmap2);
-        RectF rectF = new RectF(0, 0, mUnLockLayout.getWidth(), mUnLockLayout.getHeight());
-        canvas2.drawBitmap(Bitmap.createBitmap(pixex, w, h, Bitmap.Config.ARGB_8888), null, rectF, null);
-        return bitmap2;
+        if(mUnLockLayout.getWidth()>0&&mUnLockLayout.getHeight()>0){
+            Bitmap bitmap2 = Bitmap.createBitmap(mUnLockLayout.getWidth(), mUnLockLayout.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas2 = new Canvas(bitmap2);
+            RectF rectF = new RectF(0, 0, mUnLockLayout.getWidth(), mUnLockLayout.getHeight());
+            canvas2.drawBitmap(Bitmap.createBitmap(pixex, w, h, Bitmap.Config.ARGB_8888), null, rectF, null);
+            return bitmap2;
+        }else{
+            return null;
+        }
+
     }
 
     public static void blur(Context mContent, Bitmap bkg, View view) {

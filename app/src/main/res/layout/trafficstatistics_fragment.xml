@@ -29,11 +29,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
                     <RelativeLayout
+                        android:id="@+id/trafficstatistics_total_rl"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:layout_marginTop="40dp"
                         >
 
                         <TextView
@@ -57,19 +58,18 @@
                             android:layout_toRightOf="@+id/trafficstatistics_total_tv"
                             android:layout_alignBottom="@+id/trafficstatistics_total_tv"
                             />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"
-                            android:gravity="center"
-                            android:text="Month Used"
-                            android:layout_below="@+id/trafficstatistics_total_tv"
-                            />
 
                     </RelativeLayout>
-
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:gravity="center"
+                        android:text="Current Month Used"
+                        android:layout_below="@+id/trafficstatistics_total_rl"
+                        />
                 </RelativeLayout>
 
             </android.support.design.widget.CollapsingToolbarLayout>

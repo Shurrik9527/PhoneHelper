@@ -190,4 +190,23 @@ public class FormatUtil {
     }
 
 
+    public static FileSize formatSizeBy1024(long ramSize){
+
+        try {
+            if(ramSize<1024){
+                return new FileSize(String.valueOf(ramSize),Unit.B);
+            }else if(ramSize<1024*1024){
+                return new FileSize(String.format("%.2f",(float)ramSize/1024),Unit.KB);
+            }else if(ramSize<1024*1024*1024){
+                return new FileSize(String.format("%.2f",(float)ramSize/(1024*1024)),Unit.MB);
+            }else {
+                return new FileSize(String.format("%.2f",(float)ramSize/(1024*1024*1024)),Unit.GB);
+            }
+        }catch (Exception e){
+
+        }
+        return null;
+    }
+
+
 }

@@ -1,9 +1,12 @@
 package com.jerrywang.phonehelper.util;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -11,7 +14,10 @@ import com.jerrywang.phonehelper.bean.AppInformBean;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -26,7 +32,7 @@ import io.reactivex.schedulers.Schedulers;
  * @email 252774645@qq.com
  */
 public class AppUtil {
-
+    private static final String TAG = TrafficStatisticsUtil.class.getName();
     //获取已经安装的应用
     public static List<PackageInfo> getInstalledPackages(Context context) {
         PackageManager packageManager = context.getApplicationContext().getPackageManager();
@@ -218,6 +224,44 @@ public class AppUtil {
         }
         return uid;
     }
+
+
+    public static  List<AppInformBean> queryFilterAppInfo(Context context) {
+        PackageManager pm = context.getPackageManager();
+        pm = context.getPackageManager();
+
+        // 创建一个类别为CATEGORY_LAUNCHER的该包名的Intent
+        Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
+        resolveIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        // 通过getPackageManager()的queryIntentActivities方法遍历,得到所有能打开的app的packageName
+        List<ResolveInfo>  resolveinfoList = pm.queryIntentActivities(resolveIntent, 0);
+
+        Set<String> allowPackages=new HashSet();
+        for (ResolveInfo resolveInfo:resolveinfoList){
+            allowPackages.add(resolveInfo.activityInfo.packageName);
+        }
+
+        // 查询所有已经安装的应用程序,GET_UNINSTALLED_PACKAGES代表已删除，但还有安装目录的
+        List<ApplicationInfo>  applicationInfos = pm.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
+        List<AppInformBean> appInfos = new ArrayList<AppInformBean>();
+
+        for (ApplicationInfo info : applicationInfos) {
+            if (allowPackages.contains(info.packageName)){
+                AppInformBean appInfo = new AppInformBean();
+
+                //获取应用的名称
+                String app_name = info.loadLabel(pm).toString();
+                appInfo.setmName(app_name);
+                //获取应用的包名
+                String packageName = info.packageName;
+                appInfo.setmPackageName(packageName);
+                appInfo.setmDrawable(info.loadIcon(pm));
+                appInfos.add(appInfo);
+            }
+        }
+        return appInfos;
+    }
+
 
 
 }

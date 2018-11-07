@@ -3,6 +3,7 @@ package com.jerrywang.phonehelper.bean;
 import android.graphics.drawable.Drawable;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * @author heguogui
@@ -16,10 +17,10 @@ public class TrafficStatisticsBean implements Serializable{
     private String mName;                   //名称
     private String mPackageName;            //包名
     private Drawable mDrawable;            //图标
-    private String totalSize;                 //总大小
-    private String wifiSize;                 //wifi大小
-    private String mobileSize;                 //mobile总大小
-
+    private long totalSize;                 //总大小
+    private long wifiSize;                 //wifi大小
+    private long mobileSize;                 //mobile总大小
+    private String uid;
     public String getmName() {
         return mName;
     }
@@ -44,28 +45,36 @@ public class TrafficStatisticsBean implements Serializable{
         this.mDrawable = mDrawable;
     }
 
-    public String getTotalSize() {
+    public long getTotalSize() {
         return totalSize;
     }
 
-    public void setTotalSize(String totalSize) {
+    public void setTotalSize(long totalSize) {
         this.totalSize = totalSize;
     }
 
-    public String getWifiSize() {
+    public long getWifiSize() {
         return wifiSize;
     }
 
-    public void setWifiSize(String wifiSize) {
+    public void setWifiSize(long wifiSize) {
         this.wifiSize = wifiSize;
     }
 
-    public String getMobileSize() {
+    public long getMobileSize() {
         return mobileSize;
     }
 
-    public void setMobileSize(String mobileSize) {
+    public void setMobileSize(long mobileSize) {
         this.mobileSize = mobileSize;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     @Override
@@ -74,9 +83,10 @@ public class TrafficStatisticsBean implements Serializable{
                 "mName='" + mName + '\'' +
                 ", mPackageName='" + mPackageName + '\'' +
                 ", mDrawable=" + mDrawable +
-                ", totalSize='" + totalSize + '\'' +
-                ", wifiSize='" + wifiSize + '\'' +
-                ", mobileSize='" + mobileSize + '\'' +
+                ", totalSize=" + totalSize +
+                ", wifiSize=" + wifiSize +
+                ", mobileSize=" + mobileSize +
+                ", uid='" + uid + '\'' +
                 '}';
     }
 }
