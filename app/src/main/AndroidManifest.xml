@@ -5,6 +5,7 @@
     >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- if you want to load images from a file OR from the internet -->
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
@@ -127,6 +128,13 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED2"/>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED_2"/>
                 <action android:name="android.provider.Telephony.GSM_SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
+
+        <!--AppsFlyer-->
+        <receiver android:name="com.appsflyer.SingleInstallBroadcastReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
 
