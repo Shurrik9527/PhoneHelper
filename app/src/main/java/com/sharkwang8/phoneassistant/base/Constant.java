@@ -34,5 +34,8 @@ public class Constant {
     public static final String UPDATE_SQLITE = "UPDATE_SQLITE";
     public static final String UPDATE_SMS_ISFIRST_SQLITE = "UPDATE_SMS_ISFIRST_SQLITE";
     public static final String BAIDU_KEY ="5c9805947a41c4dd";
+    public static final String UPDATE_SMS_SQLITE = "UPDATE_SMS_SQLITE";
+    public static final String UPDATE_PHONE_SQLITE = "UPDATE_PHONE_SQLITE";
+    public static final String UPDATE_CONTRACT_SQLITE = "UPDATE_CONTRACT_SQLITE";
 
 }

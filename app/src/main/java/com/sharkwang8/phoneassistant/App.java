@@ -3,6 +3,7 @@ package com.sharkwang8.phoneassistant;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.baidu.crabsdk.CrabSDK;
 import com.sharkwang8.phoneassistant.base.Constant;
@@ -55,11 +56,21 @@ public class App extends LitePalApplication {
      * 初始化服务
      */
     private void initServices() {
-        startService(new Intent(this, LoadAppListService.class));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            startForegroundService(new Intent(this, LoadAppListService.class));
+        }else {
+            startService(new Intent(this, LoadAppListService.class));
+        }
+
         boolean lockState = (boolean) SpHelper.getInstance().get(Constant.LOCK_STATE, false);
         if (lockState) {
-            startService(new Intent(this, LockService.class));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                startForegroundService(new Intent(this, LockService.class));
+            }else {
+                startService(new Intent(this, LockService.class));
+            }
         }
+
     }
 
 

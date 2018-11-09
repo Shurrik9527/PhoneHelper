@@ -1,5 +1,6 @@
 package com.sharkwang8.phoneassistant.harassintercept;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,14 +15,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sharkwang8.phoneassistant.R;
+import com.sharkwang8.phoneassistant.base.Constant;
 import com.sharkwang8.phoneassistant.bean.CallLogBean;
 import com.sharkwang8.phoneassistant.bean.SmsBean;
 import com.sharkwang8.phoneassistant.harassintercept.detail.SmsDetailActivity;
 import com.sharkwang8.phoneassistant.manager.HarassInterceptManager;
 import com.sharkwang8.phoneassistant.manager.SMSManager;
+import com.sharkwang8.phoneassistant.util.SpHelper;
 import com.sharkwang8.phoneassistant.util.SpaceItemDecoration;
 import com.sharkwang8.phoneassistant.util.StringUtil;
 import com.sharkwang8.phoneassistant.util.ToastUtil;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yanzhenjie.recyclerview.swipe.SwipeItemClickListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
@@ -35,6 +40,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author heguogui
@@ -84,9 +94,7 @@ public class SmsFragment extends Fragment implements HarassInterceptSMSContract.
     @Override
     public void initData() {
         initRecycleView();
-        if(mPresenter!=null){
-            mPresenter.getSystemSMSInform(getActivity());
-        }
+        showPermissions();
     }
 
     @Override
@@ -123,6 +131,48 @@ public class SmsFragment extends Fragment implements HarassInterceptSMSContract.
         if(mPresenter!=null){
             mPresenter.getSystemSMSInform(getActivity());
         }
+    }
+
+    @Override
+    public void showPermissions() {
+
+        RxPermissions rxPermission = new RxPermissions(getActivity());
+        rxPermission.requestEach(Manifest.permission.READ_SMS)
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if (permission.granted) {
+                            //首次进入做一次数据库更新
+                            boolean isUpdate = (boolean) SpHelper.getInstance().get(Constant.UPDATE_SMS_SQLITE,false);
+                            if(!isUpdate) {
+                                io.reactivex.Observable.create(new ObservableOnSubscribe<Boolean>() {
+                                    @Override
+                                    public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
+                                        SMSManager.getmInstance().updateSMSSqliteData();
+                                        e.onNext(true);
+                                    }
+                                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+                                    @Override
+                                    public void accept(Boolean aBoolean) throws Exception {
+                                        if (aBoolean) {
+                                            //停留5秒
+                                            SpHelper.getInstance().put(Constant.UPDATE_SMS_SQLITE, true);
+                                            if(mPresenter!=null){
+                                                mPresenter.getSystemSMSInform(getActivity());
+                                            }
+                                        }
+                                    }
+                                });
+                            }else{
+                                if(mPresenter!=null){
+                                    mPresenter.getSystemSMSInform(getActivity());
+                                }
+                            }
+                        }
+                    }
+                });
+
+
     }
 
     /**

@@ -1,11 +1,15 @@
 package com.sharkwang8.phoneassistant.harassintercept;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.HardwarePropertiesManager;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,13 +20,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sharkwang8.phoneassistant.R;
+import com.sharkwang8.phoneassistant.base.Constant;
 import com.sharkwang8.phoneassistant.bean.CallLogBean;
 import com.sharkwang8.phoneassistant.bean.SmsBean;
 import com.sharkwang8.phoneassistant.harassintercept.detail.SmsDetailActivity;
+import com.sharkwang8.phoneassistant.manager.AddressListManager;
+import com.sharkwang8.phoneassistant.manager.CallLogManager;
 import com.sharkwang8.phoneassistant.manager.HarassInterceptManager;
+import com.sharkwang8.phoneassistant.util.SpHelper;
 import com.sharkwang8.phoneassistant.util.SpaceItemDecoration;
 import com.sharkwang8.phoneassistant.util.StringUtil;
 import com.sharkwang8.phoneassistant.util.ToastUtil;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yanzhenjie.recyclerview.swipe.SwipeItemClickListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
@@ -36,6 +46,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author heguogui
@@ -88,9 +103,7 @@ public class PhoneFragment extends Fragment implements HarassInterceptPhoneContr
     @Override
     public void initData() {
         initRecycleView();
-        if(mPresenter!=null){
-            mPresenter.getSystemPhoneInfor(getActivity());
-        }
+        showPermissions();
     }
 
 
@@ -140,9 +153,83 @@ public class PhoneFragment extends Fragment implements HarassInterceptPhoneContr
         if(TextUtils.isEmpty(phone)){
             return;
         }
-        Intent intent = new Intent(Intent.ACTION_CALL);
-        Uri data = Uri.parse("tel:" + phone);
-        intent.setData(data); startActivity(intent);
+       ; if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{"android.permission.CALL_PHONE"}, 111);
+            }
+        }else{
+
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            Uri data = Uri.parse("tel:" + phone);
+            intent.setData(data); startActivity(intent);
+        }
+    }
+
+    @Override
+    public void showPermissions() {
+
+        RxPermissions rxPermission = new RxPermissions(getActivity());
+        rxPermission.requestEach(
+                Manifest.permission.READ_CONTACTS,
+                Manifest.permission.READ_CALL_LOG,
+                Manifest.permission.MODIFY_PHONE_STATE)
+                .subscribe(new Consumer<Permission>() {
+                               @Override
+                               public void accept(Permission permission) throws Exception {
+                                   if (permission.granted) {
+                                       //首次进入做一次数据库更新
+                                       if(permission.name.equals("android.permission.READ_CONTACTS")){
+                                           boolean isUpdate = (boolean) SpHelper.getInstance().get(Constant.UPDATE_CONTRACT_SQLITE,false);
+                                           if(!isUpdate) {
+                                               io.reactivex.Observable.create(new ObservableOnSubscribe<Boolean>() {
+                                                   @Override
+                                                   public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
+                                                       AddressListManager.getmInstance().updateAddressListSqliteData();
+                                                       e.onNext(true);
+                                                   }
+                                               }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+                                                   @Override
+                                                   public void accept(Boolean aBoolean) throws Exception {
+                                                       if (aBoolean) {
+                                                           //停留5秒
+                                                           SpHelper.getInstance().put(Constant.UPDATE_CONTRACT_SQLITE, true);
+                                                       }
+                                                   }
+                                               });
+                                           }
+                                       }
+
+                                       if(permission.name.equals("android.permission.READ_CALL_LOG")){
+                                           boolean isUpdate = (boolean) SpHelper.getInstance().get(Constant.UPDATE_PHONE_SQLITE,false);
+                                           if(!isUpdate) {
+                                               io.reactivex.Observable.create(new ObservableOnSubscribe<Boolean>() {
+                                                   @Override
+                                                   public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
+                                                       CallLogManager.getmInstance().updateCallLogSqliteData();
+                                                       e.onNext(true);
+                                                   }
+                                               }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+                                                   @Override
+                                                   public void accept(Boolean aBoolean) throws Exception {
+                                                       if (aBoolean) {
+                                                           //停留5秒
+                                                           SpHelper.getInstance().put(Constant.UPDATE_PHONE_SQLITE, true);
+                                                           if(mPresenter!=null){
+                                                               mPresenter.getSystemPhoneInfor(getActivity());
+                                                           }
+                                                       }
+                                                   }
+                                               });
+                                           }else{
+                                               if(mPresenter!=null){
+                                                   mPresenter.getSystemPhoneInfor(getActivity());
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+
+                });
     }
 
     /**

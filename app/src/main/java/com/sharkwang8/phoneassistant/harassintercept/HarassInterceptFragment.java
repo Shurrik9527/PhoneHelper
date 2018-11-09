@@ -1,11 +1,15 @@
 package com.sharkwang8.phoneassistant.harassintercept;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
@@ -91,22 +95,9 @@ public class HarassInterceptFragment extends Fragment implements HarassIntercept
             @SuppressLint("CheckResult")
             @Override
             public void onEvent(RefreshRewordEvent mRefreshRewordEvent) {
-                io.reactivex.Observable.create(new ObservableOnSubscribe<Void>() {
-                    @Override
-                            //刷新数据
-                    public void subscribe(ObservableEmitter<Void> e) throws Exception {
-                        CallLogManager.getmInstance().updateCallLogSqliteData();
-                        e.onComplete();
-                    }
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Void>() {
-                    @Override
-                    public void accept(Void aVoid) throws Exception {
-                        SystemClock.sleep(3000);
-                        if (mPhoneFragment != null) {
-                            mPhoneFragment.refreshData();
-                        }
-                    }
-                });
+                if (mPhoneFragment != null) {
+                    mPhoneFragment.refreshData();
+                }
             }
         });
 
@@ -178,6 +169,16 @@ public class HarassInterceptFragment extends Fragment implements HarassIntercept
     }
 
     @Override
+    public void showPermissions() {
+        NotificationManager notificationManager = (NotificationManager)getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !notificationManager.isNotificationPolicyAccessGranted()) {
+            Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+            getContext().startActivity(intent);
+            return;
+        }
+    }
+
+    @Override
     public void setPresenter(HarassInterceptContract.Presenter presenter) {
         this.presenter = presenter;
     }
@@ -208,6 +209,7 @@ public class HarassInterceptFragment extends Fragment implements HarassIntercept
         initViewPager();
         initRecycleView();
         initImageView();
+        showPermissions();
     }
 
     @Override

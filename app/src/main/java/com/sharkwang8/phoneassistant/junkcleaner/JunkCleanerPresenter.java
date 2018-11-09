@@ -80,7 +80,7 @@ public class JunkCleanerPresenter implements JunkCleanerContract.Presenter {
             @Override
             public void onEvent(JunkCleanerTotalSizeEvent junkCleanerTotalSizeEvent) {
                 if(mView!=null){
-                    mView.showTotalSize(junkCleanerTotalSizeEvent.getTotalSize());
+                   // mView.showTotalSize(junkCleanerTotalSizeEvent.getTotalSize());
                 }
             }
 
