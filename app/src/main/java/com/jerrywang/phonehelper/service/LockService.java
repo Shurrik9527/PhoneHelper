@@ -2,6 +2,9 @@ package com.jerrywang.phonehelper.service;
 
 import android.app.ActivityManager;
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.usage.UsageEvents;
 import android.app.usage.UsageStatsManager;
 import android.content.BroadcastReceiver;
@@ -12,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import com.jerrywang.phonehelper.applock.gesturelock.unlock.GestureUnlockActivity;
@@ -65,6 +69,29 @@ public class LockService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        try{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                NotificationChannel channel = new NotificationChannel("id","name", NotificationManager.IMPORTANCE_LOW);
+                final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                manager.createNotificationChannel(channel);
+                Notification notification = new Notification.Builder(getApplicationContext(),"id").build();
+                startForeground(100, notification);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 延迟1s
+                        SystemClock.sleep(1000);
+                        stopForeground(true);
+                        // 移除Service弹出的通知
+                        manager.cancel(100);
+                    }
+                }).start();
+            }
+        }catch (Exception e) {
+
+        }
+
 
         lockState = (boolean) SpHelper.getInstance().get(Constant.LOCK_STATE,false);
         mLockInfoManager = new CommLockInfoManager(this);

@@ -1,14 +1,20 @@
 package com.jerrywang.phonehelper.harassintercept;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +25,18 @@ import android.widget.RadioButton;
 import android.widget.TableRow;
 
 import com.jerrywang.phonehelper.R;
+import com.jerrywang.phonehelper.base.Constant;
 import com.jerrywang.phonehelper.event.RefreshRewordEvent;
 import com.jerrywang.phonehelper.event.RefreshSMSEvent;
+import com.jerrywang.phonehelper.manager.AddressListManager;
 import com.jerrywang.phonehelper.manager.CallLogManager;
 import com.jerrywang.phonehelper.manager.SMSManager;
-import com.jerrywang.phonehelper.service.HarassInterceptService;
 import com.jerrywang.phonehelper.util.RxBus.RxBusHelper;
+import com.jerrywang.phonehelper.util.SpHelper;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
-import java.util.Observable;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.ObservableEmitter;
@@ -91,22 +99,10 @@ public class HarassInterceptFragment extends Fragment implements HarassIntercept
             @SuppressLint("CheckResult")
             @Override
             public void onEvent(RefreshRewordEvent mRefreshRewordEvent) {
-                io.reactivex.Observable.create(new ObservableOnSubscribe<Void>() {
-                    @Override
-                            //刷新数据
-                    public void subscribe(ObservableEmitter<Void> e) throws Exception {
-                        CallLogManager.getmInstance().updateCallLogSqliteData();
-                        e.onComplete();
-                    }
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Void>() {
-                    @Override
-                    public void accept(Void aVoid) throws Exception {
-                        SystemClock.sleep(3000);
-                        if (mPhoneFragment != null) {
-                            mPhoneFragment.refreshData();
-                        }
-                    }
-                });
+
+                if (mPhoneFragment != null) {
+                    mPhoneFragment.refreshData();
+                }
             }
         });
 
@@ -178,6 +174,18 @@ public class HarassInterceptFragment extends Fragment implements HarassIntercept
     }
 
     @Override
+    public void showPermissions() {
+
+        NotificationManager notificationManager = (NotificationManager)getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !notificationManager.isNotificationPolicyAccessGranted()) {
+            Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+            getContext().startActivity(intent);
+            return;
+        }
+
+    }
+
+    @Override
     public void setPresenter(HarassInterceptContract.Presenter presenter) {
         this.presenter = presenter;
     }
@@ -208,6 +216,7 @@ public class HarassInterceptFragment extends Fragment implements HarassIntercept
         initViewPager();
         initRecycleView();
         initImageView();
+        showPermissions();
     }
 
     @Override

@@ -36,12 +36,14 @@ public class SmsReciever extends BroadcastReceiver {
 
     public SmsReciever() {
         mSmsReceiverProcessor = new SmsReceiverProcessor();
+        Log.i(TAG,"注册了...");
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.i(TAG,"接受信息...");
         if(intent==null){
             return;
         }

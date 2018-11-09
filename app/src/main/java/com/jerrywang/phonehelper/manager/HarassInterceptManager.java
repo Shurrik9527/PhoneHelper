@@ -212,12 +212,15 @@ public class HarassInterceptManager {
      */
     public void blackSMS(String phoneNum) {
         updateSMSBlackStatus(phoneNum, true);
+        Log.i(TAG,"phoneNum="+phoneNum);
+        blackPhone(phoneNum);
     }
     /**
      * 更改数据库去黑
      */
     public void unBlackSMS(String phoneNum) {
         updateSMSBlackStatus(phoneNum, false);
+        unBlackPhone(phoneNum);
     }
 
     public void updateSMSBlackStatus(String phoneNum, boolean isSure) {

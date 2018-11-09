@@ -20,6 +20,7 @@ public interface HarassInterceptContract {
         void initViewPager();
         void initRecycleView();
         void initImageView();
+        void showPermissions();
     }
 
     public interface Presenter extends BasePresenter {

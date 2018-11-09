@@ -188,31 +188,7 @@ public class MainActivity extends BaseActivity {
                                 startActivity(new Intent(MainActivity.this, SettingLockActivity.class));
                                 break;
                             case R.id.main_harassintercept_menu_item:
-                                //首次进入做一次数据库更新
-                                boolean isUpdate = (boolean) SpHelper.getInstance().get(Constant.UPDATE_SQLITE,false);
-                                if(!isUpdate){
-                                    io.reactivex.Observable.create(new ObservableOnSubscribe<Boolean>() {
-                                        @Override
-                                        public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
-                                            AddressListManager.getmInstance().updateAddressListSqliteData();
-                                            CallLogManager.getmInstance().updateCallLogSqliteData();
-                                            SMSManager.getmInstance().updateSMSSqliteData();
-                                            SpHelper.getInstance().put(Constant.UPDATE_SQLITE,true);
-                                            e.onNext(true);
-                                        }
-                                    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
-                                        @Override
-                                        public void accept(Boolean aBoolean) throws Exception {
-                                            if(aBoolean){
-                                                //停留5秒
-                                                SystemClock.sleep(5000);
-                                                startActivity(new Intent(MainActivity.this, HarassInterceptActivity.class));
-                                            }
-                                        }
-                                    });
-                                }else{
-                                    startActivity(new Intent(MainActivity.this, HarassInterceptActivity.class));
-                                }
+                                startActivity(new Intent(MainActivity.this, HarassInterceptActivity.class));
                                 break;
 
                         }

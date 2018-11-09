@@ -33,6 +33,9 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
     <uses-permission android:name="android.permission.READ_CALL_LOG"/>
 
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
 
     <!--应用锁需要的权限-->
     <uses-permission android:name="android.permission.GET_TASKS"/>
@@ -122,7 +125,10 @@
 
 
         <!--启动短信广播-->
-        <receiver android:name="com.jerrywang.phonehelper.broadcase.SmsReciever">
+        <receiver android:name="com.jerrywang.phonehelper.broadcase.SmsReciever"
+            android:enabled="true"
+            android:exported="true"
+            >
             <intent-filter android:priority="1000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED2"/>
@@ -142,6 +148,9 @@
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:exported="true"/>
         <service android:name=".GrayService"/>
+
+
+
     </application>
 
 </manifest>

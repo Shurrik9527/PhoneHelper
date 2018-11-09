@@ -19,15 +19,22 @@ import com.jerrywang.phonehelper.base.Constant;
 import com.jerrywang.phonehelper.chargebooster.ChargeBoosterActivity;
 import com.jerrywang.phonehelper.cpucooler.cpucoolerscan.CpuCoolerScanActivity;
 import com.jerrywang.phonehelper.junkcleaner.JunkCleanerActivity;
+import com.jerrywang.phonehelper.manager.AddressListManager;
+import com.jerrywang.phonehelper.manager.CallLogManager;
+import com.jerrywang.phonehelper.manager.SMSManager;
 import com.jerrywang.phonehelper.util.SharedPreferencesHelper;
+import com.jerrywang.phonehelper.util.SpHelper;
 import com.jerrywang.phonehelper.util.ToastUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
-
+import io.reactivex.schedulers.Schedulers;
 
 
 public class MainFragment extends Fragment implements MainContract.View {
@@ -125,7 +132,9 @@ public class MainFragment extends Fragment implements MainContract.View {
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = Float.parseFloat(animation.getAnimatedValue().toString());
                 if (value >= 1f) {
-                    ToastUtil.showToast(getContext(), "Phone Boosted");
+                    if(getContext()!=null){
+                        ToastUtil.showToast(getContext(), "Phone Boosted");
+                    }
                 }
             }
         });
@@ -145,10 +154,11 @@ public class MainFragment extends Fragment implements MainContract.View {
     public void showPermissions() {
         //手动授予权限  目前未授予权限则退出APP
         RxPermissions rxPermission = new RxPermissions(getActivity());
-        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CLEAR_APP_CACHE, Manifest.permission.DELETE_CACHE_FILES,Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.READ_CONTACTS,
-                Manifest.permission.READ_SMS,
-                Manifest.permission.READ_CALL_LOG)
+        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CLEAR_APP_CACHE,
+                Manifest.permission.DELETE_CACHE_FILES,
+                Manifest.permission.READ_PHONE_STATE
+               )
                 .subscribe(new Consumer<Permission>() {
                     @Override
                     public void accept(Permission permission) throws Exception {

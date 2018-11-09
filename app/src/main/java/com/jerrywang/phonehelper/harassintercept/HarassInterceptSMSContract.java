@@ -22,6 +22,8 @@ public interface HarassInterceptSMSContract {
         void initRecycleView();
         void showData(List<SmsBean> mlist);
         void refreshData();
+        void showPermissions();
+        void updataPhone();
     }
 
     public interface Presenter extends BasePresenter {
