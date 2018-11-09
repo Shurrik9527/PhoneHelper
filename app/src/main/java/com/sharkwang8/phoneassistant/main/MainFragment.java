@@ -121,7 +121,9 @@ public class MainFragment extends Fragment implements MainContract.View {
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = Float.parseFloat(animation.getAnimatedValue().toString());
                 if (value >= 1f) {
-                    ToastUtil.showToast(getContext(), "Phone Boosted");
+                    if(getContext()!=null){
+                        ToastUtil.showToast(getContext(), "Phone Boosted");
+                    }
                 }
             }
         });
@@ -141,10 +143,12 @@ public class MainFragment extends Fragment implements MainContract.View {
     public void showPermissions() {
         //手动授予权限  目前未授予权限则退出APP
         RxPermissions rxPermission = new RxPermissions(getActivity());
-        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CLEAR_APP_CACHE, Manifest.permission.DELETE_CACHE_FILES,Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.READ_CONTACTS,
-                Manifest.permission.READ_SMS,
-                Manifest.permission.READ_CALL_LOG)
+        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CLEAR_APP_CACHE,
+                Manifest.permission.DELETE_CACHE_FILES,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_CALL_LOG
+        )
                 .subscribe(new Consumer<Permission>() {
                     @Override
                     public void accept(Permission permission) throws Exception {

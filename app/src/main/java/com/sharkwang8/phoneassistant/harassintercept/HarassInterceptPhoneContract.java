@@ -23,6 +23,7 @@ public interface HarassInterceptPhoneContract {
         void showData(List<CallLogBean> lists);
         void refreshData();
         void callPhone(String phone);
+        void showPermissions();
     }
 
     public interface Presenter extends BasePresenter {

@@ -1,11 +1,16 @@
 package com.sharkwang8.phoneassistant.screenlocker;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.IBinder;
+import android.os.SystemClock;
 
 import com.sharkwang8.phoneassistant.util.AdUtil;
 import com.sharkwang8.phoneassistant.util.SharedPreferencesHelper;
@@ -47,6 +52,25 @@ public class ScreenLockerService extends Service {
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         registerReceiver(receiver, filter);
         sharedPreferencesHelper = new SharedPreferencesHelper(ScreenLockerService.this);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel("id","name", NotificationManager.IMPORTANCE_LOW);
+            final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.createNotificationChannel(channel);
+            Notification notification = new Notification.Builder(getApplicationContext(),"id").build();
+            startForeground(1, notification);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // 延迟1s
+                    SystemClock.sleep(1000);
+                    stopForeground(true);
+                    // 移除Service弹出的通知
+                    manager.cancel(100);
+                }
+            }).start();
+        }
     }
 
     @Override
@@ -62,7 +86,11 @@ public class ScreenLockerService extends Service {
 
         Intent localIntent = new Intent();
         localIntent.setClass(this, ScreenLockerService.class); //销毁时重新启动Service
-        this.startService(localIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            this.startForegroundService(localIntent);
+        }else {
+            this.startService(localIntent);
+        }
     }
 
 }

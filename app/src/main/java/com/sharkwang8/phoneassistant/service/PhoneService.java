@@ -1,10 +1,15 @@
 package com.sharkwang8.phoneassistant.service;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -12,6 +17,7 @@ import android.util.Log;
 import com.android.internal.telephony.ITelephony;
 import com.sharkwang8.phoneassistant.event.RefreshRewordEvent;
 import com.sharkwang8.phoneassistant.event.UninstallEvent;
+import com.sharkwang8.phoneassistant.manager.CallLogManager;
 import com.sharkwang8.phoneassistant.manager.HarassInterceptManager;
 import com.sharkwang8.phoneassistant.util.RxBus.RxBus;
 
@@ -32,9 +38,38 @@ public class PhoneService extends Service{
     private TelephonyManager telephony;
     int booolsms=1;
     int boool=1;
+    private boolean isTrue =false;
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        try{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                NotificationChannel channel = new NotificationChannel("id","name", NotificationManager.IMPORTANCE_LOW);
+                final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                manager.createNotificationChannel(channel);
+                Notification notification = new Notification.Builder(getApplicationContext(),"id").build();
+                startForeground(100, notification);
+                //取消通知
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 延迟1s
+                        SystemClock.sleep(1000);
+                        stopForeground(true);
+                        // 移除Service弹出的通知
+                        manager.cancel(100);
+                    }
+                }).start();
+            }
+        }catch (Exception e) {
+
+        }
+        isTrue =false;
     }
 
     @Override
@@ -55,13 +90,18 @@ public class PhoneService extends Service{
             AudioManager mAudioManager=(AudioManager)PhoneService.this.getSystemService(Context.AUDIO_SERVICE);
             switch(state){
                 case TelephonyManager.CALL_STATE_IDLE:
-
+                    if(isTrue){
+                        CallLogManager.getmInstance().updateCallLogSqliteData();
+                        RxBus.getDefault().post(new RefreshRewordEvent());
+                        isTrue =false;
+                    }
                     break;
                 case TelephonyManager.CALL_STATE_RINGING:
                 {
+                    isTrue =true;
                     //静音
-                    mAudioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
                     if(judgement(incomingNumber)){//拦截指定的电话号码
+                        mAudioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
                         try {
                             //挂断电话   方法一
                             Method method = Class.forName("android.os.ServiceManager").getMethod("getService", String.class);
@@ -76,15 +116,13 @@ public class PhoneService extends Service{
                             e.printStackTrace();
                         }
                         Log.e(TAG, "来电:"+incomingNumber);
-                        RxBus.getDefault().post(new RefreshRewordEvent());
-
+                        mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 //	                     //再恢复正常铃声
 //	                     data(incomingNumber);
 //	 	 	            sendSMS(incomingNumber);
 //	 	               	record(incomingNumber);  //****拦截记录***
 //	 	               	notification(incomingNumber);//*****状态提示符****
                     }
-                    mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 }
                 break;
                 case TelephonyManager.CALL_STATE_OFFHOOK:

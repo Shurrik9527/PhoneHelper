@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.appsflyer.AppsFlyerLib;
+import com.baidu.crabsdk.CrabSDK;
 import com.jaeger.library.StatusBarUtil;
 import com.sharkwang8.phoneassistant.util.ActivityUtil;
 
@@ -181,4 +182,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CrabSDK.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        CrabSDK.onPause(this);
+        super.onPause();
+    }
 }

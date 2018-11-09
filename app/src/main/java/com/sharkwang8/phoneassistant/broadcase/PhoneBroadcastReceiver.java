@@ -3,6 +3,7 @@ package com.sharkwang8.phoneassistant.broadcase;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import com.sharkwang8.phoneassistant.service.PhoneService;
@@ -23,7 +24,11 @@ public class PhoneBroadcastReceiver extends BroadcastReceiver {
         if(!intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)){ //去电操作
             Intent pit=new Intent(context,PhoneService.class);
             pit.putExtra("bool",flog);
-            context.startService(pit);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                context.startForegroundService(pit);
+            }else {
+                context.startService(pit);
+            }
         }
     }
 }

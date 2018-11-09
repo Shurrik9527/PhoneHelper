@@ -6,7 +6,12 @@ import android.util.Log;
 
 import com.appsflyer.AppsFlyerConversionListener;
 import com.appsflyer.AppsFlyerLib;
+
+import android.os.Build;
+
+import com.baidu.crabsdk.CrabSDK;
 import com.sharkwang8.phoneassistant.base.Constant;
+import com.sharkwang8.phoneassistant.exception.CustomCrashHandler;
 import com.sharkwang8.phoneassistant.manager.AddressListManager;
 import com.sharkwang8.phoneassistant.manager.CallLogManager;
 import com.sharkwang8.phoneassistant.manager.CleanManager;
@@ -47,17 +52,29 @@ public class App extends LitePalApplication {
         initServices();
 
         initAppsFlyer();
+
+        initBaiduCrab();
     }
 
     /**
      * 初始化服务
      */
     private void initServices() {
-        startService(new Intent(this, LoadAppListService.class));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(new Intent(this, LoadAppListService.class));
+        } else {
+            startService(new Intent(this, LoadAppListService.class));
+        }
+
         boolean lockState = (boolean) SpHelper.getInstance().get(Constant.LOCK_STATE, false);
         if (lockState) {
-            startService(new Intent(this, LockService.class));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(new Intent(this, LockService.class));
+            } else {
+                startService(new Intent(this, LockService.class));
+            }
         }
+
     }
 
     /**
@@ -92,6 +109,18 @@ public class App extends LitePalApplication {
         final String AF_DEV_KEY = "gCjmRfaYsA8JeaeWR6GQyX";
         AppsFlyerLib.getInstance().init(AF_DEV_KEY, conversionDataListener, getApplicationContext());
         AppsFlyerLib.getInstance().startTracking(this);
+    }
+
+    /**
+     * 初始化百度Crab
+     */
+    private void initBaiduCrab() {
+        CrabSDK.init(this, Constant.BAIDU_KEY);
+        // 开启卡顿捕获功能, 传入每天上传卡顿信息个数，-1代表不限制, 已自动打开
+        CrabSDK.enableBlockCatch(-1);
+        /* 初始化全局异常捕获信息 */
+        CustomCrashHandler customCrashHandler = CustomCrashHandler.getInstance();
+        customCrashHandler.init(this);
     }
 
 
