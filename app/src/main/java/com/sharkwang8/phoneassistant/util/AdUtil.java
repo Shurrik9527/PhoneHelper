@@ -24,7 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 public class AdUtil {
     private static final String TAG = AdUtil.class.getSimpleName();
     //广告出现的时间
-    public static long SHOW_TIME = System.currentTimeMillis();
+    public static long SHOW_TIME = 0l;
     public static void showFacebookAds(final Context context){
 //        AdSettings.addTestDevice("386dcd1a-4ea0-4757-889c-5c8a5a6271bb");
         final InterstitialAd interstitialAd = new InterstitialAd(context, "302328470589163_302330743922269");
@@ -77,7 +77,6 @@ public class AdUtil {
                 Log.d(TAG, "Interstitial ad is loaded and ready to be displayed!");
                 // Show the ad
                 interstitialAd.show();
-                SHOW_TIME = System.currentTimeMillis();
             }
 
             @Override
