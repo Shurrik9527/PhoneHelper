@@ -33,10 +33,7 @@
         android:id="@+id/main_applock_menu_item"
         android:icon="@drawable/ic_lock"
         android:title="App Lock" />
-    <item
-        android:id="@+id/main_harassintercept_menu_item"
-        android:icon="@drawable/ic_do_not_disturb"
-        android:title="Do not Disturb" />
+
     <item
         android:id="@+id/main_setting_menu_item"
         android:icon="@drawable/ic_setting"

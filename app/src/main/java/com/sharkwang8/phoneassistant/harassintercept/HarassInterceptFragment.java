@@ -25,9 +25,6 @@ import android.widget.TableRow;
 import com.sharkwang8.phoneassistant.R;
 import com.sharkwang8.phoneassistant.event.RefreshRewordEvent;
 import com.sharkwang8.phoneassistant.event.RefreshSMSEvent;
-import com.sharkwang8.phoneassistant.manager.CallLogManager;
-import com.sharkwang8.phoneassistant.manager.SMSManager;
-import com.sharkwang8.phoneassistant.service.HarassInterceptService;
 import com.sharkwang8.phoneassistant.util.RxBus.RxBusHelper;
 
 import java.util.ArrayList;

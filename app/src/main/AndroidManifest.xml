@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- if you want to load images from a file OR from the internet -->
-    <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
@@ -23,19 +22,11 @@
     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-    <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-permission android:name="android.permission.WRITE_SMS"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
-    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
-
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
-    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
+
 
     <!--应用锁需要的权限-->
     <uses-permission android:name="android.permission.GET_TASKS"/>
@@ -101,8 +92,7 @@
         <service android:name=".service.LoadAppListService"/>
         <!--应用锁服务-->
         <service android:name=".service.LockService"/>
-        <!--应用锁服务-->
-        <service android:name=".service.HarassInterceptService"/>
+
 
         <!--启动服务广播-->
         <receiver android:name="com.sharkwang8.phoneassistant.broadcase.BootBroadcastReceiver">
@@ -112,28 +102,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.sharkwang8.phoneassistant.broadcase.PhoneBroadcastReceiver">
-            <intent-filter
-                android:priority="1000"
-                >
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
-                <action android:name="android.intent.action.PHONE_STATE"/>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
 
-
-        <!--启动短信广播-->
-        <receiver android:name="com.sharkwang8.phoneassistant.broadcase.SmsReciever">
-            <intent-filter android:priority="1000">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED2"/>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED_2"/>
-                <action android:name="android.provider.Telephony.GSM_SMS_RECEIVED"/>
-            </intent-filter>
-        </receiver>
-
-        <service android:name="com.sharkwang8.phoneassistant.service.PhoneService"/>
 
         <!--AdMob-->
         <meta-data

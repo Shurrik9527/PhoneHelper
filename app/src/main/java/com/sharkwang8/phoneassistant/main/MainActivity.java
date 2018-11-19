@@ -29,7 +29,6 @@ import com.sharkwang8.phoneassistant.applock.gesturelock.createlock.GestureCreat
 import com.sharkwang8.phoneassistant.applock.gesturelock.setting.SettingLockActivity;
 import com.sharkwang8.phoneassistant.base.Constant;
 import com.sharkwang8.phoneassistant.bean.AppProcessInfornBean;
-import com.sharkwang8.phoneassistant.harassintercept.HarassInterceptActivity;
 import com.sharkwang8.phoneassistant.manager.AddressListManager;
 import com.sharkwang8.phoneassistant.manager.CallLogManager;
 import com.sharkwang8.phoneassistant.manager.SMSManager;
@@ -193,9 +192,9 @@ public class MainActivity extends BaseActivity {
                             case R.id.main_setting_menu_item:
                                 startActivity(new Intent(MainActivity.this, SettingLockActivity.class));
                                 break;
-                            case R.id.main_harassintercept_menu_item:
-                                startActivity(new Intent(MainActivity.this, HarassInterceptActivity.class));
-                                break;
+//                            case R.id.main_harassintercept_menu_item:
+//                                startActivity(new Intent(MainActivity.this, HarassInterceptActivity.class));
+//                                break;
 
                         }
                         // Close the navigation drawer when an item is selected.

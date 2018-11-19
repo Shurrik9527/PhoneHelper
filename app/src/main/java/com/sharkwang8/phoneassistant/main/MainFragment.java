@@ -146,8 +146,7 @@ public class MainFragment extends Fragment implements MainContract.View {
         rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.CLEAR_APP_CACHE,
                 Manifest.permission.DELETE_CACHE_FILES,
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.READ_CALL_LOG
+                Manifest.permission.READ_PHONE_STATE
         )
                 .subscribe(new Consumer<Permission>() {
                     @Override
