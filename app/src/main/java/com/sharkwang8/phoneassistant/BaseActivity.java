@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.appsflyer.AppsFlyerLib;
 import com.baidu.crabsdk.CrabSDK;
 import com.jaeger.library.StatusBarUtil;
 import com.sharkwang8.phoneassistant.util.ActivityUtil;
@@ -83,6 +84,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         // 后续初始化操作
         init();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+        //AppsFlyer's Tracking Deep Linking
+        AppsFlyerLib.getInstance().sendDeepLinkData(this);
     }
 
     /**

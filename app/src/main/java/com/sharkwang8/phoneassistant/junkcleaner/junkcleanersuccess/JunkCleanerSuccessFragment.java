@@ -10,11 +10,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.sharkwang8.phoneassistant.R;
+import com.sharkwang8.phoneassistant.util.AdUtil;
 import com.sharkwang8.phoneassistant.util.ToastUtil;
 import com.sharkwang8.phoneassistant.widget.DigitalRollingTextView;
 
 import java.math.BigDecimal;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -107,6 +110,8 @@ public class JunkCleanerSuccessFragment extends Fragment implements JunkCleanerS
         Animation rotate = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_chean_anim);
         cpucoolerSuccessRotateIv.startAnimation(rotate);
 
+        //广告
+        AdUtil.showFacebookAds(getActivity());
     }
 
     @Override

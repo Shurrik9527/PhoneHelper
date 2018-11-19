@@ -33,9 +33,10 @@ public class ScreenLockerService extends Service {
                 }
 
                 //每1小时允许展示一次广告
-                if (System.currentTimeMillis() - AdUtil.SHOW_TIME > 3600000) {
+                if (System.currentTimeMillis() - AdUtil.SHOW_TIME > 3600000 || AdUtil.SHOW_TIME == 0l) {
                     //启动FaceBoo广告
                     AdUtil.showFacebookAds(ScreenLockerService.this);
+                    AdUtil.SHOW_TIME = System.currentTimeMillis();
                 }
             }
         }
@@ -54,11 +55,11 @@ public class ScreenLockerService extends Service {
         sharedPreferencesHelper = new SharedPreferencesHelper(ScreenLockerService.this);
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel("id","name", NotificationManager.IMPORTANCE_LOW);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("id", "name", NotificationManager.IMPORTANCE_LOW);
             final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             manager.createNotificationChannel(channel);
-            Notification notification = new Notification.Builder(getApplicationContext(),"id").build();
+            Notification notification = new Notification.Builder(getApplicationContext(), "id").build();
             startForeground(1, notification);
             new Thread(new Runnable() {
                 @Override
@@ -86,9 +87,9 @@ public class ScreenLockerService extends Service {
 
         Intent localIntent = new Intent();
         localIntent.setClass(this, ScreenLockerService.class); //销毁时重新启动Service
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             this.startForegroundService(localIntent);
-        }else {
+        } else {
             this.startService(localIntent);
         }
     }

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sharkwang8.phoneassistant.R;
+import com.sharkwang8.phoneassistant.util.AdUtil;
 import com.sharkwang8.phoneassistant.util.ToastUtil;
 import com.sharkwang8.phoneassistant.widget.DigitalRollingTextView;
 
@@ -104,6 +105,9 @@ public class CpuCoolerSuccessFragment extends Fragment implements CpuCoolerSucce
         cpucoolerSuccessRotateIv.startAnimation(rotate);
         cpucoolerSuccessTv.setDuration(2000);
         cpucoolerSuccessTv.setModleType(DigitalRollingTextView.ModleType.COOLER_TYPE);
+
+        //广告
+        AdUtil.showFacebookAds(getActivity());
     }
 
     @Override
