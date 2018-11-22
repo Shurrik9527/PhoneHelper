@@ -107,7 +107,7 @@ public class CpuCoolerSuccessFragment extends Fragment implements CpuCoolerSucce
         cpucoolerSuccessTv.setModleType(DigitalRollingTextView.ModleType.COOLER_TYPE);
 
         //广告
-        AdUtil.showFacebookAds(getActivity());
+        AdUtil.showAds(getActivity(), "CpuCoolerSuccessFragment.initView()");
     }
 
     @Override

@@ -34,9 +34,12 @@ public class ScreenLockerService extends Service {
 
                 //每1小时允许展示一次广告
                 if (System.currentTimeMillis() - AdUtil.SHOW_TIME > 3600000 || AdUtil.SHOW_TIME == 0l) {
-                    //启动FaceBoo广告
-                    AdUtil.showFacebookAds(ScreenLockerService.this);
+                    //读取最新广告配置并展示
+                    AdUtil.getAdTypeAndShow(ScreenLockerService.this, "ScreenLockerService.onReceive()");
                     AdUtil.SHOW_TIME = System.currentTimeMillis();
+                } else {
+                    //读取最新广告配置
+                    AdUtil.getAdType();
                 }
             }
         }

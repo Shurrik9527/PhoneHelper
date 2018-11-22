@@ -111,7 +111,7 @@ public class JunkCleanerSuccessFragment extends Fragment implements JunkCleanerS
         cpucoolerSuccessRotateIv.startAnimation(rotate);
 
         //广告
-        AdUtil.showFacebookAds(getActivity());
+        AdUtil.showAds(getActivity(), "JunkCleanerSuccessFragment.initView()");
     }
 
     @Override

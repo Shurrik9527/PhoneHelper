@@ -12,8 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class HttpCenter {
-    //private static final String BASE_URL = "http://47.91.164.170:10001/";
-    private static final String BASE_URL = "http://www.esegou.com/b2c/";
+    private static final String BASE_URL = "http://blackteach.com/";
 
     protected static Retrofit getRetrofit(Retrofit.Builder builder) {
         OkHttpClient.Builder client = new OkHttpClient().newBuilder();

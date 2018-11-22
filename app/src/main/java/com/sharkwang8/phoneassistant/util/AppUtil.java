@@ -233,9 +233,9 @@ public class AppUtil {
     /**
      * 判断GooglePlay是否已经安装在设备上
      */
-    public static boolean isGooglePlayInstalled(Context context) {
+    public static boolean isInstalled(Context context, String packageName) {
         try {
-            context.getApplicationContext().getPackageManager().getPackageInfo("com.android.vending", 0);
+            context.getApplicationContext().getPackageManager().getPackageInfo(packageName, 0);
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }

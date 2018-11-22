@@ -16,7 +16,7 @@ public class PackageReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(Intent.ACTION_PACKAGE_REMOVED)) {
             RxBus.getDefault().post(new UninstallEvent());
             //广告
-            AdUtil.showFacebookAds(context);
+            AdUtil.showAds(context, "PackageReceiver.onReceive()");
         }
     }
 }

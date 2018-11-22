@@ -17,7 +17,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
-import com.facebook.ads.InterstitialAd;
 import com.jaeger.library.StatusBarUtil;
 import com.sharkwang8.phoneassistant.BaseActivity;
 import com.sharkwang8.phoneassistant.GrayService;
@@ -29,9 +28,6 @@ import com.sharkwang8.phoneassistant.applock.gesturelock.createlock.GestureCreat
 import com.sharkwang8.phoneassistant.applock.gesturelock.setting.SettingLockActivity;
 import com.sharkwang8.phoneassistant.base.Constant;
 import com.sharkwang8.phoneassistant.bean.AppProcessInfornBean;
-import com.sharkwang8.phoneassistant.manager.AddressListManager;
-import com.sharkwang8.phoneassistant.manager.CallLogManager;
-import com.sharkwang8.phoneassistant.manager.SMSManager;
 import com.sharkwang8.phoneassistant.screenlocker.ScreenLockerService;
 import com.sharkwang8.phoneassistant.util.AdUtil;
 import com.sharkwang8.phoneassistant.util.AppUtil;
@@ -43,11 +39,6 @@ import java.util.List;
 import butterknife.BindColor;
 import butterknife.BindDrawable;
 import butterknife.BindView;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
     @BindView(R.id.drawer_layout)
@@ -58,13 +49,6 @@ public class MainActivity extends BaseActivity {
     Drawable menu;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
-//    private InterstitialAd interstitialAd;
-    /**
-     * FaceBookAds
-     */
-    private InterstitialAd interstitialAd;
-
-
     public static List<AppProcessInfornBean> cpuLists;
 
     @Override
@@ -99,26 +83,11 @@ public class MainActivity extends BaseActivity {
         //开启服务，开启锁屏界面
         startService(new Intent(MainActivity.this, ScreenLockerService.class));
 
-        //初始化AdMob
-//        MobileAds.initialize(this);
-//        //初始化Interstitial Ads
-//        interstitialAd = new InterstitialAd(this);
-//        interstitialAd.setAdUnitId("ca-app-pub-7217354661273867/8093273638");
-//        AdRequest request = new AdRequest.Builder()
-//                .addTestDevice("3354EE0DE60D4DE6C845A1C28842FDEA")
-//                .build();
-//        interstitialAd.loadAd(request);
-//        //初始化成功以后直接显示
-//        interstitialAd.setAdListener(new AdListener() {
-//            @Override
-//            public void onAdLoaded() {
-//                // Code to be executed when an ad finishes loading.
-//                interstitialAd.show();
-//            }
-//        });
+        //直接显示广告
+        //AdUtil.showAds(this,"MainActivity.init()");
+        //读取最新广告配置并展示
+        AdUtil.getAdTypeAndShow(this, "MainActivity.init()");
 
-        //启动FaceBoo广告
-        AdUtil.showFacebookAds(this);
 
         if (Build.VERSION.SDK_INT >= 21) {
             startJobScheduler();
@@ -219,7 +188,7 @@ public class MainActivity extends BaseActivity {
      * 跳转到应用详情页面
      */
     public void goToAppDetailPage() {
-        if (AppUtil.isGooglePlayInstalled(this)) {
+        if (AppUtil.isInstalled(this, "com.android.vending")) {
             final String GOOGLE_PLAY = "com.android.vending";
             Uri uri = Uri.parse("market://details?id=com.sharkwang8.phoneassistant");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -242,14 +211,6 @@ public class MainActivity extends BaseActivity {
         jobInfo.setPersisted(true);
         JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(jobInfo.build());
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (interstitialAd != null) {
-            interstitialAd.destroy();
-        }
-        super.onDestroy();
     }
 
 }

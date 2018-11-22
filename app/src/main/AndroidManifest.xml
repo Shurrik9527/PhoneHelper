@@ -115,7 +115,7 @@
         <!--AdMob-->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-7217354661273867~3134135584"/>
+            android:value="ca-app-pub-8013994383371748~1163211196"/>
 
         <service android:name=".VMDaemonJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"
