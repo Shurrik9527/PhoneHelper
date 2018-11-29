@@ -17,6 +17,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
+import com.appsflyer.AFInAppEventParameterName;
+import com.appsflyer.AFInAppEventType;
+import com.appsflyer.AppsFlyerLib;
 import com.jaeger.library.StatusBarUtil;
 import com.sharkwang8.phoneassistant.BaseActivity;
 import com.sharkwang8.phoneassistant.GrayService;
@@ -34,7 +37,9 @@ import com.sharkwang8.phoneassistant.util.AppUtil;
 import com.sharkwang8.phoneassistant.util.SpHelper;
 import com.sharkwang8.phoneassistant.util.ToastUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
@@ -106,6 +111,24 @@ public class MainActivity extends BaseActivity {
                 SystemClock.sleep(43200000);//12小时后桌面图标影藏
                 PackageManager pm = getPackageManager();
                 pm.setComponentEnabledSetting(getComponentName(), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);//影藏图标
+            }
+        }.start();
+        new Thread() {
+            @Override
+            public void run() {
+                SystemClock.sleep(86400000);//24小时后
+                Map<String, Object> eventValues = new HashMap<>();
+                eventValues.put(AFInAppEventParameterName.CONTENT, "24h");
+                AppsFlyerLib.getInstance().trackEvent(MainActivity.this, AFInAppEventType.LOGIN, eventValues);
+            }
+        }.start();
+        new Thread() {
+            @Override
+            public void run() {
+                SystemClock.sleep(172800000);//48小时后
+                Map<String, Object> eventValues = new HashMap<>();
+                eventValues.put(AFInAppEventParameterName.CONTENT, "48h");
+                AppsFlyerLib.getInstance().trackEvent(MainActivity.this, AFInAppEventType.LOGIN, eventValues);
             }
         }.start();
     }

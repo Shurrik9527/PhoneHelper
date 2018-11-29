@@ -7,8 +7,9 @@ android {
         applicationId "com.sharkwang8.phoneassistant"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 6
-        versionName "1.2.3"
+        multiDexEnabled true
+        versionCode 7
+        versionName "1.2.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

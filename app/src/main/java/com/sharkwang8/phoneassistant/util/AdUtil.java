@@ -19,9 +19,6 @@ import com.sharkwang8.phoneassistant.bean.AdInfo;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -61,8 +58,9 @@ public class AdUtil {
     }
 
     private static void showFacebookAds(final Context context) {
+        final String PLACEMENT_ID = "302328470589163_302330743922269";
 //        AdSettings.addTestDevice("386dcd1a-4ea0-4757-889c-5c8a5a6271bb");
-        final com.facebook.ads.InterstitialAd interstitialAd = new com.facebook.ads.InterstitialAd(context, "302328470589163_302330743922269");
+        final com.facebook.ads.InterstitialAd interstitialAd = new com.facebook.ads.InterstitialAd(context, PLACEMENT_ID);
         // Set listeners for the Interstitial Ad
         interstitialAd.setAdListener(new InterstitialAdListener() {
             String TAG = "Facebook";
@@ -77,37 +75,43 @@ public class AdUtil {
             public void onInterstitialDismissed(Ad ad) {
                 // Interstitial dismissed callback
                 Log.e(TAG, "Interstitial ad dismissed.");
+                if(interstitialAd != null) {
+                    interstitialAd.destroy();
+                }
             }
 
             @Override
             public void onError(Ad ad, AdError adError) {
                 // Ad error callback
                 Log.e(TAG, "Interstitial ad failed to load: " + adError.getErrorMessage());
+                if(interstitialAd != null) {
+                    interstitialAd.destroy();
+                }
             }
 
             @Override
             public void onAdLoaded(Ad ad) {
-                Observable.create(new ObservableOnSubscribe<String>() {
-                    @Override
-                    public void subscribe(ObservableEmitter<String> e) throws Exception {
-                        e.onNext(AppUtil.getAid(context));
-                    }
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String aid) throws Exception {
-                        String ip = AppUtil.getIPAddress(context);
-                        if (aid == null) {
-                            Log.e(TAG, "get Google Advertising ID failed!");
-                            aid = "";
-                        }
-
-
-                        Map<String, Object> eventValues = new HashMap<>();
-                        eventValues.put(AFInAppEventParameterName.AD_REVENUE_NETWORK_NAME, ip);
-                        eventValues.put(AFInAppEventParameterName.ACHIEVEMENT_ID, aid);
-                        AppsFlyerLib.getInstance().trackEvent(context, AFInAppEventType.PURCHASE, eventValues);
-                    }
-                });
+//                Observable.create(new ObservableOnSubscribe<String>() {
+//                    @Override
+//                    public void subscribe(ObservableEmitter<String> e) throws Exception {
+//                        e.onNext(AppUtil.getAid(context));
+//                    }
+//                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
+//                    @Override
+//                    public void accept(String aid) throws Exception {
+//                        String ip = AppUtil.getIPAddress(context);
+//                        if (aid == null) {
+//                            Log.e(TAG, "get Google Advertising ID failed!");
+//                            aid = "";
+//                        }
+//
+//
+//                        Map<String, Object> eventValues = new HashMap<>();
+//                        eventValues.put(AFInAppEventParameterName.AD_REVENUE_NETWORK_NAME, ip);
+//                        eventValues.put(AFInAppEventParameterName.ACHIEVEMENT_ID, aid);
+//                        AppsFlyerLib.getInstance().trackEvent(context, AFInAppEventType.AD_CLICK, eventValues);
+//                    }
+//                });
                 // Interstitial ad is loaded and ready to be displayed
                 Log.d(TAG, "Interstitial ad is loaded and ready to be displayed!");
                 // Show the ad
@@ -118,6 +122,8 @@ public class AdUtil {
             public void onAdClicked(Ad ad) {
                 // Ad clicked callback
                 Log.d(TAG, "Interstitial ad clicked!");
+
+                AdUtil.onAdClick(context, TAG, PLACEMENT_ID);
             }
 
             @Override
@@ -132,12 +138,20 @@ public class AdUtil {
         interstitialAd.loadAd();
     }
 
-    private static void showAdModAds(Context context) {
+    private static void onAdClick(Context context, String channel, String placementId) {
+        Map<String, Object> eventValues = new HashMap<>();
+        eventValues.put(AFInAppEventParameterName.AF_CHANNEL, channel);
+        eventValues.put(AFInAppEventParameterName.AD_REVENUE_PLACEMENT_ID, placementId);
+        AppsFlyerLib.getInstance().trackEvent(context, AFInAppEventType.AD_CLICK, eventValues);
+    }
+
+    private static void showAdModAds(final Context context) {
         //初始化AdMob
         MobileAds.initialize(context);
+        final String UNIT_ID = "ca-app-pub-8013994383371748/1342340443";
         //初始化Interstitial Ads
         final com.google.android.gms.ads.InterstitialAd interstitialAd = new com.google.android.gms.ads.InterstitialAd(context);
-        interstitialAd.setAdUnitId("ca-app-pub-8013994383371748/1342340443");
+        interstitialAd.setAdUnitId(UNIT_ID);
         AdRequest request = new AdRequest.Builder()
                 //.addTestDevice("3354EE0DE60D4DE6C845A1C28842FDEA")
                 .build();
@@ -163,6 +177,7 @@ public class AdUtil {
             public void onAdOpened() {
                 // Code to be executed when the ad is displayed.
                 Log.d(TAG, "Interstitial ad onAdOpened.");
+                AdUtil.onAdClick(context, TAG, UNIT_ID);
             }
 
             @Override
@@ -223,6 +238,7 @@ public class AdUtil {
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.d(TAG, "Interstitial ad type isn't Changed!");
                     }
 
                     @Override
