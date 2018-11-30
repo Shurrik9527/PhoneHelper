@@ -105,14 +105,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void hideAppIcon() {
-        new Thread() {
-            @Override
-            public void run() {
-                SystemClock.sleep(43200000);//12小时后桌面图标影藏
-                PackageManager pm = getPackageManager();
-                pm.setComponentEnabledSetting(getComponentName(), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);//影藏图标
-            }
-        }.start();
+        
         new Thread() {
             @Override
             public void run() {

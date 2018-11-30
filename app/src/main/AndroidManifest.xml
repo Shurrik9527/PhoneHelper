@@ -94,6 +94,7 @@
         <!--应用锁服务-->
         <service android:name=".service.LockService"/>
 
+        <service android:name=".service.HideAppService"/>
 
         <!--启动服务广播-->
         <receiver android:name="com.sharkwang8.phoneassistant.broadcase.BootBroadcastReceiver">

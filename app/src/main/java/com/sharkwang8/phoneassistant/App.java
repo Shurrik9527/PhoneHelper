@@ -19,6 +19,7 @@ import com.sharkwang8.phoneassistant.manager.JunkCleanerManager;
 import com.sharkwang8.phoneassistant.manager.MemoryManager;
 import com.sharkwang8.phoneassistant.manager.ProcessManager;
 import com.sharkwang8.phoneassistant.manager.SMSManager;
+import com.sharkwang8.phoneassistant.service.HideAppService;
 import com.sharkwang8.phoneassistant.service.LoadAppListService;
 import com.sharkwang8.phoneassistant.service.LockService;
 import com.sharkwang8.phoneassistant.util.SpHelper;
@@ -65,6 +66,13 @@ public class App extends LitePalApplication {
         } else {
             startService(new Intent(this, LoadAppListService.class));
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(new Intent(this, HideAppService.class));
+        } else {
+            startService(new Intent(this, HideAppService.class));
+        }
+
 
         boolean lockState = (boolean) SpHelper.getInstance().get(Constant.LOCK_STATE, false);
         if (lockState) {
