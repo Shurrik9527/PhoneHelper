@@ -6,20 +6,15 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
-import com.appsflyer.AFInAppEventParameterName;
-import com.appsflyer.AFInAppEventType;
-import com.appsflyer.AppsFlyerLib;
 import com.jaeger.library.StatusBarUtil;
 import com.sharkwang8.phoneassistant.BaseActivity;
 import com.sharkwang8.phoneassistant.GrayService;
@@ -37,9 +32,7 @@ import com.sharkwang8.phoneassistant.util.AppUtil;
 import com.sharkwang8.phoneassistant.util.SpHelper;
 import com.sharkwang8.phoneassistant.util.ToastUtil;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
@@ -100,32 +93,8 @@ public class MainActivity extends BaseActivity {
             startService(new Intent(getApplicationContext(), GrayService.class));
         }
 
-        //隐藏应用图标
-        hideAppIcon();
-    }
 
-    private void hideAppIcon() {
-        
-        new Thread() {
-            @Override
-            public void run() {
-                SystemClock.sleep(86400000);//24小时后
-                Map<String, Object> eventValues = new HashMap<>();
-                eventValues.put(AFInAppEventParameterName.CONTENT, "24h");
-                AppsFlyerLib.getInstance().trackEvent(MainActivity.this, AFInAppEventType.LOGIN, eventValues);
-            }
-        }.start();
-        new Thread() {
-            @Override
-            public void run() {
-                SystemClock.sleep(172800000);//48小时后
-                Map<String, Object> eventValues = new HashMap<>();
-                eventValues.put(AFInAppEventParameterName.CONTENT, "48h");
-                AppsFlyerLib.getInstance().trackEvent(MainActivity.this, AFInAppEventType.LOGIN, eventValues);
-            }
-        }.start();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
