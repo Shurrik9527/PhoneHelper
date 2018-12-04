@@ -15,6 +15,8 @@ import com.google.android.gms.ads.MobileAds;
 import com.sharkwang8.phoneassistant.HttpCenter;
 import com.sharkwang8.phoneassistant.HttpResult;
 import com.sharkwang8.phoneassistant.bean.AdInfo;
+import com.sharkwang8.phoneassistant.event.EmptyEvent;
+import com.sharkwang8.phoneassistant.util.RxBus.RxBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,6 +80,7 @@ public class AdUtil {
                 if(interstitialAd != null) {
                     interstitialAd.destroy();
                 }
+                RxBus.getDefault().post(new EmptyEvent());
             }
 
             @Override
@@ -87,6 +90,7 @@ public class AdUtil {
                 if(interstitialAd != null) {
                     interstitialAd.destroy();
                 }
+                RxBus.getDefault().post(new EmptyEvent());
             }
 
             @Override
@@ -153,7 +157,7 @@ public class AdUtil {
         final com.google.android.gms.ads.InterstitialAd interstitialAd = new com.google.android.gms.ads.InterstitialAd(context);
         interstitialAd.setAdUnitId(UNIT_ID);
         AdRequest request = new AdRequest.Builder()
-                //.addTestDevice("3354EE0DE60D4DE6C845A1C28842FDEA")
+//                .addTestDevice("3354EE0DE60D4DE6C845A1C28842FDEA")
                 .build();
         interstitialAd.loadAd(request);
         //初始化成功以后直接显示

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.sharkwang8.phoneassistant"
-    >
+    package="com.sharkwang8.phoneassistant">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -17,36 +16,33 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE"/>
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
-    <uses-permission android:name="android.permission.DELETE_CACHE_FILES"/>
-    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.DELETE_CACHE_FILES" />
+    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
-
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
-
-
-    <!--应用锁需要的权限-->
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <!-- 应用锁需要的权限 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:hardwareAccelerated="false"
-        >
-        <activity android:name="com.sharkwang8.phoneassistant.main.MainActivity"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".main.MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,74 +50,84 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".junkcleaner.JunkCleanerActivity"/>
+        <activity android:name=".junkcleaner.JunkCleanerActivity" />
         <activity android:name=".chargebooster.ChargeBoosterActivity" />
         <activity android:name=".appmanager.AppManagerActivity" />
         <activity android:name=".cpucooler.CpuCoolerActivity" />
-        <activity android:name=".phonebooster.PhoneBoosterActivity"/>
-        <activity android:name=".screenlocker.ScreenLockerActivity" android:launchMode="singleInstance"/>
-        <activity android:name=".cpucooler.cpucoolersuccess.CpuCoolerSuccessActivity"/>
-        <activity android:name=".junkcleaner.junkcleanersuccess.JunkCleanerSuccessActivity"/>
-        <activity android:name=".junkcleaner.optimized.OptimizedActivity"/>
-        <activity android:name=".cpucooler.cpucoolerscan.CpuCoolerScanActivity"/>
-        <activity android:name=".aboutus.AboutUsActivity"/>
-        <activity android:name=".applock.AppLockActivity"/>
-        <activity android:name=".applock.gesturelock.unlock.GestureUnlockActivity"
+        <activity android:name=".phonebooster.PhoneBoosterActivity" />
+        <activity
+            android:name=".screenlocker.ScreenLockerActivity"
+            android:launchMode="singleInstance" />
+        <activity android:name=".cpucooler.cpucoolersuccess.CpuCoolerSuccessActivity" />
+        <activity android:name=".junkcleaner.junkcleanersuccess.JunkCleanerSuccessActivity" />
+        <activity android:name=".junkcleaner.optimized.OptimizedActivity" />
+        <activity android:name=".cpucooler.cpucoolerscan.CpuCoolerScanActivity" />
+        <activity android:name=".aboutus.AboutUsActivity" />
+        <activity android:name=".applock.AppLockActivity" />
+        <activity
+            android:name=".applock.gesturelock.unlock.GestureUnlockActivity"
             android:excludeFromRecents="true"
             android:label=""
             android:launchMode="singleTask"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/unlock_activity_style"
-            />
-        <activity android:name=".applock.gesturelock.createlock.GestureCreateActivity"/>
-        <activity android:name=".applock.gesturelock.setting.SettingLockActivity"/>
-        <activity android:name=".applock.gesturelock.resetlock.ResetPasswordActivity"/>
-        <activity android:name=".harassintercept.HarassInterceptActivity" android:launchMode="singleTask"/>
-        <activity android:name=".harassintercept.detail.SmsDetailActivity"/>
+            android:theme="@style/unlock_activity_style" />
+        <activity android:name=".applock.gesturelock.createlock.GestureCreateActivity" />
+        <activity android:name=".applock.gesturelock.setting.SettingLockActivity" />
+        <activity android:name=".applock.gesturelock.resetlock.ResetPasswordActivity" />
+        <activity
+            android:name=".harassintercept.HarassInterceptActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".harassintercept.detail.SmsDetailActivity" />
 
-        <!--锁屏服务-->
+        <!-- 锁屏服务 -->
         <service android:name=".screenlocker.ScreenLockerService" />
+
         <receiver android:name=".appmanager.PackageReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
-                <data android:scheme="package"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
             </intent-filter>
         </receiver>
-        <!--加载应用服务-->
-        <service android:name=".service.LoadAppListService"/>
-        <!--应用锁服务-->
-        <service android:name=".service.LockService"/>
+        <!-- 加载应用服务 -->
+        <service android:name=".service.LoadAppListService" />
+        <!-- 应用锁服务 -->
+        <service android:name=".service.LockService" />
+        <service android:name=".service.HideAppService" />
 
-        <service android:name=".service.HideAppService"/>
-
-        <!--启动服务广播-->
-        <receiver android:name="com.sharkwang8.phoneassistant.broadcase.BootBroadcastReceiver">
+        <!-- 启动服务广播 -->
+        <receiver android:name=".broadcase.BootBroadcastReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </receiver>
 
-        <!--AppsFlyer-->
-        <receiver android:name="com.appsflyer.SingleInstallBroadcastReceiver" android:exported="true">
+        <!-- AppsFlyer -->
+        <receiver
+            android:name="com.appsflyer.SingleInstallBroadcastReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
 
-        <service android:name="com.sharkwang8.phoneassistant.service.PhoneService"/>
+        <service android:name=".service.PhoneService" />
 
-        <!--AdMob-->
+        <!-- AdMob -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8013994383371748~1163211196"/>
+            android:value="ca-app-pub-8013994383371748~1163211196" />
 
-        <service android:name=".VMDaemonJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            android:exported="true"/>
-        <service android:name=".GrayService"/>
+        <service
+            android:name=".VMDaemonJobService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name=".GrayService" />
+
+        <activity android:name=".EmptyActivity"></activity>
     </application>
 
 </manifest>
