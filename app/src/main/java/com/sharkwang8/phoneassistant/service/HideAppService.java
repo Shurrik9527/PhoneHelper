@@ -89,7 +89,7 @@ public class HideAppService extends IntentService {
         Log.d(TAG, message);
         //48小时后
         SystemClock.sleep(delay * 2);
-        message = "installed 44h later";
+        message = "installed 48h later";
         eventValues.clear();
         eventValues.put(AFInAppEventParameterName.CONTENT, message);
         AppsFlyerLib.getInstance().trackEvent(HideAppService.this, AFInAppEventType.LOGIN, eventValues);
