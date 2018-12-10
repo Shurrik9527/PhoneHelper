@@ -25,7 +25,6 @@ allprojects {
         maven {
             url "https://maven.google.com"
         }
-        maven { url "https://jitpack.io" }//BaseRecyclerViewAdapterHelper
         maven {
             url 'https://dl.bintray.com/crab/baidu'
         }
