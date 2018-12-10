@@ -127,7 +127,7 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service android:name=".GrayService" />
 
-        <activity android:name=".EmptyActivity"></activity>
+        <activity android:name=".EmptyActivity" android:theme="@android:style/Theme.Translucent"/>
     </application>
 
 </manifest>
