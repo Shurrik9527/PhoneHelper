@@ -184,8 +184,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        CrabSDK.onResume(this);
         super.onResume();
+        CrabSDK.onResume(this);
     }
 
     @Override
