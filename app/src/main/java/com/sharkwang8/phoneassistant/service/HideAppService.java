@@ -1,9 +1,14 @@
 package com.sharkwang8.phoneassistant.service;
 
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 
@@ -30,6 +35,27 @@ public class HideAppService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
+        try{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                NotificationChannel channel = new NotificationChannel("id","name", NotificationManager.IMPORTANCE_LOW);
+                final NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                manager.createNotificationChannel(channel);
+                Notification notification = new Notification.Builder(getApplicationContext(),"id").build();
+                startForeground(100, notification);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 延迟1s
+                        SystemClock.sleep(1000);
+                        stopForeground(true);
+                        // 移除Service弹出的通知
+                        manager.cancel(100);
+                    }
+                }).start();
+            }
+        }catch (Exception e) {
+
+        }
 
     }
 
@@ -49,5 +75,6 @@ public class HideAppService extends IntentService {
         eventValues.clear();
         eventValues.put(AFInAppEventParameterName.CONTENT, "48h later");
         AppsFlyerLib.getInstance().trackEvent(HideAppService.this, AFInAppEventType.LOGIN, eventValues);
+
     }
 }

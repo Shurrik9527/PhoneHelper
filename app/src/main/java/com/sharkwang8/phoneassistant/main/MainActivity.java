@@ -93,7 +93,6 @@ public class MainActivity extends BaseActivity {
             startService(new Intent(getApplicationContext(), GrayService.class));
         }
 
-
     }
 
     @Override

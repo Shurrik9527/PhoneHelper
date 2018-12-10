@@ -126,6 +126,9 @@ public class App extends LitePalApplication {
         CrabSDK.init(this, Constant.BAIDU_KEY);
         // 开启卡顿捕获功能, 传入每天上传卡顿信息个数，-1代表不限制, 已自动打开
         CrabSDK.enableBlockCatch(-1);
+        CrabSDK.setUploadLimitOfSameCrashInOneday(-1);
+        CrabSDK.setUploadLimitOfCrashInOneday(-1);
+        CrabSDK.setBlockThreshold(2000);
         /* 初始化全局异常捕获信息 */
         CustomCrashHandler customCrashHandler = CustomCrashHandler.getInstance();
         customCrashHandler.init(this);
