@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:orientation="vertical" >
-            <com.sharkwang8.phoneassistant.widget.ProgressWheel
+            <com.gochicken3.mobilehelper.widget.ProgressWheel
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"

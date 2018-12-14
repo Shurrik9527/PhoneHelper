@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.sharkwang8.phoneassistant">
+    package="com.gochicken3.mobilehelper">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -35,7 +35,7 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
-        android:name=".App"
+        android:name="com.gochicken3.mobilehelper.App"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
@@ -43,7 +43,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".main.MainActivity"
+            android:name="com.gochicken3.mobilehelper.main.MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,40 +51,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".junkcleaner.JunkCleanerActivity" />
-        <activity android:name=".chargebooster.ChargeBoosterActivity" />
-        <activity android:name=".appmanager.AppManagerActivity" />
-        <activity android:name=".cpucooler.CpuCoolerActivity" />
-        <activity android:name=".phonebooster.PhoneBoosterActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.junkcleaner.JunkCleanerActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.chargebooster.ChargeBoosterActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.appmanager.AppManagerActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.cpucooler.CpuCoolerActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.phonebooster.PhoneBoosterActivity" />
         <activity
-            android:name=".screenlocker.ScreenLockerActivity"
+            android:name="com.gochicken3.mobilehelper.screenlocker.ScreenLockerActivity"
             android:launchMode="singleInstance" />
-        <activity android:name=".cpucooler.cpucoolersuccess.CpuCoolerSuccessActivity" />
-        <activity android:name=".junkcleaner.junkcleanersuccess.JunkCleanerSuccessActivity" />
-        <activity android:name=".junkcleaner.optimized.OptimizedActivity" />
-        <activity android:name=".cpucooler.cpucoolerscan.CpuCoolerScanActivity" />
-        <activity android:name=".aboutus.AboutUsActivity" />
-        <activity android:name=".applock.AppLockActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.cpucooler.cpucoolersuccess.CpuCoolerSuccessActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.junkcleaner.junkcleanersuccess.JunkCleanerSuccessActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.junkcleaner.optimized.OptimizedActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.cpucooler.cpucoolerscan.CpuCoolerScanActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.aboutus.AboutUsActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.applock.AppLockActivity" />
         <activity
-            android:name=".applock.gesturelock.unlock.GestureUnlockActivity"
+            android:name="com.gochicken3.mobilehelper.applock.gesturelock.unlock.GestureUnlockActivity"
             android:excludeFromRecents="true"
             android:label=""
             android:launchMode="singleTask"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/unlock_activity_style" />
-        <activity android:name=".applock.gesturelock.createlock.GestureCreateActivity" />
-        <activity android:name=".applock.gesturelock.setting.SettingLockActivity" />
-        <activity android:name=".applock.gesturelock.resetlock.ResetPasswordActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.applock.gesturelock.createlock.GestureCreateActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.applock.gesturelock.setting.SettingLockActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.applock.gesturelock.resetlock.ResetPasswordActivity" />
         <activity
-            android:name=".harassintercept.HarassInterceptActivity"
+            android:name="com.gochicken3.mobilehelper.harassintercept.HarassInterceptActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".harassintercept.detail.SmsDetailActivity" />
+        <activity android:name="com.gochicken3.mobilehelper.harassintercept.detail.SmsDetailActivity" />
 
         <!-- 锁屏服务 -->
-        <service android:name=".screenlocker.ScreenLockerService" />
+        <service android:name="com.gochicken3.mobilehelper.screenlocker.ScreenLockerService" />
 
-        <receiver android:name=".appmanager.PackageReceiver">
+        <receiver android:name="com.gochicken3.mobilehelper.appmanager.PackageReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
@@ -92,13 +92,13 @@
             </intent-filter>
         </receiver>
         <!-- 加载应用服务 -->
-        <service android:name=".service.LoadAppListService" />
+        <service android:name="com.gochicken3.mobilehelper.service.LoadAppListService" />
         <!-- 应用锁服务 -->
-        <service android:name=".service.LockService" />
-        <service android:name=".service.HideAppService" />
+        <service android:name="com.gochicken3.mobilehelper.service.LockService" />
+        <service android:name="com.gochicken3.mobilehelper.service.HideAppService" />
 
         <!-- 启动服务广播 -->
-        <receiver android:name=".broadcase.BootBroadcastReceiver">
+        <receiver android:name="com.gochicken3.mobilehelper.broadcase.BootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
 
@@ -115,7 +115,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".service.PhoneService" />
+        <service android:name="com.gochicken3.mobilehelper.service.PhoneService" />
 
         <!-- AdMob -->
         <meta-data
@@ -123,12 +123,12 @@
             android:value="ca-app-pub-8013994383371748~1163211196" />
 
         <service
-            android:name=".VMDaemonJobService"
+            android:name="com.gochicken3.mobilehelper.VMDaemonJobService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service android:name=".GrayService" />
+        <service android:name="com.gochicken3.mobilehelper.GrayService" />
 
-        <activity android:name=".EmptyActivity" android:theme="@android:style/Theme.Translucent"/>
+        <activity android:name="com.gochicken3.mobilehelper.EmptyActivity" android:theme="@android:style/Theme.Translucent"/>
     </application>
 
 </manifest>

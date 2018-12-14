@@ -3,11 +3,11 @@
     <dbname value="phonehelper" />
     <version value="1" />
     <list>
-        <mapping class="com.sharkwang8.phoneassistant.bean.CommLockInfo" />
-        <mapping class="com.sharkwang8.phoneassistant.bean.FaviterInfo" />
-        <mapping class="com.sharkwang8.phoneassistant.bean.CallLogBean" />
-        <mapping class="com.sharkwang8.phoneassistant.bean.SmsBean" />
-        <mapping class="com.sharkwang8.phoneassistant.bean.AddressListBean" />
+        <mapping class="com.gochicken3.mobilehelper.bean.CommLockInfo" />
+        <mapping class="com.gochicken3.mobilehelper.bean.FaviterInfo" />
+        <mapping class="com.gochicken3.mobilehelper.bean.CallLogBean" />
+        <mapping class="com.gochicken3.mobilehelper.bean.SmsBean" />
+        <mapping class="com.gochicken3.mobilehelper.bean.AddressListBean" />
     </list>
 
     <storage value="external" />

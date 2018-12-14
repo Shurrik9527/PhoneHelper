@@ -24,7 +24,7 @@
             android:layout_marginBottom="5dp"
             />
 
-        <com.sharkwang8.phoneassistant.widget.DigitalRollingTextView
+        <com.gochicken3.mobilehelper.widget.DigitalRollingTextView
             android:id="@+id/junkclearner_num_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

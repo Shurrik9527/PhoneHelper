@@ -53,7 +53,7 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp" />
 
-            <com.sharkwang8.phoneassistant.widget.CircularProgress
+            <com.gochicken3.mobilehelper.widget.CircularProgress
                 android:id="@+id/junkcleaner_item_child_cp"
                 app:borderWidth="2dp"
                 android:layout_width="30dp"

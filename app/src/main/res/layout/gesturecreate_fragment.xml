@@ -32,7 +32,7 @@
     </RelativeLayout>
 
 
-    <com.sharkwang8.phoneassistant.widget.LockPatternView
+    <com.gochicken3.mobilehelper.widget.LockPatternView
         android:id="@+id/gesturecreate_lpv"
         android:layout_width="290dp"
         android:layout_height="290dp"

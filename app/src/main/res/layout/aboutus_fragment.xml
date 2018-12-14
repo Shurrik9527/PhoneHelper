@@ -22,9 +22,9 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
+        android:id="@+id/tv_version_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Version: 1.2.8"
         android:textSize="@dimen/text_default_size"
         android:textColor="@color/description_text"
         android:layout_marginBottom="@dimen/element_default_space"

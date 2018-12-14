@@ -32,7 +32,7 @@
 
     </RelativeLayout>
 
-    <com.sharkwang8.phoneassistant.widget.DigitalRollingTextView
+    <com.gochicken3.mobilehelper.widget.DigitalRollingTextView
         android:id="@+id/cpucooler_success_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
