@@ -22,12 +22,15 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-
+import io.reactivex.schedulers.Schedulers;
 
 
 public class MainFragment extends Fragment implements MainContract.View {
-
+    private static final String TAG =MainFragment.class.getName();
     private MainContract.Presenter presenter;
 
     @BindView(R.id.lav_phonebooster)
@@ -142,24 +145,34 @@ public class MainFragment extends Fragment implements MainContract.View {
     @Override
     public void showPermissions() {
         //手动授予权限  目前未授予权限则退出APP
-        RxPermissions rxPermission = new RxPermissions(getActivity());
-        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CLEAR_APP_CACHE,
-                Manifest.permission.DELETE_CACHE_FILES,
+
+       RxPermissions rxPermission = new RxPermissions(getActivity());
+        rxPermission.request(Manifest.permission.CLEAR_APP_CACHE,
+                Manifest.permission.DELETE_CACHE_FILES
+        ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+
+            }
+        });
+
+        RxPermissions rxPermission1 = new RxPermissions(getActivity());
+        rxPermission1.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_PHONE_STATE
-        )
-                .subscribe(new Consumer<Permission>() {
-                    @Override
-                    public void accept(Permission permission) throws Exception {
-                        if (permission.granted) {
-                            Log.i("MainFragment", "MainFragment 授权成功");
-                        }else{
-                            //未授权则退出App
-                            showMessageTips("Sorry! No permission,Some functions are not available");
-                            showPermissions();
-                        }
-                    }
-                });
+        ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                if(!aBoolean){
+                    showMessageTips("Sorry! no permission, some functions are not available");
+                    showPermissions();
+                }
+            }
+        });
+
+
+
+
+
     }
 
 
@@ -170,7 +183,7 @@ public class MainFragment extends Fragment implements MainContract.View {
 
     @Override
     public void showMessageTips(String msg) {
-
+        ToastUtil.showToast(getContext(),msg);
     }
 
     @Override

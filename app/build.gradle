@@ -36,6 +36,13 @@ android {
         abortOnError false
 
     }
+
+    //添加部分
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
