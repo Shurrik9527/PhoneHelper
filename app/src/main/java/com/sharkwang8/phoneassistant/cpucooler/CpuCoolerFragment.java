@@ -28,7 +28,7 @@ import com.sharkwang8.phoneassistant.bean.AppProcessInfornBean;
 import com.sharkwang8.phoneassistant.cpucooler.cpucoolersuccess.CpuCoolerSuccessActivity;
 import com.sharkwang8.phoneassistant.junkcleaner.optimized.OptimizedActivity;
 import com.sharkwang8.phoneassistant.main.MainActivity;
-import com.sharkwang8.phoneassistant.util.SharedPreferencesHelper;
+import com.sharkwang8.phoneassistant.util.SpHelper;
 import com.sharkwang8.phoneassistant.util.StringUtil;
 import com.sharkwang8.phoneassistant.util.TimeUtil;
 import com.sharkwang8.phoneassistant.widget.DigitalRollingTextView;
@@ -65,7 +65,7 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
     private CpuCleanDialog mCpuCleanDialog;
     private Handler mHandler = new Handler();
     private float temp;
-    private SharedPreferencesHelper mSP;
+
     public CpuCoolerFragment() {
         // Required empty public constructor
     }
@@ -355,14 +355,9 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
     @Override
     public boolean isOptimized() {
         //获取上次清理保存时间
-        mSP = new SharedPreferencesHelper(getActivity());
-        if(mSP!=null){
-            String  lastTime= (String) mSP.getSharedPreference(Constant.SAVE_CPU_COOLER_TIME,"");
-            if(!TextUtils.isEmpty(lastTime)&&!TimeUtil.isTrue(lastTime,TimeUtil.currentTimeStr(),1000*60*5)){
-                return true;
-            }else{
-                return false;
-            }
+        String  lastTime= (String) SpHelper.getInstance().get(Constant.SAVE_CPU_COOLER_TIME,"");
+        if(!TextUtils.isEmpty(lastTime)&&!TimeUtil.isTrue(lastTime,TimeUtil.currentTimeStr(),1000*60*5)){
+            return true;
         }else{
             return false;
         }
@@ -404,9 +399,7 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
 
         if (presenter != null) {
             if (mLists != null && mLists.size() > 0) {
-                if(mSP!=null){
-                    mSP.put(Constant.SAVE_CPU_COOLER_TIME,TimeUtil.currentTimeStr());
-                }
+                SpHelper.getInstance().put(Constant.SAVE_CPU_COOLER_TIME,TimeUtil.currentTimeStr());
                 isStart = false;
                 presenter.startCleanApp(mLists);
             }

@@ -20,7 +20,7 @@ import com.sharkwang8.phoneassistant.event.JunkCleanerTypeClickEvent;
 import com.sharkwang8.phoneassistant.util.DisplayUtil;
 import com.sharkwang8.phoneassistant.util.FormatUtil;
 import com.sharkwang8.phoneassistant.util.RxBus.RxBus;
-import com.sharkwang8.phoneassistant.util.SharedPreferencesHelper;
+import com.sharkwang8.phoneassistant.util.SpHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,8 +127,7 @@ public class JunkCleanerExpandAdapter extends BaseExpandableListAdapter{
 
                 if(junkCleanerTypeBean.isCheck()){
                     //保存未选清理状态
-                    new SharedPreferencesHelper(mContext).put("SAVE_JUNK_CLEANER_ISALL",false);
-
+                    SpHelper.getInstance().put("SAVE_JUNK_CLEANER_ISALL",false);
                     junkCleanerTypeBean.setCheck(false);
                     List<JunkCleanerProcessInformBean> mlists =junkCleanerTypeBean.getSubItems();
                     if(mlists!=null&&mlists.size()>0){

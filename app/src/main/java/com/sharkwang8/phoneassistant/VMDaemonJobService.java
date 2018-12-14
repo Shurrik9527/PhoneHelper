@@ -15,7 +15,11 @@ public class VMDaemonJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         Log.d(TAG, "onStartJob");
-        startService(new Intent(getApplicationContext(), GrayService.class));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(new Intent(getApplicationContext(), GrayService.class));
+        } else {
+            startService(new Intent(getApplicationContext(), GrayService.class));
+        }
         return false;
     }
 

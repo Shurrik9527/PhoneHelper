@@ -64,13 +64,17 @@ public class ScreenLockerFragment extends Fragment implements ScreenLockerContra
     @Override
     public void onResume() {
         super.onResume();
-        presenter.subscribe();
+        if(presenter!=null){
+            presenter.subscribe();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        presenter.unsubscribe();
+        if(presenter!=null){
+            presenter.unsubscribe();
+        }
     }
 
     @Override

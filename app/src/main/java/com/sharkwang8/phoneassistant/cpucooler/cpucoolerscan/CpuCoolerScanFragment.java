@@ -32,7 +32,7 @@ import com.sharkwang8.phoneassistant.cpucooler.CpuCoolerPresenter;
 import com.sharkwang8.phoneassistant.cpucooler.cpucoolersuccess.CpuCoolerSuccessActivity;
 import com.sharkwang8.phoneassistant.junkcleaner.optimized.OptimizedActivity;
 import com.sharkwang8.phoneassistant.main.MainActivity;
-import com.sharkwang8.phoneassistant.util.SharedPreferencesHelper;
+import com.sharkwang8.phoneassistant.util.SpHelper;
 import com.sharkwang8.phoneassistant.util.TimeUtil;
 import java.util.List;
 import butterknife.BindView;
@@ -50,7 +50,6 @@ public class CpuCoolerScanFragment extends Fragment implements CpuCoolerScanCont
     private CpuCoolerScanContract.Presenter presenter;
 
     private float temp;
-    private SharedPreferencesHelper mSP;
 
     public CpuCoolerScanFragment() {
         // Required empty public constructor
@@ -170,14 +169,9 @@ public class CpuCoolerScanFragment extends Fragment implements CpuCoolerScanCont
     @Override
     public boolean isOptimized() {
         //获取上次清理保存时间
-        mSP = new SharedPreferencesHelper(getActivity());
-        if (mSP != null) {
-            String lastTime = (String) mSP.getSharedPreference(Constant.SAVE_CPU_COOLER_TIME, "");
-            if (!TextUtils.isEmpty(lastTime) && !TimeUtil.isTrue(lastTime, TimeUtil.currentTimeStr(), 1000 * 60 * 5)) {
-                return true;
-            } else {
-                return false;
-            }
+        String lastTime = (String) SpHelper.getInstance().get(Constant.SAVE_CPU_COOLER_TIME, "");
+        if (!TextUtils.isEmpty(lastTime) && !TimeUtil.isTrue(lastTime, TimeUtil.currentTimeStr(), 1000 * 60 * 5)) {
+            return true;
         } else {
             return false;
         }

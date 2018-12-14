@@ -22,6 +22,8 @@ public class SharedPreferencesHelper {
         editor = sharedPreferences.edit();
     }
 
+
+
     /**
      * 存储
      */

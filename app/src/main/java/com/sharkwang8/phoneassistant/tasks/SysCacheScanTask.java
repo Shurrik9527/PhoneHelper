@@ -95,11 +95,15 @@ public class SysCacheScanTask extends AsyncTask<Void, Void, Void>{
         mSysCaches = new ArrayList<>();
         mAppNames = new HashMap<>();
         mAppIcons = new HashMap<>();
-        for (int i = 0; i < mTotalCount; i++) {
-            ApplicationInfo info = installedPackages.get(i);
-            mAppNames.put(info.packageName, pm.getApplicationLabel(info).toString());
-            mAppIcons.put(info.packageName, info.loadIcon(pm));
-            getPackageInfo(info.packageName, observer);
+        try{
+            for (int i = 0; i < mTotalCount; i++) {
+                ApplicationInfo info = installedPackages.get(i);
+                mAppNames.put(info.packageName, pm.getApplicationLabel(info).toString());
+                mAppIcons.put(info.packageName, info.loadIcon(pm));
+                getPackageInfo(info.packageName, observer);
+            }
+        }catch (Exception e){
+
         }
 
         mIsOverTime = false;

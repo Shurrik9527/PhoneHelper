@@ -31,7 +31,7 @@ import com.sharkwang8.phoneassistant.bean.JunkCleanerGroupBean;
 import com.sharkwang8.phoneassistant.bean.JunkCleanerMultiItemBean;
 import com.sharkwang8.phoneassistant.junkcleaner.junkcleanersuccess.JunkCleanerSuccessActivity;
 import com.sharkwang8.phoneassistant.junkcleaner.optimized.OptimizedActivity;
-import com.sharkwang8.phoneassistant.util.SharedPreferencesHelper;
+import com.sharkwang8.phoneassistant.util.SpHelper;
 import com.sharkwang8.phoneassistant.util.StringUtil;
 import com.sharkwang8.phoneassistant.util.TimeUtil;
 import com.sharkwang8.phoneassistant.util.ToastUtil;
@@ -75,7 +75,6 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     private JunkCleanerDialog mJunkCleanerDialog;
     private boolean isStart = true;
     private String mNum;
-    private SharedPreferencesHelper mSP;
     private float mTemp = 0.0f;
     private static final Long totalNum = 3072L;
     public JunkCleanerFragment() {
@@ -149,19 +148,14 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     public void initData() {
 
         //获取上次清理保存时间
-        mSP = new SharedPreferencesHelper(getActivity());
-        if (mSP != null) {
-            String lastTime = (String) mSP.getSharedPreference(Constant.SAVE_JUNK_CLEANER_TIME, "");
-            boolean isAll = (boolean) mSP.getSharedPreference(Constant.SAVE_JUNK_CLEANER_ISALL, true);
-            if (!TextUtils.isEmpty(lastTime) && !TimeUtil.isTrue(lastTime, TimeUtil.currentTimeStr(), 1000 * 60 * 5) && isAll) {
-                //跳转 最佳页面
-                Intent mIntent = new Intent(getActivity(), OptimizedActivity.class);
-                mIntent.putExtra("BUNDLE", getResources().getString(R.string.junkcleaner_title));
-                startActivity(mIntent);
-                getActivity().finish();
-            } else {
-                startScan();
-            }
+        String lastTime = (String) SpHelper.getInstance().get(Constant.SAVE_JUNK_CLEANER_TIME, "");
+        boolean isAll = (boolean) SpHelper.getInstance().get(Constant.SAVE_JUNK_CLEANER_ISALL, true);
+        if (!TextUtils.isEmpty(lastTime) && !TimeUtil.isTrue(lastTime, TimeUtil.currentTimeStr(), 1000 * 60 * 5) && isAll) {
+            //跳转 最佳页面
+            Intent mIntent = new Intent(getActivity(), OptimizedActivity.class);
+            mIntent.putExtra("BUNDLE", getResources().getString(R.string.junkcleaner_title));
+            startActivity(mIntent);
+            getActivity().finish();
         } else {
             startScan();
         }
@@ -174,6 +168,11 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
         if (TextUtils.isEmpty(size))
             return;
         Log.i(TAG, "size=" + size);
+
+        if(size.contains(",")){
+            size =size.replace(",",".");
+        }
+
         if (junkclearnerNumTv != null) {
             if (size.contains("M")) {
                 String[] sizes = size.split("M");
@@ -267,10 +266,7 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
     @Override
     public void cleanFinish() {
         //保存此时清理状态
-        if (mSP != null) {
-            mSP.put(Constant.SAVE_JUNK_CLEANER_TIME, TimeUtil.currentTimeStr());
-        }
-
+        SpHelper.getInstance().put(Constant.SAVE_JUNK_CLEANER_TIME, TimeUtil.currentTimeStr());
         mJunkCleanerDialog = new JunkCleanerDialog(getContext(), new JunkCleanerDialog.DismissListener() {
             @Override
             public void callBack() {
@@ -292,8 +288,12 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
         mJunkCleanerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                mJunkCleanerDialog.dismiss();
-                getActivity().finish();
+                if(mJunkCleanerDialog!=null&&mJunkCleanerDialog.isShowing()){
+                    mJunkCleanerDialog.dismiss();
+                }
+                if(getActivity()!=null){
+                    getActivity().finish();
+                }
             }
         });
 
@@ -394,10 +394,8 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
 
     @Override
     public void cleanSpData() {
-        if (mSP != null) {
-            mSP.remove(Constant.SAVE_JUNK_CLEANER_TIME);
-            mSP.remove(Constant.SAVE_JUNK_CLEANER_ISALL);
-        }
+        SpHelper.getInstance().remove(Constant.SAVE_JUNK_CLEANER_TIME);
+        SpHelper.getInstance().remove(Constant.SAVE_JUNK_CLEANER_ISALL);
     }
 
     @Override

@@ -8,6 +8,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.sharkwang8.phoneassistant.service.HideAppService;
+
 public class GrayService extends Service {
 
     private final static String TAG = GrayService.class.getSimpleName();
@@ -20,7 +22,11 @@ public class GrayService extends Service {
             Log.d(TAG, "onStartCommand < 18");
         } else {
             Intent innerIntent = new Intent(this, GrayInnerService.class);
-            startService(innerIntent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(innerIntent);
+            } else {
+                startService(innerIntent);
+            }
             startForeground(GRAY_SERVICE_ID, new Notification());
             Log.d(TAG, "onStartCommand");
         }

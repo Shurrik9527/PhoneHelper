@@ -16,9 +16,10 @@ public class AppManagerContract {
 
     public interface View extends BaseView<Presenter> {
         void refresh();
+        void  showAppData(List<ApplicationInfo> lists);
     }
 
     public interface Presenter extends BasePresenter {
-        List<ApplicationInfo> loadData(Context context);
+        void loadData(Context context);
     }
 }

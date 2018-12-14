@@ -174,9 +174,13 @@ public class LoadAppListService extends IntentService {
             info.setPackageName(packageName);
             faviterInfos.add(info);
         }
+        try {
+            DataSupport.deleteAll(FaviterInfo.class);
+            DataSupport.saveAll(faviterInfos);
+        }catch (Exception e){
 
-        DataSupport.deleteAll(FaviterInfo.class);
-        DataSupport.saveAll(faviterInfos);
+        }
+
     }
 
 

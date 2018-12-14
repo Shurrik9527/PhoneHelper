@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.sharkwang8.phoneassistant.BaseActivity;
 import com.sharkwang8.phoneassistant.R;
-import com.sharkwang8.phoneassistant.util.SharedPreferencesHelper;
+
 
 public class ChargeBoosterActivity extends BaseActivity {
 
@@ -16,9 +16,8 @@ public class ChargeBoosterActivity extends BaseActivity {
     @Override
     protected Fragment getFragment() {
         ChargeBoosterFragment chargeBoosterFragment = ChargeBoosterFragment.newInstance();
-        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(ChargeBoosterActivity.this);
         // Create the presenter
-        new ChargeBoosterPresenter(chargeBoosterFragment, sharedPreferencesHelper);
+        new ChargeBoosterPresenter(chargeBoosterFragment);
         return chargeBoosterFragment;
     }
 

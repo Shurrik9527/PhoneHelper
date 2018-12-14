@@ -382,4 +382,29 @@ public class AppUtil {
             return limitAdTracking;
         }
     }
+
+    public static List<ApplicationInfo> getUnInstalledApplicationInfo(Context context) {
+        
+        PackageManager packageManager = context.getPackageManager(); // 获得PackageManager对象
+        List<ApplicationInfo> listAppcations = packageManager.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
+        if(listAppcations==null||listAppcations.size()==0){
+            return null;
+        }
+        List<ApplicationInfo> mData = new ArrayList<ApplicationInfo>();
+        Collections.sort(listAppcations, new ApplicationInfo.DisplayNameComparator(packageManager));// 字典排序
+        for (ApplicationInfo app : listAppcations) {
+            if ((app.flags & ApplicationInfo.FLAG_SYSTEM) <= 0) {
+                //非系统程序
+                mData.add(app);
+            } else if ((app.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
+                //本来是系统程序，被用户手动更新后，该系统程序也成为第三方应用程序了
+                //data.add(app);
+            }
+        }
+        return mData;
+    }
+
+
+
+
 }

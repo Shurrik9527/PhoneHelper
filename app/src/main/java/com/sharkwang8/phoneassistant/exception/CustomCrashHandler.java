@@ -79,23 +79,12 @@ public class CustomCrashHandler implements Thread.UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-
         CrabSDK.uploadException(ex);
         if (!handleException(ex) && mDefaultHandler != null) {
             // 如果用户没有处理则让系统默认的异常处理器来处理
             mDefaultHandler.uncaughtException(thread, ex);
 
-        } else {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-
-            }
-
-//			 restartApp();
-
         }
-
     }
 
     /**

@@ -71,9 +71,13 @@ public class JunkCleanerDialog extends Dialog {
             @Override
             public void onAnimationFinish() {
                 if (isShowing()) {
-                    dismiss();
-                    if(mDismissListener!=null){
-                        mDismissListener.callBack();
+                    try {
+                        dismiss();
+                        if(mDismissListener!=null){
+                            mDismissListener.callBack();
+                        }
+                    }catch (Exception e){
+
                     }
                 }
             }

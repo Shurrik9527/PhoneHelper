@@ -79,7 +79,11 @@ public class MainActivity extends BaseActivity {
         super.init();
         setIcon(menu);
         //开启服务，开启锁屏界面
-        startService(new Intent(MainActivity.this, ScreenLockerService.class));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(new Intent(this, ScreenLockerService.class));
+        } else {
+            startService(new Intent(this, ScreenLockerService.class));
+        }
 
         //直接显示广告
         //AdUtil.showAds(this,"MainActivity.init()");
@@ -90,7 +94,12 @@ public class MainActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= 21) {
             startJobScheduler();
         } else {
-            startService(new Intent(getApplicationContext(), GrayService.class));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(new Intent(getApplicationContext(), GrayService.class));
+            } else {
+                startService(new Intent(getApplicationContext(), GrayService.class));
+            }
         }
 
 

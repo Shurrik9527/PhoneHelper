@@ -4,14 +4,22 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
+import com.sharkwang8.phoneassistant.bean.AppInformBean;
 import com.sharkwang8.phoneassistant.event.UninstallEvent;
+import com.sharkwang8.phoneassistant.util.AppUtil;
 import com.sharkwang8.phoneassistant.util.RxBus.RxBusHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Shurrik on 2017/11/22.
@@ -49,21 +57,25 @@ public class AppManagerPresenter implements AppManagerContract.Presenter {
     }
 
     @Override
-    public List<ApplicationInfo> loadData(Context context) {
-        List<ApplicationInfo> data = new ArrayList<ApplicationInfo>();
-        PackageManager packageManager = context.getPackageManager(); // 获得PackageManager对象
-        List<ApplicationInfo> listAppcations = packageManager.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
-        Collections.sort(listAppcations, new ApplicationInfo.DisplayNameComparator(packageManager));// 字典排序
-        for (ApplicationInfo app : listAppcations) {
-            if ((app.flags & ApplicationInfo.FLAG_SYSTEM) <= 0) {
-                //非系统程序
-                data.add(app);
-            } else if ((app.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
-                //本来是系统程序，被用户手动更新后，该系统程序也成为第三方应用程序了
-                //data.add(app);
-            }
-            System.out.println(app.packageName);
+    public void loadData(final Context context) {
+
+        if(context==null){
+            return;
         }
-        return data;
+        Observable.create(new ObservableOnSubscribe<List<ApplicationInfo>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<ApplicationInfo>> e) throws Exception {
+                e.onNext(AppUtil.getUnInstalledApplicationInfo(context));
+                e.onComplete();
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<List<ApplicationInfo>>() {
+            @Override
+            public void accept(List<ApplicationInfo> applicationInfos) throws Exception {
+                if(mView!=null&&applicationInfos!=null&&applicationInfos.size()>0){
+                    mView.showAppData(applicationInfos);
+                }
+            }
+        });
+
     }
 }

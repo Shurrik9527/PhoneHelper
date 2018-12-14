@@ -153,6 +153,10 @@ public class MainFragment extends Fragment implements MainContract.View {
                     public void accept(Permission permission) throws Exception {
                         if (permission.granted) {
                             Log.i("MainFragment", "MainFragment 授权成功");
+                        }else{
+                            //未授权则退出App
+                            showMessageTips("Sorry! No permission,Some functions are not available");
+                            showPermissions();
                         }
                     }
                 });

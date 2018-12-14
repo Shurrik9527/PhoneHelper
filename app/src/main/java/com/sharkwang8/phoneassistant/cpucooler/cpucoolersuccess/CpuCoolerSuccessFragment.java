@@ -127,7 +127,9 @@ public class CpuCoolerSuccessFragment extends Fragment implements CpuCoolerSucce
             float temp =Float.parseFloat(mTemp);
             BigDecimal bigDecimal= new BigDecimal(Math.abs(temper-temp));
             float dropped =bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-            cpucoolerSuccessTv.setContent(dropped+"");
+            if(cpucoolerSuccessTv!=null){
+                cpucoolerSuccessTv.setContent(dropped+"");
+            }
             triggerCountDown();
         }
 

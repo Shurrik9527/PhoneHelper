@@ -14,10 +14,10 @@ import android.os.SystemClock;
 
 import com.sharkwang8.phoneassistant.EmptyActivity;
 import com.sharkwang8.phoneassistant.util.AdUtil;
-import com.sharkwang8.phoneassistant.util.SharedPreferencesHelper;
+import com.sharkwang8.phoneassistant.util.SpHelper;
 
 public class ScreenLockerService extends Service {
-    private SharedPreferencesHelper sharedPreferencesHelper;
+
 
     //屏幕熄灭的广播
     private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -25,7 +25,7 @@ public class ScreenLockerService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction() == Intent.ACTION_SCREEN_OFF) {
-                boolean isProtect = Boolean.parseBoolean(sharedPreferencesHelper.getSharedPreference("isProtect", false).toString().trim());
+                boolean isProtect = (boolean) SpHelper.getInstance().get("isProtect", false);
                 if (isProtect) {
                     Intent lockScreenIntent = new Intent(ScreenLockerService.this, ScreenLockerActivity.class);
                     lockScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -60,8 +60,6 @@ public class ScreenLockerService extends Service {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         registerReceiver(receiver, filter);
-        sharedPreferencesHelper = new SharedPreferencesHelper(ScreenLockerService.this);
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("id", "name", NotificationManager.IMPORTANCE_LOW);

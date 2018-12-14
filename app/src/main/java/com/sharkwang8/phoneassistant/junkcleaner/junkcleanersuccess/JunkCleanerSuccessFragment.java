@@ -64,6 +64,9 @@ public class JunkCleanerSuccessFragment extends Fragment implements JunkCleanerS
             Bundle mBundle =getArguments();
             if(mBundle!=null){
                 mTemp =mBundle.getString("BUNDLE");
+                if(mTemp.contains(",")){
+                    mTemp =mTemp.replace(",",".");
+                }
             }
         }
         new JunkCleanerSuccessPresenter(this);
@@ -143,6 +146,9 @@ public class JunkCleanerSuccessFragment extends Fragment implements JunkCleanerS
         float msize =0.0f;
         if(size.contains("M")){
             String[] sizes =size.split("M");
+            if(sizes[0].contains(",")){
+                sizes[0] =sizes[0].replace(",",".");
+            }
             if(!TextUtils.isEmpty(sizes[0])){
                 msize =Float.valueOf(sizes[0]);
             }
@@ -157,7 +163,9 @@ public class JunkCleanerSuccessFragment extends Fragment implements JunkCleanerS
             float temp = Float.parseFloat(mTemp);
             BigDecimal bigDecimal = new BigDecimal(Math.abs(msize - temp));
             float dropped = bigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-            cpucoolerSuccessTv.setContent(dropped + "");
+            if(cpucoolerSuccessTv!=null){
+                cpucoolerSuccessTv.setContent(dropped + "");
+            }
         }
     }
 

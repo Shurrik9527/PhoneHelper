@@ -1,6 +1,6 @@
 package com.sharkwang8.phoneassistant.chargebooster;
 
-import com.sharkwang8.phoneassistant.util.SharedPreferencesHelper;
+import com.sharkwang8.phoneassistant.util.SpHelper;
 
 /**
  * Created by Shurrik on 2017/11/22.
@@ -8,12 +8,10 @@ import com.sharkwang8.phoneassistant.util.SharedPreferencesHelper;
 
 public class ChargeBoosterPresenter implements ChargeBoosterContract.Presenter {
     private ChargeBoosterContract.View view;
-    private SharedPreferencesHelper sharedPreferencesHelper;
 
-    public ChargeBoosterPresenter(ChargeBoosterContract.View view, SharedPreferencesHelper sharedPreferencesHelper) {
+    public ChargeBoosterPresenter(ChargeBoosterContract.View view) {
         this.view = view;
         this.view.setPresenter(this);
-        this.sharedPreferencesHelper = sharedPreferencesHelper;
     }
 
     @Override
@@ -28,7 +26,7 @@ public class ChargeBoosterPresenter implements ChargeBoosterContract.Presenter {
 
     @Override
     public void loadData() {
-        boolean isProtect = Boolean.parseBoolean(sharedPreferencesHelper.getSharedPreference("isProtect", false).toString().trim());
+        boolean isProtect = (boolean) SpHelper.getInstance().get("isProtect", false);
         view.switchProtectCharging(isProtect);
     }
 
@@ -56,11 +54,11 @@ public class ChargeBoosterPresenter implements ChargeBoosterContract.Presenter {
     }
 
     public void setProtectStatus(boolean isProtect) {
-        sharedPreferencesHelper.put("isProtect", isProtect);
+        SpHelper.getInstance().put("isProtect", isProtect);
     }
 
     public void setAlertStatus(boolean isAlert){
-        sharedPreferencesHelper.put("isAlert", isAlert);
+        SpHelper.getInstance().put("isAlert", isAlert);
     }
 
 }

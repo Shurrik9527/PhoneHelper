@@ -77,9 +77,11 @@ public class AppManagerFragment extends Fragment implements AppManagerContract.V
     @Override
     public void initView() {
         data = new ArrayList<ApplicationInfo>();
-        data.addAll(presenter.loadData(getActivity()));
         adapter = new AppManagerAdapter(getActivity(), data);
         lvApps.setAdapter(adapter);
+        if(presenter!=null){
+            presenter.loadData(getContext());
+        }
     }
 
     @Override
@@ -89,9 +91,20 @@ public class AppManagerFragment extends Fragment implements AppManagerContract.V
 
     @Override
     public void refresh() {
-        data.clear();
-        data.addAll(presenter.loadData(getActivity()));
-        adapter.notifyDataSetChanged();
+        if(presenter!=null){
+            presenter.loadData(getContext());
+        }
+    }
+
+    @Override
+    public void showAppData(List<ApplicationInfo> lists) {
+        if(lists!=null&&lists.size()>0){
+            if(data!=null&&data.size()>0){
+                data.clear();
+            }
+            data.addAll(lists);
+            adapter.notifyDataSetChanged();
+        }
     }
 
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.text.TextUtils;
 
 import com.sharkwang8.phoneassistant.base.Constant;
 import com.sharkwang8.phoneassistant.bean.CommLockInfo;
@@ -41,17 +42,32 @@ public class CommLockInfoManager {
      * 查找所有
      */
     public synchronized List<CommLockInfo> getAllCommLockInfos() {
-        List<CommLockInfo> commLockInfos = DataSupport.findAll(CommLockInfo.class);
-        Collections.sort(commLockInfos, commLockInfoComparator);
-        return commLockInfos;
+        try {
+            List<CommLockInfo> commLockInfos = DataSupport.findAll(CommLockInfo.class);
+            if(commLockInfos==null){
+                return null;
+            }
+            Collections.sort(commLockInfos, commLockInfoComparator);
+            return commLockInfos;
+        }catch (Exception e){
+            return null;
+        }
     }
 
     /**
      * 删除数据
      */
     public synchronized void deleteCommLockInfoTable(List<CommLockInfo> commLockInfos) {
-        for (CommLockInfo info : commLockInfos) {
-            DataSupport.deleteAll(CommLockInfo.class, "packageName = ?", info.getPackageName());
+
+        if(commLockInfos==null||commLockInfos.size()==0){
+            return;
+        }
+        try {
+            for (CommLockInfo info : commLockInfos) {
+                DataSupport.deleteAll(CommLockInfo.class, "packageName = ?", info.getPackageName());
+            }
+        }catch (Exception e){
+
         }
     }
 
@@ -59,36 +75,47 @@ public class CommLockInfoManager {
      * 将手机应用信息插入数据库
      */
     public synchronized void instanceCommLockInfoTable(List<ResolveInfo> resolveInfos) throws PackageManager.NameNotFoundException {
-        List<CommLockInfo> list = new ArrayList<>();
 
-        for (ResolveInfo resolveInfo : resolveInfos) {
-            boolean isfaviterApp = isHasFaviterAppInfo(resolveInfo.activityInfo.packageName); //是否为推荐加锁的app
-            CommLockInfo commLockInfo = new CommLockInfo(resolveInfo.activityInfo.packageName, false, isfaviterApp); // 后续需添加默认的开启保护
-            ApplicationInfo appInfo = mPackageManager.getApplicationInfo(commLockInfo.getPackageName(), PackageManager.GET_UNINSTALLED_PACKAGES);
-            String appName = mPackageManager.getApplicationLabel(appInfo).toString();
-            //过滤掉一些应用
-            if (!commLockInfo.getPackageName().equals(Constant.APP_PACKAGE_NAME) && !commLockInfo.getPackageName().equals("com.android.settings")
-                    && !commLockInfo.getPackageName().equals("com.google.android.googlequicksearchbox")) {
-                if (isfaviterApp) { //如果是推荐的
-                    commLockInfo.setLocked(true);
-                } else {
-                    commLockInfo.setLocked(false);
-                }
-                commLockInfo.setAppName(appName);
-                commLockInfo.setSetUnLock(false);
-
-                list.add(commLockInfo);
-            }
+        if(resolveInfos==null||resolveInfos.size()==0){
+            return;
         }
-        list = StringUtil.clearRepeatCommLockInfo(list);  //去除重复数据
 
-        DataSupport.saveAll(list);
+        try {
+            List<CommLockInfo> list = new ArrayList<>();
+            for (ResolveInfo resolveInfo : resolveInfos) {
+                boolean isfaviterApp = isHasFaviterAppInfo(resolveInfo.activityInfo.packageName); //是否为推荐加锁的app
+                CommLockInfo commLockInfo = new CommLockInfo(resolveInfo.activityInfo.packageName, false, isfaviterApp); // 后续需添加默认的开启保护
+                ApplicationInfo appInfo = mPackageManager.getApplicationInfo(commLockInfo.getPackageName(), PackageManager.GET_UNINSTALLED_PACKAGES);
+                String appName = mPackageManager.getApplicationLabel(appInfo).toString();
+                //过滤掉一些应用
+                if (!commLockInfo.getPackageName().equals(Constant.APP_PACKAGE_NAME) && !commLockInfo.getPackageName().equals("com.android.settings")
+                        && !commLockInfo.getPackageName().equals("com.google.android.googlequicksearchbox")) {
+                    if (isfaviterApp) { //如果是推荐的
+                        commLockInfo.setLocked(true);
+                    } else {
+                        commLockInfo.setLocked(false);
+                    }
+                    commLockInfo.setAppName(appName);
+                    commLockInfo.setSetUnLock(false);
+
+                    list.add(commLockInfo);
+                }
+            }
+            list = StringUtil.clearRepeatCommLockInfo(list);  //去除重复数据
+
+            DataSupport.saveAll(list);
+        }catch (Exception e){
+
+        }
     }
 
     /**
      * 判断是否是推荐加锁的应用
      */
     public boolean isHasFaviterAppInfo(String packageName) {
+        if(TextUtils.isEmpty(packageName)){
+            return false;
+        }
         try{
             List<FaviterInfo> infos = DataSupport.where("packageName = ?", packageName).find(FaviterInfo.class);
             return infos.size() > 0;
@@ -112,9 +139,13 @@ public class CommLockInfoManager {
     }
 
     public void updateLockStatus(String packageName, boolean isLock) {
-        ContentValues values = new ContentValues();
-        values.put("isLocked", isLock);
-        DataSupport.updateAll(CommLockInfo.class, values, "packageName = ?", packageName);
+        try {
+            ContentValues values = new ContentValues();
+            values.put("isLocked", isLock);
+            DataSupport.updateAll(CommLockInfo.class, values, "packageName = ?", packageName);
+        }catch (Exception e){
+
+        }
     }
 
 
@@ -122,13 +153,17 @@ public class CommLockInfoManager {
      * 是否设置了不锁
      */
     public boolean isSetUnLock(String packageName) {
-        List<CommLockInfo> lockInfos = where("packageName = ?", packageName).find(CommLockInfo.class);
-        for (CommLockInfo commLockInfo : lockInfos) {
-            if (commLockInfo.isSetUnLock()) {
-                return true;
+        try {
+            List<CommLockInfo> lockInfos = where("packageName = ?", packageName).find(CommLockInfo.class);
+            for (CommLockInfo commLockInfo : lockInfos) {
+                if (commLockInfo.isSetUnLock()) {
+                    return true;
+                }
             }
+            return false;
+        }catch (Exception e){
+            return false;
         }
-        return false;
     }
 
     /**
@@ -138,13 +173,21 @@ public class CommLockInfoManager {
      * @return
      */
     public boolean isLockedPackageName(String packageName) {
-        List<CommLockInfo> lockInfos = where("packageName = ?", packageName).find(CommLockInfo.class);
-        for (CommLockInfo commLockInfo : lockInfos) {
-            if (commLockInfo.isLocked()) {
-                return true;
-            }
+        if(TextUtils.isEmpty(packageName)){
+            return false;
         }
-        return false;
+
+        try {
+            List<CommLockInfo> lockInfos = where("packageName = ?", packageName).find(CommLockInfo.class);
+            for (CommLockInfo commLockInfo : lockInfos) {
+                if (commLockInfo.isLocked()) {
+                    return true;
+                }
+            }
+            return false;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     /**

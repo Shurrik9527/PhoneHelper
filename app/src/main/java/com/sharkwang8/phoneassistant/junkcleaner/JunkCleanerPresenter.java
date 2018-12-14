@@ -503,7 +503,9 @@ public class JunkCleanerPresenter implements JunkCleanerContract.Presenter {
 
                     @Override
                     public void onComplete() {
-                        mView.cleanFinish();
+                        if(mView!=null){
+                            mView.cleanFinish();
+                        }
                     }
                 });
 

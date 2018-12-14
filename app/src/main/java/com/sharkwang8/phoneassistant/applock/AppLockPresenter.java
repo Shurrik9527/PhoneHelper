@@ -97,6 +97,10 @@ public class AppLockPresenter implements AppLockContract.Presenter {
         //数据可中获取设置好的应用
         List<CommLockInfo> commLockInfos =  mLockInfoManager.getAllCommLockInfos();
 
+        if(commLockInfos==null||commLockInfos.size()==0){
+            return new ArrayList<>();
+        }
+
         List<CommLockInfo> userLockInfos = new ArrayList<>();
         List<CommLockInfo> sysmLockInfos = new ArrayList<>();
 
