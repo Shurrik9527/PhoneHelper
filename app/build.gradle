@@ -97,6 +97,6 @@ dependencies {
 
     //百度Crab
     implementation 'crab.baidu.crabsdk:crabsdk:7.3.5@aar'
-    implementation 'crab.baidu.crabndk:crabndk:3.1.2@aar'
+    //implementation 'crab.baidu.crabndk:crabndk:3.1.2@aar'
 
 }
