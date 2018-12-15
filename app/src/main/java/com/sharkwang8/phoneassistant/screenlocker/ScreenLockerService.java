@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
 
-import com.sharkwang8.phoneassistant.EmptyActivity;
 import com.sharkwang8.phoneassistant.util.AdUtil;
 import com.sharkwang8.phoneassistant.util.SpHelper;
 
@@ -34,18 +33,18 @@ public class ScreenLockerService extends Service {
                 }
 
                 //每1小时允许展示一次广告
-                if (System.currentTimeMillis() - AdUtil.SHOW_TIME > 3600000l || AdUtil.SHOW_TIME == 0l) {
-                    //读取最新广告配置并展示
-                    //AdUtil.getAdTypeAndShow(ScreenLockerService.this, "ScreenLockerService.onReceive()");
-                    Intent emptyIntent = new Intent();
-                    emptyIntent.setClass(ScreenLockerService.this, EmptyActivity.class);
-                    emptyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(emptyIntent);
-                    AdUtil.SHOW_TIME = System.currentTimeMillis();
-                } else {
+//                if (System.currentTimeMillis() - AdUtil.SHOW_TIME > 3600000l || AdUtil.SHOW_TIME == 0l) {
+//                    //读取最新广告配置并展示
+//                    //AdUtil.getAdTypeAndShow(ScreenLockerService.this, "ScreenLockerService.onReceive()");
+//                    Intent emptyIntent = new Intent();
+//                    emptyIntent.setClass(ScreenLockerService.this, EmptyActivity.class);
+//                    emptyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    startActivity(emptyIntent);
+//                    AdUtil.SHOW_TIME = System.currentTimeMillis();
+//                } else {
                     //读取最新广告配置
                     AdUtil.getAdType();
-                }
+//                }
             }
         }
     };

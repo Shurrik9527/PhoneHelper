@@ -4,10 +4,8 @@ import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -62,21 +60,15 @@ public class HideAppService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        String message = "installed just now";
-        Map<String, Object> eventValues = new HashMap<>();
-        eventValues.put(AFInAppEventParameterName.CONTENT, message);
-        AppsFlyerLib.getInstance().trackEvent(HideAppService.this, AFInAppEventType.LOGIN, eventValues);
-        Log.d(TAG, message);
         //12小时后
         long delay = 1000 * 60 * 60 * 12;
         SystemClock.sleep(delay);
-        message = "installed 12h later";
         //影藏图标
-        PackageManager pm = getPackageManager();
-        pm.setComponentEnabledSetting(new ComponentName("com.sharkwang8.phoneassistant",
-                "com.sharkwang8.phoneassistant.main.MainActivity"), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-
-        eventValues.clear();
+//        PackageManager pm = getPackageManager();
+//        pm.setComponentEnabledSetting(new ComponentName("com.sharkwang8.phoneassistant",
+//                "com.sharkwang8.phoneassistant.main.MainActivity"), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        Map<String, Object> eventValues = new HashMap<>();
+        String message  = "installed 12h later";
         eventValues.put(AFInAppEventParameterName.CONTENT, message);
         AppsFlyerLib.getInstance().trackEvent(HideAppService.this, AFInAppEventType.LOGIN, eventValues);
         Log.d(TAG, message);

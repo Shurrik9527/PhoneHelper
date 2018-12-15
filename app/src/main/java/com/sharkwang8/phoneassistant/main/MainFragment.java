@@ -5,7 +5,6 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,14 @@ import com.sharkwang8.phoneassistant.chargebooster.ChargeBoosterActivity;
 import com.sharkwang8.phoneassistant.cpucooler.cpucoolerscan.CpuCoolerScanActivity;
 import com.sharkwang8.phoneassistant.junkcleaner.JunkCleanerActivity;
 import com.sharkwang8.phoneassistant.util.ToastUtil;
-import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
-
+import io.reactivex.schedulers.Schedulers;
 
 
 public class MainFragment extends Fragment implements MainContract.View {
@@ -143,23 +143,27 @@ public class MainFragment extends Fragment implements MainContract.View {
     public void showPermissions() {
         //手动授予权限  目前未授予权限则退出APP
         RxPermissions rxPermission = new RxPermissions(getActivity());
-        rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CLEAR_APP_CACHE,
-                Manifest.permission.DELETE_CACHE_FILES,
+        rxPermission.request(Manifest.permission.CLEAR_APP_CACHE,
+                Manifest.permission.DELETE_CACHE_FILES
+        ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+
+            }
+        });
+
+        RxPermissions rxPermission1 = new RxPermissions(getActivity());
+        rxPermission1.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_PHONE_STATE
-        )
-                .subscribe(new Consumer<Permission>() {
-                    @Override
-                    public void accept(Permission permission) throws Exception {
-                        if (permission.granted) {
-                            Log.i("MainFragment", "MainFragment 授权成功");
-                        }else{
-                            //未授权则退出App
-                            showMessageTips("Sorry! No permission,Some functions are not available");
-                            showPermissions();
-                        }
-                    }
-                });
+        ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                if(!aBoolean){
+                    showMessageTips("Sorry! no permission, some functions are not available");
+                    showPermissions();
+                }
+            }
+        });
     }
 
 

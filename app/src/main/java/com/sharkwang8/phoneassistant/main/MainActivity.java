@@ -1,10 +1,5 @@
 package com.sharkwang8.phoneassistant.main;
 
-import android.annotation.TargetApi;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -17,9 +12,7 @@ import android.view.MenuItem;
 
 import com.jaeger.library.StatusBarUtil;
 import com.sharkwang8.phoneassistant.BaseActivity;
-import com.sharkwang8.phoneassistant.GrayService;
 import com.sharkwang8.phoneassistant.R;
-import com.sharkwang8.phoneassistant.VMDaemonJobService;
 import com.sharkwang8.phoneassistant.aboutus.AboutUsActivity;
 import com.sharkwang8.phoneassistant.applock.AppLockActivity;
 import com.sharkwang8.phoneassistant.applock.gesturelock.createlock.GestureCreateActivity;
@@ -91,16 +84,16 @@ public class MainActivity extends BaseActivity {
         AdUtil.getAdTypeAndShow(this, "MainActivity.init()");
 
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            startJobScheduler();
-        } else {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(new Intent(getApplicationContext(), GrayService.class));
-            } else {
-                startService(new Intent(getApplicationContext(), GrayService.class));
-            }
-        }
+//        if (Build.VERSION.SDK_INT >= 21) {
+//            startJobScheduler();
+//        } else {
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                startForegroundService(new Intent(getApplicationContext(), GrayService.class));
+//            } else {
+//                startService(new Intent(getApplicationContext(), GrayService.class));
+//            }
+//        }
 
 
     }
@@ -197,14 +190,14 @@ public class MainActivity extends BaseActivity {
     /**
      * 5.x以上系统启用 JobScheduler API 进行实现守护进程的唤醒操作
      */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void startJobScheduler() {
-        int jobId = 1;
-        JobInfo.Builder jobInfo = new JobInfo.Builder(jobId, new ComponentName(this, VMDaemonJobService.class));
-        jobInfo.setPeriodic(10000);
-        jobInfo.setPersisted(true);
-        JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        jobScheduler.schedule(jobInfo.build());
-    }
+//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+//    private void startJobScheduler() {
+//        int jobId = 1;
+//        JobInfo.Builder jobInfo = new JobInfo.Builder(jobId, new ComponentName(this, VMDaemonJobService.class));
+//        jobInfo.setPeriodic(10000);
+//        jobInfo.setPersisted(true);
+//        JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+//        jobScheduler.schedule(jobInfo.build());
+//    }
 
 }
