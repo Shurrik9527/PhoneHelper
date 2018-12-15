@@ -27,7 +27,7 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public class MainFragment extends Fragment implements MainContract.View {
-
+    private static final String TAG =MainFragment.class.getName();
     private MainContract.Presenter presenter;
 
     @BindView(R.id.lav_phonebooster)
@@ -142,7 +142,8 @@ public class MainFragment extends Fragment implements MainContract.View {
     @Override
     public void showPermissions() {
         //手动授予权限  目前未授予权限则退出APP
-        RxPermissions rxPermission = new RxPermissions(getActivity());
+
+       RxPermissions rxPermission = new RxPermissions(getActivity());
         rxPermission.request(Manifest.permission.CLEAR_APP_CACHE,
                 Manifest.permission.DELETE_CACHE_FILES
         ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
@@ -174,7 +175,7 @@ public class MainFragment extends Fragment implements MainContract.View {
 
     @Override
     public void showMessageTips(String msg) {
-
+        ToastUtil.showToast(getContext(),msg);
     }
 
     @Override
