@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -25,19 +24,23 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AFInAppEventType;
 import com.sharkwang8.phoneassistant.R;
 import com.sharkwang8.phoneassistant.base.Constant;
 import com.sharkwang8.phoneassistant.bean.JunkCleanerGroupBean;
 import com.sharkwang8.phoneassistant.bean.JunkCleanerMultiItemBean;
 import com.sharkwang8.phoneassistant.junkcleaner.junkcleanersuccess.JunkCleanerSuccessActivity;
 import com.sharkwang8.phoneassistant.junkcleaner.optimized.OptimizedActivity;
+import com.sharkwang8.phoneassistant.util.EventUtil;
 import com.sharkwang8.phoneassistant.util.SpHelper;
 import com.sharkwang8.phoneassistant.util.StringUtil;
 import com.sharkwang8.phoneassistant.util.TimeUtil;
 import com.sharkwang8.phoneassistant.util.ToastUtil;
 import com.sharkwang8.phoneassistant.widget.DigitalRollingTextView;
 import com.sharkwang8.phoneassistant.widget.dialog.JunkCleanerDialog;
+
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -138,6 +141,8 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
                 isStart = false;
                 if (presenter != null) {
                     presenter.startCleanJunkTask(mAdapter.getData());
+                    //垃圾清理被点击了
+                    EventUtil.sendEvent(getActivity(),AFInAppEventType.START_TRIAL, "JunkCleaner clicked!");
                 }
             }
         });

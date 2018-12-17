@@ -16,7 +16,7 @@ public class PackageReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(Intent.ACTION_PACKAGE_REMOVED)) {
             RxBus.getDefault().post(new UninstallEvent());
             //广告
-            AdUtil.getAdTypeAndShow(context, "EmptyActivity");
+            AdUtil.getAdTypeAndShow(context, "PackageReceiver");
 
 //            Intent emptyIntent = new Intent();
 //            emptyIntent.setClass(context, EmptyActivity.class);

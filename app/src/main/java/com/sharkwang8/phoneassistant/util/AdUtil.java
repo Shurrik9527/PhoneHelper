@@ -60,7 +60,8 @@ public class AdUtil {
     }
 
     private static void showFacebookAds(final Context context) {
-        final String PLACEMENT_ID = "302328470589163_302330743922269";
+//        final String PLACEMENT_ID = "302328470589163_302330743922269";
+        final String PLACEMENT_ID = "302328470589163_329962474492429";
 //        AdSettings.addTestDevice("386dcd1a-4ea0-4757-889c-5c8a5a6271bb");
         final com.facebook.ads.InterstitialAd interstitialAd = new com.facebook.ads.InterstitialAd(context, PLACEMENT_ID);
         // Set listeners for the Interstitial Ad

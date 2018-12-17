@@ -18,22 +18,21 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import com.appsflyer.AFInAppEventType;
 import com.sharkwang8.phoneassistant.R;
 import com.sharkwang8.phoneassistant.base.Constant;
 import com.sharkwang8.phoneassistant.bean.AppProcessInfornBean;
 import com.sharkwang8.phoneassistant.cpucooler.cpucoolersuccess.CpuCoolerSuccessActivity;
 import com.sharkwang8.phoneassistant.junkcleaner.optimized.OptimizedActivity;
 import com.sharkwang8.phoneassistant.main.MainActivity;
+import com.sharkwang8.phoneassistant.util.EventUtil;
 import com.sharkwang8.phoneassistant.util.SpHelper;
 import com.sharkwang8.phoneassistant.util.StringUtil;
 import com.sharkwang8.phoneassistant.util.TimeUtil;
 import com.sharkwang8.phoneassistant.widget.DigitalRollingTextView;
 import com.sharkwang8.phoneassistant.widget.dialog.CpuCleanDialog;
-
 
 import java.util.List;
 
@@ -402,6 +401,8 @@ public class CpuCoolerFragment extends Fragment implements CpuCoolerContract.Vie
                 SpHelper.getInstance().put(Constant.SAVE_CPU_COOLER_TIME,TimeUtil.currentTimeStr());
                 isStart = false;
                 presenter.startCleanApp(mLists);
+                //Cpu降温被点击了
+                EventUtil.sendEvent(getActivity(),AFInAppEventType.START_TRIAL, "CpuCooler clicked!");
             }
         }
     }

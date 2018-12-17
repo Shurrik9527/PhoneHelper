@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.appsflyer.AFInAppEventType;
 import com.sharkwang8.phoneassistant.R;
+import com.sharkwang8.phoneassistant.util.EventUtil;
 
 import java.util.List;
 
@@ -67,6 +69,8 @@ public class AppManagerAdapter extends BaseAdapter {
                 Intent intent = new Intent(Intent.ACTION_DELETE, uri);
                 //执行卸载程序
                 context.startActivity(intent);
+                //有程序被卸载了
+                EventUtil.sendEvent(context, AFInAppEventType.START_TRIAL, "A application has been uninstalled: " + applicationInfo.packageName);
             }
         });
         return convertView;

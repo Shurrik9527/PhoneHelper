@@ -10,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
+import com.appsflyer.AFInAppEventType;
 import com.jaeger.library.StatusBarUtil;
 import com.sharkwang8.phoneassistant.BaseActivity;
 import com.sharkwang8.phoneassistant.R;
@@ -22,6 +23,7 @@ import com.sharkwang8.phoneassistant.bean.AppProcessInfornBean;
 import com.sharkwang8.phoneassistant.screenlocker.ScreenLockerService;
 import com.sharkwang8.phoneassistant.util.AdUtil;
 import com.sharkwang8.phoneassistant.util.AppUtil;
+import com.sharkwang8.phoneassistant.util.EventUtil;
 import com.sharkwang8.phoneassistant.util.SpHelper;
 import com.sharkwang8.phoneassistant.util.ToastUtil;
 
@@ -119,6 +121,8 @@ public class MainActivity extends BaseActivity {
                                 //检查更新
 //                                ToastUtil.showToast(MainActivity.this, "This is the newest version!");
                                 goToAppDetailPage();
+                                //有人想更新程序
+                                EventUtil.sendEvent(MainActivity.this, AFInAppEventType.UPDATE, "Someone try to update!");
                                 break;
                             case R.id.main_feedback_menu_item:
                                 //意见反馈
@@ -130,6 +134,8 @@ public class MainActivity extends BaseActivity {
                                 //评论我们
 //                                ToastUtil.showToast(MainActivity.this, "评论我们");
                                 goToAppDetailPage();
+                                //有人想给我们评分
+                                EventUtil.sendEvent(MainActivity.this, AFInAppEventType.RATE, "Someone wants to rate us!");
                                 break;
                             case R.id.main_aboutus_menu_item:
                                 //关于我们

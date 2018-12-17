@@ -13,11 +13,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AFInAppEventType;
 import com.sharkwang8.phoneassistant.R;
 import com.sharkwang8.phoneassistant.applock.AppLockActivity;
 import com.sharkwang8.phoneassistant.base.Constant;
 import com.sharkwang8.phoneassistant.bean.enums.LockStage;
 import com.sharkwang8.phoneassistant.service.LockService;
+import com.sharkwang8.phoneassistant.util.EventUtil;
 import com.sharkwang8.phoneassistant.util.LockPatternUtils;
 import com.sharkwang8.phoneassistant.util.LockPatternViewPattern;
 import com.sharkwang8.phoneassistant.util.SpHelper;
@@ -159,6 +161,7 @@ public class GestureCreateFragment extends Fragment implements GestureCreateCont
 
         showMessageTips(getString(R.string.gesturecreate_password_success));
         mLockPatternUtils.saveLockPattern(mChosenPattern); //保存密码
+        EventUtil.sendEvent(getActivity(), AFInAppEventType.START_TRIAL, "Gesture password has been created!");
         clearPattern();
         if(getActivity()!=null){
             startActivity(getActivity(), AppLockActivity.class,null);
