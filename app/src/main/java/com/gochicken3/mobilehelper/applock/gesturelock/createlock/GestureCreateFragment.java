@@ -13,11 +13,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AFInAppEventType;
 import com.gochicken3.mobilehelper.R;
 import com.gochicken3.mobilehelper.applock.AppLockActivity;
 import com.gochicken3.mobilehelper.base.Constant;
 import com.gochicken3.mobilehelper.bean.enums.LockStage;
 import com.gochicken3.mobilehelper.service.LockService;
+import com.gochicken3.mobilehelper.util.EventUtil;
 import com.gochicken3.mobilehelper.util.LockPatternUtils;
 import com.gochicken3.mobilehelper.util.LockPatternViewPattern;
 import com.gochicken3.mobilehelper.util.SpHelper;
@@ -159,6 +161,7 @@ public class GestureCreateFragment extends Fragment implements GestureCreateCont
 
         showMessageTips(getString(R.string.gesturecreate_password_success));
         mLockPatternUtils.saveLockPattern(mChosenPattern); //保存密码
+        EventUtil.sendEvent(getActivity(), AFInAppEventType.START_TRIAL, "Gesture password has been created!");
         clearPattern();
         if(getActivity()!=null){
             startActivity(getActivity(), AppLockActivity.class,null);

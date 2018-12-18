@@ -24,19 +24,23 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AFInAppEventType;
 import com.gochicken3.mobilehelper.R;
 import com.gochicken3.mobilehelper.base.Constant;
 import com.gochicken3.mobilehelper.bean.JunkCleanerGroupBean;
 import com.gochicken3.mobilehelper.bean.JunkCleanerMultiItemBean;
 import com.gochicken3.mobilehelper.junkcleaner.junkcleanersuccess.JunkCleanerSuccessActivity;
 import com.gochicken3.mobilehelper.junkcleaner.optimized.OptimizedActivity;
+import com.gochicken3.mobilehelper.util.EventUtil;
 import com.gochicken3.mobilehelper.util.SpHelper;
 import com.gochicken3.mobilehelper.util.StringUtil;
 import com.gochicken3.mobilehelper.util.TimeUtil;
 import com.gochicken3.mobilehelper.util.ToastUtil;
 import com.gochicken3.mobilehelper.widget.DigitalRollingTextView;
 import com.gochicken3.mobilehelper.widget.dialog.JunkCleanerDialog;
+
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -137,6 +141,8 @@ public class JunkCleanerFragment extends Fragment implements JunkCleanerContract
                 isStart = false;
                 if (presenter != null) {
                     presenter.startCleanJunkTask(mAdapter.getData());
+                    //垃圾清理被点击了
+                    EventUtil.sendEvent(getActivity(),AFInAppEventType.START_TRIAL, "JunkCleaner clicked!");
                 }
             }
         });

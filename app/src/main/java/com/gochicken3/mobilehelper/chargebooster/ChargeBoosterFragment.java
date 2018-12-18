@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.appsflyer.AFInAppEventType;
 import com.gochicken3.mobilehelper.R;
 import com.gochicken3.mobilehelper.screenlocker.ScreenLockerActivity;
+import com.gochicken3.mobilehelper.util.EventUtil;
 import com.gochicken3.mobilehelper.util.ToastUtil;
 
 import butterknife.BindView;
@@ -108,6 +110,8 @@ public class ChargeBoosterFragment extends Fragment implements ChargeBoosterCont
                 if(isChecked) {
                     //开启充电保护
                     presenter.startProtectCharging();
+                    //充电保护开启了
+                    EventUtil.sendEvent(getActivity(), AFInAppEventType.START_TRIAL, "Charging protect on!");
                 } else {
                     //关闭充电保护
                     presenter.closeProtectCharging();

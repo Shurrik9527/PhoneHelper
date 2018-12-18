@@ -91,6 +91,9 @@
     <string name="smsdetail_top_tile">SmsDetail</string>
 
 
-
-
+    <!--功能名称-->
+    <string name="app_manager">App Manager</string>
+    <string name="cpu_cooler">CPU Cooler</string>
+    <string name="junk_files">Junk Files</string>
+    <string name="charge_booster">Charge Booster</string>
 </resources>

@@ -50,9 +50,9 @@ public class App extends LitePalApplication {
 
         initServices();
 
-        //initAppsFlyer();
+        initAppsFlyer();
 
-        //initBaiduCrab();
+        initBaiduCrab();
     }
 
     /**

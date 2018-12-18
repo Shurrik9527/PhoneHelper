@@ -9,14 +9,14 @@ import com.appsflyer.AppsFlyerLib;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.InterstitialAdListener;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.MobileAds;
 import com.gochicken3.mobilehelper.HttpCenter;
 import com.gochicken3.mobilehelper.HttpResult;
 import com.gochicken3.mobilehelper.bean.AdInfo;
 import com.gochicken3.mobilehelper.event.EmptyEvent;
 import com.gochicken3.mobilehelper.util.RxBus.RxBus;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +35,8 @@ public class AdUtil {
     private static final int TYPE_FACEBOOK = 1;
     private static final int TYPE_ADMOB = 2;
     private static final String TAG = AdUtil.class.getSimpleName();
-    public static boolean IS_SHOW_AD = false;
+    //发布第一版的时候设置为false
+    public static boolean IS_SHOW_AD = true;
 
     /**
      * 显示广告
@@ -63,8 +64,9 @@ public class AdUtil {
     }
 
     private static void showFacebookAds(final Context context) {
-        final String PLACEMENT_ID = "302328470589163_302330743922269";
-//        AdSettings.addTestDevice("386dcd1a-4ea0-4757-889c-5c8a5a6271bb");
+        final String PLACEMENT_ID = "778717992470805_778718239137447";
+        //Test mode device hash
+//        AdSettings.addTestDevice("d0087668-a199-4217-a330-446656e6f98c");
         final com.facebook.ads.InterstitialAd interstitialAd = new com.facebook.ads.InterstitialAd(context, PLACEMENT_ID);
         // Set listeners for the Interstitial Ad
         interstitialAd.setAdListener(new InterstitialAdListener() {
@@ -98,27 +100,6 @@ public class AdUtil {
 
             @Override
             public void onAdLoaded(Ad ad) {
-//                Observable.create(new ObservableOnSubscribe<String>() {
-//                    @Override
-//                    public void subscribe(ObservableEmitter<String> e) throws Exception {
-//                        e.onNext(AppUtil.getAid(context));
-//                    }
-//                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
-//                    @Override
-//                    public void accept(String aid) throws Exception {
-//                        String ip = AppUtil.getIPAddress(context);
-//                        if (aid == null) {
-//                            Log.e(TAG, "get Google Advertising ID failed!");
-//                            aid = "";
-//                        }
-//
-//
-//                        Map<String, Object> eventValues = new HashMap<>();
-//                        eventValues.put(AFInAppEventParameterName.AD_REVENUE_NETWORK_NAME, ip);
-//                        eventValues.put(AFInAppEventParameterName.ACHIEVEMENT_ID, aid);
-//                        AppsFlyerLib.getInstance().trackEvent(context, AFInAppEventType.AD_CLICK, eventValues);
-//                    }
-//                });
                 // Interstitial ad is loaded and ready to be displayed
                 Log.d(TAG, "Interstitial ad is loaded and ready to be displayed!");
                 // Show the ad
@@ -152,10 +133,20 @@ public class AdUtil {
         AppsFlyerLib.getInstance().trackEvent(context, AFInAppEventType.AD_CLICK, eventValues);
     }
 
+    /**
+     * It could be that you have only recently created a new Ad Unit ID and requesting for live ads.
+     * It could take a few hours for ads to start getting served if that is that case.
+     * If you are receiving test ads then your implementation is fine.
+     * Just wait a few hours and see if you are able to receive live ads then.
+     * If not, can send us your Ad Unit ID for us to look into.
+     * @param context
+     */
     private static void showAdModAds(final Context context) {
         //初始化AdMob
         MobileAds.initialize(context);
-        final String UNIT_ID = "ca-app-pub-8013994383371748/1342340443";
+        //test ads unitId
+//        final String UNIT_ID = "ca-app-pub-3940256099942544/1033173712";
+        final String UNIT_ID = "ca-app-pub-3854636213881603/7875189664";
         //初始化Interstitial Ads
         final com.google.android.gms.ads.InterstitialAd interstitialAd = new com.google.android.gms.ads.InterstitialAd(context);
         interstitialAd.setAdUnitId(UNIT_ID);
@@ -213,7 +204,7 @@ public class AdUtil {
      */
     public static void getAdTypeAndShow(final Context context, final String source) {
         if (IS_SHOW_AD) {
-            HttpCenter.getService().getAdType("getad_type").subscribeOn(Schedulers.io())//指定网络请求所在的线程
+            HttpCenter.getService().getAdType("getad_type", "Mobile Helper").subscribeOn(Schedulers.io())//指定网络请求所在的线程
                     .doOnSubscribe(new Consumer<Disposable>() {
                         @Override
                         public void accept(Disposable disposable) throws Exception {
