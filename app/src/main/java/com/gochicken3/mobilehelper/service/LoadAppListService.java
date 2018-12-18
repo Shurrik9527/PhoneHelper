@@ -88,6 +88,9 @@ public class LoadAppListService extends IntentService {
         if (isInitDb) {
             List<ResolveInfo> appList = new ArrayList<>();
             List<CommLockInfo> dbList = mLockInfoManager.getAllCommLockInfos(); //获取数据库列表
+            if(dbList==null||dbList.size()==0){
+                return;
+            }
             //处理应用列表
             for (ResolveInfo resolveInfo : resolveInfos) {
                 if (!resolveInfo.activityInfo.packageName.equals(Constant.APP_PACKAGE_NAME) &&

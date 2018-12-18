@@ -141,28 +141,30 @@ public class MainFragment extends Fragment implements MainContract.View {
 
     @Override
     public void showPermissions() {
-        RxPermissions rxPermission = new RxPermissions(getActivity());
-        rxPermission.request(Manifest.permission.CLEAR_APP_CACHE,
-                Manifest.permission.DELETE_CACHE_FILES
-        ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean aBoolean) throws Exception {
+        if(getActivity()!=null){
+            RxPermissions rxPermission = new RxPermissions(getActivity());
+            rxPermission.request(Manifest.permission.CLEAR_APP_CACHE,
+                    Manifest.permission.DELETE_CACHE_FILES
+            ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+                @Override
+                public void accept(Boolean aBoolean) throws Exception {
 
-            }
-        });
-
-        RxPermissions rxPermission1 = new RxPermissions(getActivity());
-        rxPermission1.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE
-        ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean aBoolean) throws Exception {
-                if(!aBoolean){
-                    showMessageTips("Sorry! no permission, some functions are not available");
-                    showPermissions();
                 }
-            }
-        });
+            });
+
+            RxPermissions rxPermission1 = new RxPermissions(getActivity());
+            rxPermission1.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_PHONE_STATE
+            ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Boolean>() {
+                @Override
+                public void accept(Boolean aBoolean) throws Exception {
+                    if(!aBoolean){
+                        showMessageTips("Sorry! no permission, some functions are not available");
+                        showPermissions();
+                    }
+                }
+            });
+        }
     }
 
 
