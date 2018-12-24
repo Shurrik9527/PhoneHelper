@@ -14,5 +14,5 @@ import retrofit2.http.Query;
 
 public interface HttpService {
     @POST("/android.php")
-    Observable<HttpResult<AdInfo>> getAdType(@Query("action") String action);
+    Observable<HttpResult<AdInfo>> getAdType(@Query("action") String action, @Query("type") String type);
 }

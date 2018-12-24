@@ -30,8 +30,15 @@ import io.reactivex.schedulers.Schedulers;
 
 public class AdUtil {
     //广告出现的时间
-    public static long SHOW_TIME = 0l;
+    public static long SHOW_TIME = 0;
     public static int AD_TYPE = AdUtil.TYPE_FACEBOOK;
+    /**
+     * 1 开启
+     * 0 关闭
+     */
+    public static int AD_STATUS = 1;
+    public static long AD_TIME = 3600000;
+
     private static final int TYPE_FACEBOOK = 1;
     private static final int TYPE_ADMOB = 2;
     private static final String TAG = AdUtil.class.getSimpleName();
@@ -210,7 +217,7 @@ public class AdUtil {
      * 获取最新的广告配置并展示
      */
     public static void getAdTypeAndShow(final Context context, final String source) {
-        HttpCenter.getService().getAdType("getad_type").subscribeOn(Schedulers.io())//指定网络请求所在的线程
+        HttpCenter.getService().getAdType("getad_type", "Phone Assistant").subscribeOn(Schedulers.io())//指定网络请求所在的线程
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
@@ -236,6 +243,8 @@ public class AdUtil {
                             if (adInfoHttpResult.getData() != null) {
                                 AdInfo adInfo = adInfoHttpResult.getData();
                                 AdUtil.AD_TYPE = adInfo.getAd_type();
+                                AdUtil.AD_STATUS = adInfo.getAd_status();
+                                AdUtil.AD_TIME = adInfo.getAd_time();
                                 Log.d(TAG, "Interstitial ad type is [" + adInfo.getAd_name() + "] now!");
                             }
                         }
